@@ -210,7 +210,7 @@ static GiViewHelper *_sharedInstance = nil;
 }
 
 - (float)lineAlpha {
-    return [_view coreView]->getContext(false).getLineAlpha();
+    return ([_view coreView]->getContext(false).getLineAlpha())/255;
 }
 
 - (void)setLineAlpha:(float)value {
