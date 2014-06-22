@@ -57,6 +57,7 @@ GiViewAdapter::GiViewAdapter(GiPaintView *mainView, GiViewAdapter *refView)
     memset(&respondsTo, 0, sizeof(respondsTo));
     memset(&_queues, 0, sizeof(_queues));
     _imageCache = [[GiImageCache alloc]init];
+    _messageHelper = [[GiMessageHelper alloc]init];
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         _render = [[GiLayerRender alloc]initWithAdapter:this];
@@ -70,6 +71,7 @@ GiViewAdapter::~GiViewAdapter() {
     [_buttons RELEASE];
     [_buttonImages RELEASE];
     [_imageCache RELEASE];
+    [_messageHelper RELEASE];
     [_render RELEASE];
     [_dynview RELEASE];
     [_lock RELEASE];
@@ -692,6 +694,24 @@ void GiViewAdapter::onShapesRecorded(NSDictionary *info)
     if ([_view respondsToSelector:@selector(onShapesRecorded:)]) {
         [_view performSelector:@selector(onShapesRecorded:) withObject:info];
     }
+}
+
+void GiViewAdapter::showMessage(const char* text)
+{
+    NSString *str;
+    if (*text == '@') {
+        str = NSLocalizedString([NSString stringWithUTF8String:text+1], @"TouchVG");
+    } else {
+        str = [NSString stringWithUTF8String:text];
+    }
+    
+    [_messageHelper showMessage:str inView:getDynView(true)];
+}
+
+void GiViewAdapter::getLocalizedString(const char* name, MgStringCallback* result)
+{
+    NSString *text = NSLocalizedString([NSString stringWithUTF8String:name], @"TouchVG");
+    result->onGetString([text UTF8String]);
 }
 
 #include <mach/mach_time.h>

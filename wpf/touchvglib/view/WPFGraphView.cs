@@ -199,6 +199,16 @@ namespace touchvg.view
                     _owner.OnDynamicChanged.Invoke(_owner, null);
             }
 
+            public override void showMessage(string text)
+            {
+                // TODO: Add a auto-hided control to show text
+            }
+
+            public override void getLocalizedString(string name, MgStringCallback result)
+            {
+                result.onGetString(WPFImageSourceHelper.Instance.GetLocalizedString(name));
+            }
+
             public override bool useFinger()
             {
                 return false;

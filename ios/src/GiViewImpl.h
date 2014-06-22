@@ -11,6 +11,7 @@
 
 class GiViewAdapter;
 @class GiMagnifierView;
+@class WDLabel;
 
 //! 动态图形的绘图视图类
 @interface GiDynDrawView : UIView {
@@ -40,6 +41,16 @@ class GiViewAdapter;
 
 @end
 
+//! 提示文字辅助类
+@interface GiMessageHelper : NSObject {
+    WDLabel     *_label;
+    NSTimer     *_timer;
+}
+
+- (void)showMessage:(NSString *)message inView:(UIView *)view;
+
+@end
+
 //! iOS绘图视图适配器
 class GiViewAdapter : public GiView
 {
@@ -51,6 +62,7 @@ private:
     NSMutableArray  *_buttons;          //!< 上下文按钮的数组
     NSMutableDictionary *_buttonImages; //!< 按钮图像缓存
     GiImageCache    *_imageCache;       //!< 图像对象缓存
+    GiMessageHelper *_messageHelper;    //!< 提示文字辅助对象
     bool            _actionEnabled;     //!< 是否允许上下文操作
     long            _appendIDs[20];     //!< 还未来得及重构显示的新增图形的ID、playh
     int             _oldAppendCount;    //!< 后台渲染前的待渲染新增图形数
@@ -115,6 +127,8 @@ public:
     virtual void dynamicChanged();
     virtual void shapeDeleted(int sid);
     virtual bool shapeClicked(int sid, int tag, float x, float y);
+    virtual void showMessage(const char* text);
+    virtual void getLocalizedString(const char* name, MgStringCallback* result);
     
     bool dispatchGesture(GiGestureType type, GiGestureState state, CGPoint pt);
     bool dispatchPan(GiGestureState state, CGPoint pt, bool switchGesture = false);

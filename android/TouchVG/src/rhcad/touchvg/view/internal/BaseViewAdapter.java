@@ -23,8 +23,10 @@ import rhcad.touchvg.core.MgStringCallback;
 import rhcad.touchvg.core.MgView;
 import rhcad.touchvg.view.BaseGraphView;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 //! 视图回调适配器
 public abstract class BaseViewAdapter extends GiView {
@@ -51,6 +53,10 @@ public abstract class BaseViewAdapter extends GiView {
     public abstract BaseGraphView getGraphView();
 
     protected abstract ContextAction createContextAction();
+
+    public final Context getContext() {
+        return getGraphView().getView().getContext();
+    }
 
     public synchronized void delete() {
         Log.d(TAG, "delete BaseViewAdapter " + getCPtr(this));
@@ -127,7 +133,7 @@ public abstract class BaseViewAdapter extends GiView {
         if (mAction == null) {
             mAction = createContextAction();
         }
-        return mAction.showActions(getGraphView().getView().getContext(), actions, xy);
+        return mAction.showActions(getContext(), actions, xy);
     }
 
     @Override
@@ -208,6 +214,19 @@ public abstract class BaseViewAdapter extends GiView {
         return false;
     }
 
+    @Override
+    public void showMessage(String text) {
+        if (coreView() != null && text.startsWith("@")) {
+            text = ResourceUtil.getStringFromName(getContext(), text.substring(1));
+        }
+        Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void getLocalizedString(String name, MgStringCallback result) {
+        result.onGetString(ResourceUtil.getStringFromName(getContext(), name));
+    }
+
     public void setOnCommandChangedListener(OnCommandChangedListener listener) {
         if (this.commandChangedListeners == null)
             this.commandChangedListeners = new ArrayList<OnCommandChangedListener>();
@@ -285,7 +304,7 @@ public abstract class BaseViewAdapter extends GiView {
     }
 
     public Activity getActivity() {
-        return (Activity) getGraphView().getView().getContext();
+        return (Activity) getContext();
     }
 
     public void removeCallbacks(Runnable r) {
