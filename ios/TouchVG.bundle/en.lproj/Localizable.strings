@@ -1,0 +1,8 @@
+/* 
+  Localizable.strings for TouchVG
+*/
+
+"shape_too_small" = "The shape is too small, please re-draw";
+"shape1_deleted" = "1 shape deleted";
+"shape_n_deleted" = "%d shapes deleted";
+"invalid_gridcell" = "The grid cell is too small or too large, please re-drag to set";
