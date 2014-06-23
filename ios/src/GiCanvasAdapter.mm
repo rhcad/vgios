@@ -248,6 +248,13 @@ bool GiCanvasAdapter::drawBitmap(const char* name, float xc, float yc,
     return !!image;
 }
 
+NSString *GiLocalizedString(NSString *name)
+{
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"TouchVG" ofType:@"bundle"];
+    NSString *str = NSLocalizedStringFromTableInBundle(name, nil, [NSBundle bundleWithPath:path], nil);
+    return [str isEqualToString:name] ? NSLocalizedString(name, nil) : str;
+}
+
 float GiCanvasAdapter::drawTextAt(const char* text, float x, float y, float h, int align)
 {
     UIGraphicsPushContext(_ctx);        // 设置为当前上下文，供UIKit显示使用
@@ -255,8 +262,7 @@ float GiCanvasAdapter::drawTextAt(const char* text, float x, float y, float h, i
     NSString *str;
     
     if (*text == '@') {
-        NSString *name = [NSString stringWithUTF8String:text+1];
-        str = NSLocalizedString(name, @"TouchVG");
+        str = GiLocalizedString([NSString stringWithUTF8String:text+1]);
     } else {
         str = [[NSString alloc] initWithUTF8String:text];
     }

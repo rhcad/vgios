@@ -741,7 +741,7 @@ static GiViewHelper *_sharedInstance = nil;
         _timer = nil;
     }
     
-    _timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self
+    _timer = [NSTimer scheduledTimerWithTimeInterval:0.7 target:self
                                             selector:@selector(hideMessage)
                                             userInfo:nil repeats:NO];
 }

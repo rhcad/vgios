@@ -1,0 +1,7 @@
+/* 
+  Localizable.strings for TouchVG
+*/
+
+"The shape is too small, please re-draw" = "图形太小，请重新绘制";
+"1 shape deleted" = "已删除一个图形";
+"%d shapes deleted" = "已删除 %d 个图形";

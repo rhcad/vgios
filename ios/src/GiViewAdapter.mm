@@ -42,6 +42,7 @@ static int getExtraImageCount() { int n = 0; while (EXTIMAGENAMES[n]) n++; retur
 @end
 
 #define APPENDSIZE sizeof(_appendIDs)/sizeof(_appendIDs[0])
+NSString *GiLocalizedString(NSString *name);
 
 GiViewAdapter::GiViewAdapter(GiPaintView *mainView, GiViewAdapter *refView)
     : _view(mainView), _dynview(nil), _buttons(nil), _buttonImages(nil)
@@ -372,7 +373,7 @@ void GiViewAdapter::stopRegen() {
 }
 
 UIView *GiViewAdapter::getDynView(bool autoCreate) {
-    if (autoCreate && !_dynview && _view && _view.window) {
+    if (autoCreate && !_dynview && _view && _view.superview) {
         _dynview = [[GiDynDrawView alloc]initView:_view.frame :this];
         _dynview.autoresizingMask = _view.autoresizingMask;
         if (isMainThread()) {
@@ -700,7 +701,7 @@ void GiViewAdapter::showMessage(const char* text)
 {
     NSString *str;
     if (*text == '@') {
-        str = NSLocalizedString([NSString stringWithUTF8String:text+1], @"TouchVG");
+        str = GiLocalizedString([NSString stringWithUTF8String:text+1]);
     } else {
         str = [NSString stringWithUTF8String:text];
     }
@@ -710,7 +711,7 @@ void GiViewAdapter::showMessage(const char* text)
 
 void GiViewAdapter::getLocalizedString(const char* name, MgStringCallback* result)
 {
-    NSString *text = NSLocalizedString([NSString stringWithUTF8String:name], @"TouchVG");
+    NSString *text = GiLocalizedString([NSString stringWithUTF8String:name]);
     result->onGetString([text UTF8String]);
 }
 
