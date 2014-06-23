@@ -5,3 +5,4 @@
 "The shape is too small, please re-draw" = "图形太小，请重新绘制";
 "1 shape deleted" = "已删除一个图形";
 "%d shapes deleted" = "已删除 %d 个图形";
+"The grid cell is too small or too large, please re-drag to set" = "单元格太小或太大，请重新拖动设置";
