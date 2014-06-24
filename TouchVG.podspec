@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
 
   s.requires_arc = true
   s.xcconfig = {
-    'CLANG_CXX_LANGUAGE_STANDARD' => 'gnu++0x',
+    'CLANG_CXX_LANGUAGE_STANDARD' => 'gnu++11',
     'CLANG_CXX_LIBRARY' => 'libc++',
     "HEADER_SEARCH_PATHS" => '$(PODS_ROOT)/Headers/TouchVGCore'
   }

@@ -96,7 +96,7 @@ Or add the following to use SVG rendering feature with [SVGKit](https://github.c
 pod 'TouchVG-SVG', :podspec => 'https://raw.githubusercontent.com/touchvg/TouchVG/develop/ios/TouchVG-SVG.podspec'
 ```
 
-Then type `pod install` or `pod install  --no-repo-update`. Need to remove `libPods-TouchVG.a` or `libPods-TouchVG-TouchVG-SVG.a` from Link Binary With Libraries. Remove `-lxml2` from Other Linker Flags for TouchVG-SVG target.
+Then type `pod install` or `pod update --no-repo-update`. Need to copy `ios/SVGKit.podspec` to `~/.cocoapods/repos/master/Specs/SVGKit/2.0/` to use the lastest version of SVGKit.
 
 ### Compile without CocoaPods
 

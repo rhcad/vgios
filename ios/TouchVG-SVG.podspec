@@ -16,11 +16,13 @@ Pod::Spec.new do |s|
 
   s.requires_arc = false
   s.xcconfig = {
+    'GCC_PREPROCESSOR_DEFINITIONS' => 'USE_SVGKIT=1',
     'CLANG_CXX_LANGUAGE_STANDARD' => 'gnu++11',
-    'CLANG_CXX_LIBRARY' => 'libstdc++',
+    'CLANG_CXX_LIBRARY' => 'libc++',
     "HEADER_SEARCH_PATHS" => '$(PODS_ROOT)/Headers/TouchVGCore $(PODS_ROOT)/Headers/SVGKit'
   }
   s.resource = 'ios/TouchVG.bundle'
   s.dependency "TouchVGCore", "~> 1.0.36"
-  s.dependency "SVGKit", :podspec => 'https://raw.githubusercontent.com/SVGKit/SVGKit/2.x/SVGKit.podspec'
+  s.dependency "SVGKit", "~> 2.0"
+  # Need to copy `ios/SVGKit.podspec` to `~/.cocoapods/repos/master/Specs/SVGKit/2.0/`.
 end
