@@ -48,4 +48,14 @@ public class ViewFactory {
     public static void unregisterCmdObserver(IViewHelper hlp, CmdObserver observer) {
         ((ViewHelperImpl)hlp).unregisterCmdObserver(observer);
     }
+
+    //! 注册命令观察者
+    public static void registerCmdObserver(IGraphView view, CmdObserver observer) {
+        new ViewHelperImpl(view).registerCmdObserver(observer);
+    }
+
+    //! 注销命令观察者
+    public static void unregisterCmdObserver(IGraphView view, CmdObserver observer) {
+        new ViewHelperImpl(view).unregisterCmdObserver(observer);
+    }
 }
