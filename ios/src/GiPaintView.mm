@@ -684,7 +684,7 @@ GiColor CGColorToGiColor(CGColorRef color);
 - (BOOL)panHandler:(UIPanGestureRecognizer *)sender {
     CGPoint velocity = [sender velocityInView:sender.view];
     [self coreView]->setGestureVelocity(_adapter, velocity.x, velocity.y);
-    return moveHandler(sender);
+    return [self moveHandler:sender];
 }
 
 - (BOOL)moveHandler:(UIGestureRecognizer *)sender {
