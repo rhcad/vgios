@@ -1035,7 +1035,6 @@ public class ViewHelperImpl implements IViewHelper{
         if (mView != null && mView.getView() != null) {
             final ViewGroup layout = (ViewGroup) mView.getView().getParent();
             final ImageView imageView = getImageViewForSurface();
-            final BaseGraphView view = mView;
 
             if (imageView != null) {
                 imageView.setImageBitmap(snapshot(false));
@@ -1045,19 +1044,20 @@ public class ViewHelperImpl implements IViewHelper{
                 mView.getView().post(new Runnable() {       // remove SurfaceView delayed
                     @Override
                     public void run() {
-                        view.getView().removeCallbacks(this);
-                        view.onPause();
-                        view.stop(listener);
+                        mView.getView().removeCallbacks(this);
+                        mView.onPause();
+                        mView.stop(listener);
                         layout.removeViews(0, layout.getChildCount() - 1);  // Except imageView
+                        mView = null;
                     }
                 });
             } else {
                 mView.onPause();
                 mView.stop(listener);
                 ((ViewGroup) mView.getView().getParent()).removeAllViews();
+                mView = null;
             }
         }
-        mView = null;
     }
 
     @Override
