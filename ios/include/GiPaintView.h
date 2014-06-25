@@ -75,7 +75,8 @@ class GiViewAdapter;
 @interface GiPaintView(GestureRecognizer)
 
 - (void)setupGestureRecognizers;                                //!< 设置手势识别器
-- (BOOL)panHandler:(UIGestureRecognizer *)sender;               //!< 拖动手势识别响应
+- (BOOL)panHandler:(UIPanGestureRecognizer *)sender;            //!< 拖动手势识别响应
+- (BOOL)moveHandler:(UIGestureRecognizer *)sender;              //!< 放缩和旋转手势识别响应
 - (BOOL)tapHandler:(UITapGestureRecognizer *)sender;            //!< 单指点击手势响应
 - (BOOL)twoTapsHandler:(UITapGestureRecognizer *)sender;        //!< 单指双击手势响应
 - (BOOL)pressHandler:(UILongPressGestureRecognizer *)sender;    //!< 单指长按手势响应

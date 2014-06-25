@@ -51,6 +51,8 @@ public abstract class BaseViewAdapter extends GiView {
     private OnViewDetachedListener mDetachedListener;
 
     public abstract BaseGraphView getGraphView();
+    public abstract GestureListener getGestureListener();
+    public abstract ImageCache getImageCache();
 
     protected abstract ContextAction createContextAction();
 

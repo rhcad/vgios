@@ -204,6 +204,9 @@ public interface IViewHelper {
     //! 设置是否允许触摸交互
     public void setGestureEnabled(boolean enabled);
 
+    //! 设置是否向当前命令传递触摸速度
+    public void setVelocityTrackerEnabled(boolean enabled);
+
     //! 是否允许放缩显示
     public void setZoomEnabled(boolean enabled);
 

@@ -12,6 +12,7 @@ import rhcad.touchvg.view.GestureNotify;
 import android.util.Log;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
 
 //! Android绘图手势识别类
@@ -31,6 +32,8 @@ public class GestureListener extends SimpleOnGestureListener {
     private int mFingerCount;                       // 上一次的触摸点数
     private int mXYCount = 0;                       // mPoints值个数
     private float[] mPoints = new float[XY_COUNT];  // 待分发的移动轨迹
+    private VelocityTracker mVelocityTracker;       // 移动中判断速度
+    private boolean mTrackerEnabled = false;
     private float mLastX;
     private float mLastY;
     private float mLastX2;
@@ -61,6 +64,10 @@ public class GestureListener extends SimpleOnGestureListener {
         }
     }
 
+    public void setVelocityTrackerEnabled(boolean enabled) {
+        mTrackerEnabled = enabled;
+    }
+
     public void cancelDragging() {
         if (mMoving == M_MOVING) {
             mMoving = M_STOPPED;
@@ -70,6 +77,7 @@ public class GestureListener extends SimpleOnGestureListener {
             mCoreView.onGesture(mAdapter, GiGestureType.kGiGesturePress,
                     GiGestureState.kGiGestureCancel, 0, 0);
         }
+        onTouchEnded();
     }
 
     @Override
@@ -98,13 +106,25 @@ public class GestureListener extends SimpleOnGestureListener {
     }
 
     public boolean onTouch(View v, MotionEvent e) {
+        int action = e.getActionMasked();
         float x1 = e.getPointerCount() > 0 ? e.getX(0) : 0;
         float y1 = e.getPointerCount() > 0 ? e.getY(0) : 0;
         float x2 = e.getPointerCount() > 1 ? e.getX(1) : x1;
         float y2 = e.getPointerCount() > 1 ? e.getY(1) : y1;
 
         mTouchTime = e.getEventTime();
-        onTouch_(v, e.getActionMasked(), e.getPointerCount(), x1, y1, x2, y2);
+        if (mVelocityTracker == null && mTrackerEnabled && action == MotionEvent.ACTION_DOWN) {
+            mVelocityTracker = VelocityTracker.obtain();
+        }
+        if (mVelocityTracker != null) {
+            mVelocityTracker.addMovement(e);
+            mVelocityTracker.computeCurrentVelocity(1000);
+            final float velocityY = mVelocityTracker.getYVelocity(e.getPointerId(0));
+            final float velocityX = mVelocityTracker.getXVelocity(e.getPointerId(0));
+            mCoreView.setGestureVelocity(mAdapter, velocityY, velocityX);
+        }
+
+        onTouch_(v, action, e.getPointerCount(), x1, y1, x2, y2);
         return false;   // to call GestureDetector.onTouchEvent
     }
 
@@ -121,6 +141,13 @@ public class GestureListener extends SimpleOnGestureListener {
             mLastY2 = mLastY;
         }
         return onTouch_(v, action, 1, x, y, x, y);
+    }
+
+    private void onTouchEnded() {
+        if (mVelocityTracker != null) {
+            mVelocityTracker.recycle();
+            mVelocityTracker = null;
+        }
     }
 
     private boolean onTouch_(View v, int action, int count, float x1, float y1, float x2, float y2) {
@@ -145,6 +172,7 @@ public class GestureListener extends SimpleOnGestureListener {
         case MotionEvent.ACTION_CANCEL:
             synchronized (mCoreView) {
                 ret = onTouchEnded(action == MotionEvent.ACTION_UP, x1, y1, x2, y2);
+                onTouchEnded();
             }
             break;
         }

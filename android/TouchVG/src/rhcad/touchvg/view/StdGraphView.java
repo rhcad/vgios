@@ -303,6 +303,16 @@ public class StdGraphView extends View implements BaseGraphView, GestureNotify {
         }
 
         @Override
+        public GestureListener getGestureListener() {
+            return mGestureListener;
+        }
+
+        @Override
+        public ImageCache getImageCache() {
+            return mImageCache;
+        }
+
+        @Override
         protected ContextAction createContextAction() {
             return new ContextAction(mCoreView, StdGraphView.this);
         }

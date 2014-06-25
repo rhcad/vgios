@@ -570,6 +570,16 @@ public class SFGraphView extends SurfaceView implements BaseGraphView, GestureNo
         }
 
         @Override
+        public GestureListener getGestureListener() {
+            return mGestureListener;
+        }
+
+        @Override
+        public ImageCache getImageCache() {
+            return mImageCache;
+        }
+
+        @Override
         protected ContextAction createContextAction() {
             return new ContextAction(mCoreView, SFGraphView.this);
         }

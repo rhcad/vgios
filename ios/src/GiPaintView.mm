@@ -525,10 +525,10 @@ GiColor CGColorToGiColor(CGColorRef color);
         return;
     
     _recognizers[i++] = _pinchRecognizer =
-    [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(panHandler:)];
+    [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(moveHandler:)];
     
     _recognizers[i++] = _rotationRecognizer =
-    [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(panHandler:)];
+    [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(moveHandler:)];
     
     _recognizers[i++] = _panRecognizer =
     [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panHandler:)];
@@ -627,7 +627,7 @@ GiColor CGColorToGiColor(CGColorRef color);
     if (!allow) {}
     else if (recognizer == _pinchRecognizer || recognizer == _rotationRecognizer
              || recognizer == _panRecognizer) {
-        allow = [self panHandler:recognizer];
+        allow = [self moveHandler:recognizer];
     }
     else if (recognizer == _tapRecognizer) {
         allow = [self tapHandler:(UITapGestureRecognizer *)recognizer];
@@ -681,7 +681,13 @@ GiColor CGColorToGiColor(CGColorRef color);
     return YES;
 }
 
-- (BOOL)panHandler:(UIGestureRecognizer *)sender {
+- (BOOL)panHandler:(UIPanGestureRecognizer *)sender {
+    CGPoint velocity = [sender velocityInView:sender.view];
+    [self coreView]->setGestureVelocity(_adapter, velocity.x, velocity.y);
+    return moveHandler(sender);
+}
+
+- (BOOL)moveHandler:(UIGestureRecognizer *)sender {
     if (![self gestureCheck:sender]) {
         return NO;
     }

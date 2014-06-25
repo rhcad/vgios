@@ -499,6 +499,14 @@ public class ViewHelperImpl implements IViewHelper{
     }
 
     @Override
+    public void setVelocityTrackerEnabled(boolean enabled) {
+        final BaseViewAdapter adapter = internalAdapter();
+        if (adapter != null) {
+            adapter.getGestureListener().setVelocityTrackerEnabled(enabled);
+        }
+    }
+
+    @Override
     public void setZoomEnabled(boolean enabled) {
         if (mView != null) {
             mView.coreView().setZoomEnabled(mView.viewAdapter(), enabled);
