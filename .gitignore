@@ -13,7 +13,6 @@
 profile
 
 #Xcode files
-#This ignores everything inside a *.xcodeproj except the project.pbxproj
 *.log
 xcuserdata
 xcshareddata
@@ -51,7 +50,5 @@ CppDepend*
 *.ch*
 *.hh*
 *_wrap.*
-ios/output
-android/TouchVG/src/rhcad/touchvg/core
-wpf/touchvglib/core
+output
 *.so

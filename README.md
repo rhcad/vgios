@@ -1,30 +1,22 @@
-# TouchVG
+# TouchVG for iOS
 
-TouchVG is a lightweight 2D vector drawing framework for iOS, Android and Windows.
+This is a lightweight 2D vector drawing framework using [TouchVGCore](https://github.com/touchvg/vgcore) for iOS.
 
-Features described in [Online document](http://touchvg.github.io). Please visit [TouchVGTest](https://github.com/touchvg/TouchVGTest) to see more example of TouchVG.
+Features described in [Online document](http://touchvg.github.io). Please visit [TouchVG Demo](https://github.com/touchvg/vgios-demo) to see more examples.
 
 ![arch](http://touchvg.github.io/images/arch.svg)
 
-![iphone1](/doc/images/iphone1.png) | ![android1](/doc/images/android1.png) | ![iphone2](/doc/images/iphone2.png)
+![iphone1](http://touchvg.github.io/images/iphone1.png) | ![iphone2](http://touchvg.github.io/images/iphone2.png)
 
 ## License
 
 This is an open source [LGPL 2.1](LICENSE.md) licensed project. It uses the following open source projects:
 
-- [TouchVGCore](https://github.com/touchvg/TouchVGCore) (LGPL): Cross-platform vector drawing libraries using C++.
-- [svg-android](https://github.com/japgolly/svg-android) (Apache): Vector graphics support for Android.
+- [TouchVGCore](https://github.com/touchvg/vgcore) (LGPL): Cross-platform vector drawing libraries using C++.
 - [SVGKit](https://github.com/SVGKit/SVGKit) (MIT): Display and interact with SVG Images with CoreAnimation on iOS.
 - [simple-svg](http://code.google.com/p/simple-svg) (BSD): A C++ header file for creating SVG files.
 - [rapidjson](https://github.com/Kanma/rapidjson) (MIT): A fast JSON parser/generator for C++ with both SAX/DOM style API.
-- [x3py](https://github.com/rhcad/x3py) (Apache): Compile script files.
-- [SWIG](https://github.com/swig/swig) (GPL): Use the tool to generate the glue code for Java and C#.
 - [iOS-Universal-Library-Template](https://github.com/michaeltyson/iOS-Universal-Library-Template): Use it to create static library project.
-- Algorithms: [NearestPoint.c](http://tog.acm.org/resources/GraphicsGems/gems/NearestPoint.c), 
-[Bezier's bound box](http://processingjs.nihongoresources.com/bezierinfo/#bounds), 
-[The intersection of two circles](http://blog.csdn.net/cyg0810/article/details/7765894), 
-[Position judgment](http://orion.math.iastate.edu/burkardt/c_src/orourke/tri.c)
- and [Fitting digitized curves](https://github.com/erich666/GraphicsGems/blob/master/gems/FitCurves.c).
 
 ## How to Contribute
 
@@ -43,40 +35,28 @@ Welcome to the Chinese QQ group `192093613` to discuss and share.
 
 # How to Compile
 
-## Compile for Android
+## Compile with CocoaPods
 
-- Import all projects under `./android` directory of TouchVG in eclipse, then build  `touchvg` project.
+Type `pod install` or `pod update --no-repo-update`, then open `TouchVG.xcworkspace` in Xcode, then build the `TouchVG` or `TouchVG-SVG` target.
 
-  - Android SDK version of the projects may need to modify according to your installation.
-  - Recommend using the newer [ADT Bundle](http://developer.android.com/sdk/index.html) to avoid complex configuration.
+  - Remove `-lxml2` from `Other Link Flags` for the TouchVG-SVG target. Remove `libPods-TouchVG-TouchVG-SVG.a` and `libPods-TouchVG.a` from `Link Binary With Libraries` too.
+  - `libTouchVG.a` does not support SVG display.
+  - `libTouchVG-SVG.a` can display SVG shapes using [SVGKit](https://github.com/SVGKit/SVGK
 
-- You can download the [prebuilt libraries](https://github.com/touchvg/TouchVGTest/archive/android_prebuild.zip) from TouchVGTest and extract to `yourapp/libs`.
+## Compile without CocoaPods
 
--  To regenerate libtouchvg.so, please enter `android` directory of TouchVG, then type `./build.sh`
-(Need to add the [NDK](http://developer.android.com/tools/sdk/ndk/index.html) installation location to your PATH environment variable).
+Alternatively, you can build as one of the following methods:
 
-   - Type `./build.sh -B` to rebuild the native libraries.
-   
-   - Type `./build.sh APP_ABI=x86` to build for the x86 (Intel Atom) Emulator.
-   
-   - If the error `build/gmsl/__gmsl:512: *** non-numeric second argument to wordlist function` occurs, then open the `build/gmsl/__gmsl` file in the NDK installation directory, and change line 512 to:
-     `int_encode = $(__gmsl_tr1)$(wordlist 1,$(words $1),$(__gmsl_input_int))`
+- Open `TouchVG/TouchVG.xcodeproj` in Xcode, then build the `TouchVG` or `TouchVG-SVG` target.
 
-   - MSYS and TDM-GCC(a MinGW distribution) are recommended on Windows.
+   - `libTouchVG.a` does not support SVG display.
+   - `libTouchVG-SVG.a` can display SVG shapes using [SVGKit](https://github.com/SVGKit/SVGKit).
 
-   - To regenerate the kernel JNI classes, type `./build.sh-swig`
-(Need to install [SWIG](http://sourceforge.net/projects/swig/files/), and add the location to PATH).
+- Or type `./build.sh` to compile static libraries to the `output` directory.
+  - Type `./build.sh -arch arm64` to make for iOS 64-bit.
+  - Type `./build.sh clean` to remove object files.it).
 
-- How to debug native code
-  - Add `#include "mglog.h"` and use `LOGD("your message %d", someint);` in C++ files needed to debug.
-  - Set LogCat filter in Eclipse: `tag:dalvikvm|AndroidRuntime|vgjni|touchvg|vgstack|libc|DEBUG`.
-  - NDK JNI log print to locate problems of libc:
-    1. Add `python addlog.py` in [TouchVG/jni/build.sh](android/TouchVG/jni/build.sh).
-    2. Type `./build.sh -swig`, or remove `touchvg_java_wrap.cpp` and type `./build.sh`.
-
-## Compile for iOS
-
-### Compile with CocoaPods
+## Use TouchVG with CocoaPods
 
 TouchVG is available on [CocoaPods](http://cocoapods.org). Just add the following to your project Podfile:
 
@@ -87,50 +67,17 @@ pod 'TouchVG'
 Or use the develop version:
 
 ```ruby
-pod 'TouchVG', :podspec => 'https://raw.githubusercontent.com/touchvg/TouchVG/develop/TouchVG.podspec'
+pod 'TouchVG', :podspec => 'https://raw.githubusercontent.com/touchvg/vgios/develop/podspec/TouchVG.podspec'
 ```
 
 Or add the following to use SVG rendering feature with [SVGKit](https://github.com/SVGKit/SVGKit):
 
 ```ruby
-pod 'TouchVG-SVG', :podspec => 'https://raw.githubusercontent.com/touchvg/TouchVG/develop/ios/TouchVG-SVG.podspec'
+pod 'TouchVG-SVG', :podspec => 'https://raw.githubusercontent.com/touchvg/vgios/develop/podspec/TouchVG-SVG.podspec'
 ```
 
-Then type `pod install` or `pod update --no-repo-update`. Need to copy `ios/SVGKit.podspec` to `~/.cocoapods/repos/master/Specs/SVGKit/2.0/` to use the lastest version of SVGKit.
+Then type `pod install` or `pod update --no-repo-update`. Need to copy `podspec/SVGKit.podspec` to `~/.cocoapods/repos/master/Specs/SVGKit/2.0/` to use the lastest version of SVGKit.
 
-### Compile without CocoaPods
-
-Alternatively, you can build as one of the following methods:
-
-- Open `TouchVG.xcworkspace` in Xcode, then build the `TouchVG` or `TouchVG-SVG` target.
-
-   - `libTouchVG.a` does not support SVG display.
-   - `libTouchVG-SVG.a` can display SVG shapes using [SVGKit](https://github.com/SVGKit/SVGKit).
-
-- Or enter `ios` directory and type `./build.sh` to compile static libraries to the `ios/output` directory.
-  - Type `./build.sh -arch arm64` to make for iOS 64-bit.
-  - Type `./build.sh clean` to remove object files.
-
-## Compile for Windows
-
-- Open `wpf/Test_cs10.sln` in Visual Studio 2010 (Need VC++ and C#). Or open `wpf/Test_cs9.sln` in VS2008.
-
-- To regenerate `wpf/touchvglib/core/*.cs`, please enter `wpf` directory and type `./build.sh`
-(Need to install [SWIG](http://sourceforge.net/projects/swig/files/), and add the location to PATH).
-
-## Compile for other platform
-
-- You can compile TouchVG for Python, Perl or Java applications on Linux, MinGW or Mac OS X.
-
-  - Enter `core` directory which contains Makefile, then type the following make command:
-
-     - `Make all install`: compile C + + static library .
-     - `Make java`: Jar package and generate dynamic libraries for Java programs.
-     - `Make python`, `make perl`: namely Python, Perl , etc. to generate class files and dynamic libraries.
-     - `Make clean java.clean python.clean`: delete these temporary files compiled out .
-
-   - MSYS and TDM-GCC(a MinGW distribution) are recommended on Windows.
- 
 # Add more shapes and commands
 
 - You can use [newproj.py](https://github.com/touchvg/DemoCmds/blob/master/newproj.py) to create library project containing your own shapes and commands. So the TouchVG and TouchVGCore libraries does not require changes.
@@ -142,5 +89,3 @@ Alternatively, you can build as one of the following methods:
      cd DemoCmds
      python newproj.py MyCmds
      ```
-    
-  - Need to install python to run the script.

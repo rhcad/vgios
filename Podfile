@@ -1,10 +1,10 @@
 platform :ios, '5.0'
-xcodeproj 'ios/TouchVG.xcodeproj'
+xcodeproj 'TouchVG/TouchVG.xcodeproj'
 
 target "TouchVG" do
-  pod 'TouchVGCore', :podspec => 'https://raw.githubusercontent.com/touchvg/TouchVGCore/develop/TouchVGCore.podspec'
+  pod 'TouchVGCore', :podspec => 'https://raw.githubusercontent.com/touchvg/vgcore/develop/TouchVGCore.podspec'
   target "TouchVG-SVG" do
-    pod 'SVGKit', :podspec => 'https://raw.githubusercontent.com/SVGKit/SVGKit/1.x/SVGKit.podspec'
+    pod 'SVGKit', :podspec => 'https://raw.githubusercontent.com/SVGKit/SVGKit/2.x/SVGKit.podspec'
   end
 end
 
