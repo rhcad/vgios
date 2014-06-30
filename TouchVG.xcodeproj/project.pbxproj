@@ -65,6 +65,8 @@
 		AE2A3A4D178FC511000194AE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE2A3A4C178FC511000194AE /* Foundation.framework */; };
 		AE2A3B4C178FC7C1000194AE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE2A3B4B178FC7C1000194AE /* CoreGraphics.framework */; };
 		AE2A3B4E178FC7EB000194AE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE2A3B4D178FC7EB000194AE /* UIKit.framework */; };
+		AE756FEE19610C9C0017C705 /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AE756FED19610C9C0017C705 /* Prefix.pch */; };
+		AE756FEF19610C9C0017C705 /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AE756FED19610C9C0017C705 /* Prefix.pch */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -89,9 +91,9 @@
 		AE11A5DA18B328CF00B88366 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		AE2A3A49178FC511000194AE /* libTouchVG.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libTouchVG.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE2A3A4C178FC511000194AE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		AE2A3A50178FC511000194AE /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		AE2A3B4B178FC7C1000194AE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		AE2A3B4D178FC7EB000194AE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		AE756FED19610C9C0017C705 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Prefix.pch; path = src/Prefix.pch; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,7 +194,7 @@
 		AE2A3A4F178FC511000194AE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				AE2A3A50178FC511000194AE /* Prefix.pch */,
+				AE756FED19610C9C0017C705 /* Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -204,7 +206,7 @@
 				025F58CE195D250E00302988 /* src */,
 			);
 			name = iosview;
-			path = ../../vgcore/core/include;
+			path = ../vgcore/core/include;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -227,6 +229,7 @@
 				025F5994195D265100302988 /* GiViewAdapter.mm in Headers */,
 				025F5995195D265100302988 /* GiViewHelper.mm in Headers */,
 				025F5996195D265100302988 /* NSString+Drawing.m in Headers */,
+				AE756FEF19610C9C0017C705 /* Prefix.pch in Headers */,
 				025F58FA195D250E00302988 /* NSString+Drawing.h in Headers */,
 				025F58EA195D250E00302988 /* GiImageCache.h in Headers */,
 				025F58EE195D250E00302988 /* GiMagnifierView.h in Headers */,
@@ -251,6 +254,7 @@
 				025F5947195D264600302988 /* GiViewAdapter.mm in Headers */,
 				025F5948195D264600302988 /* GiViewHelper.mm in Headers */,
 				025F5949195D264600302988 /* NSString+Drawing.m in Headers */,
+				AE756FEE19610C9C0017C705 /* Prefix.pch in Headers */,
 				025F58F9195D250E00302988 /* NSString+Drawing.h in Headers */,
 				025F58E9195D250E00302988 /* GiImageCache.h in Headers */,
 				025F58ED195D250E00302988 /* GiMagnifierView.h in Headers */,
@@ -424,7 +428,7 @@
 			buildSettings = {
 				DSTROOT = /tmp/TouchVG.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Prefix.pch;
+				GCC_PREFIX_HEADER = src/Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					USE_SVGKIT,
@@ -432,7 +436,7 @@
 				PRODUCT_NAME = "TouchVG-SVG";
 				PUBLIC_HEADERS_FOLDER_PATH = "/include/$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "../../SVGKit/Source/**";
+				USER_HEADER_SEARCH_PATHS = "../SVGKit/Source/**";
 			};
 			name = Debug;
 		};
@@ -441,7 +445,7 @@
 			buildSettings = {
 				DSTROOT = /tmp/TouchVG.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Prefix.pch;
+				GCC_PREFIX_HEADER = src/Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					USE_SVGKIT,
@@ -449,7 +453,7 @@
 				PRODUCT_NAME = "TouchVG-SVG";
 				PUBLIC_HEADERS_FOLDER_PATH = "/include/$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "../../SVGKit/Source/**";
+				USER_HEADER_SEARCH_PATHS = "../SVGKit/Source/**";
 			};
 			name = Release;
 		};
@@ -477,7 +481,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "../../vgcore/core/include/**";
+				HEADER_SEARCH_PATHS = "../vgcore/core/include/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
 				SDKROOT = iphoneos;
 			};
@@ -500,7 +504,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "../../vgcore/core/include/**";
+				HEADER_SEARCH_PATHS = "../vgcore/core/include/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -513,7 +517,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				DSTROOT = /tmp/TouchVG.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Prefix.pch;
+				GCC_PREFIX_HEADER = src/Prefix.pch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "/include/$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -526,7 +530,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				DSTROOT = /tmp/TouchVG.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Prefix.pch;
+				GCC_PREFIX_HEADER = src/Prefix.pch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "/include/$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

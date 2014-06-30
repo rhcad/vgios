@@ -10,8 +10,8 @@ Pod::Spec.new do |s|
 
   s.platform    = :ios, "5.0"
   s.source      = { :git => "https://github.com/touchvg/vgios.git", :branch => "develop" }
-  s.ios.source_files    = 'TouchVG/include/*.h', 'TouchVG/src/*.{h,m,mm}'
-  s.public_header_files = 'TouchVG/include/*.h'
+  s.ios.source_files    = 'include/*.h', 'src/*.{h,m,mm}'
+  s.public_header_files = 'include/*.h'
   s.frameworks = "UIKit", "QuartzCore", "CoreGraphics", "Foundation"
 
   s.requires_arc = true

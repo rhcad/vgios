@@ -1,5 +1,4 @@
 platform :ios, '5.0'
-xcodeproj 'TouchVG/TouchVG.xcodeproj'
 
 target "TouchVG" do
   pod 'TouchVGCore', :podspec => 'https://raw.githubusercontent.com/touchvg/vgcore/develop/TouchVGCore.podspec'
