@@ -8,12 +8,11 @@ target "TouchVG" do
 end
 
 post_install do |installer|
-  default_library = installer.libraries.detect { |i| i.target_definition.name == 'Pods' }
-  config_file_path = default_library.library.xcconfig_path
+  config_file_path = "Pods/Pods-TouchVG-TouchVG-SVG.xcconfig"
   
   if File.exists?(config_file_path)
     File.open("config.tmp", "w") do |io|
-      io << File.read(config_file_path).gsub(/-lxml2/, '')
+      io << File.read(config_file_path).gsub(/-lxml2 /, '')
     end
     FileUtils.mv("config.tmp", config_file_path)
   end
