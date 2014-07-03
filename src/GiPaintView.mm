@@ -648,9 +648,7 @@ GiColor CGColorToGiColor(CGColorRef color);
     
     if (sender.state == UIGestureRecognizerStateBegan
         && [sender numberOfTouches] == 1
-        && self.viewToMagnify
-        && !self.mainView
-        && ![self coreView]->isCommand("splines"))
+        && self.viewToMagnify && !self.mainView && _adapter->canShowMagnifier())
     {
         if (!_magnifierView) {
             _magnifierView = [[GiMagnifierView alloc]init];

@@ -94,6 +94,7 @@ public:
     void clearCachedData();
     void stopRegen();
     void onFirstRegen();
+    bool canShowMagnifier() const;
     bool isMainThread() const;
     long acquireFrontDoc(long* gs = NULL);
     id<NSLocking> locker() { return _lock; }

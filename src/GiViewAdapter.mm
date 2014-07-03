@@ -5,6 +5,7 @@
 #import "GiViewImpl.h"
 #import "GiImageCache.h"
 #include "giplaying.h"
+#include "mgshapetype.h"
 #include <algorithm>
 
 static NSString* const CAPTIONS[] = { nil, @"全选", @"重选", @"绘图", @"取消",
@@ -405,6 +406,11 @@ void GiViewAdapter::redraw(bool changed) {
         [_view performSelector:@selector(redrawForDelay:)
                     withObject:changed ? _view : nil afterDelay:0.2];
     }
+}
+
+bool GiViewAdapter::canShowMagnifier() const {
+    return (!_core->isCommand("splines")
+            && _core->getSelectedShapeType() != kMgShapeImage);
 }
 
 bool GiViewAdapter::isMainThread() const {
