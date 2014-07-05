@@ -89,9 +89,7 @@ typedef NS_ENUM(int, GILineStyle) {
 - (void)stopRecord;                         //!< 停止录屏，在主线程用
 - (BOOL)isPaused;                           //!< 是否已暂停
 - (BOOL)isPlaying;                          //!< 是否正在播放
-- (BOOL)playPause;                          //!< 暂停播放
-- (BOOL)playResume;                         //!< 继续播放
-- (long)getPlayTicks;                       //!< 返回已播放或录制的毫秒数
+- (long)getRecordTicks;                     //!< 返回已录制的毫秒数
 
 - (int)insertPNGFromResource:(NSString *)name;      //!< 在默认位置插入一个程序资源中的PNG图片(name.png)
 - (int)insertPNGFromResource:(NSString *)name center:(CGPoint)pt;   //!< 插入PNG图片(name.png)，并指定其中心位置

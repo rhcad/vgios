@@ -632,15 +632,7 @@ static GiViewHelper *_sharedInstance = nil;
     return [_view coreView]->isPlaying();
 }
 
-- (BOOL)playPause {
-    return [_view coreView]->onPause(getTickCount());
-}
-
-- (BOOL)playResume {
-    return [_view coreView]->onResume(getTickCount());
-}
-
-- (long)getPlayTicks {
+- (long)getRecordTicks {
     return [_view coreView]->getRecordTick(false, getTickCount());
 }
 
