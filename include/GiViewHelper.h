@@ -66,6 +66,8 @@ typedef NS_ENUM(int, GILineStyle) {
 - (BOOL)exportExtentAsPNG:(NSString *)filename space:(CGFloat)space; //!< 保存当前显示的静态图形快照
 - (BOOL)exportPNG:(NSString *)filename;     //!< 保存静态图形的快照到PNG文件，自动改后缀名为.png
 - (BOOL)exportSVG:(NSString *)filename;     //!< 导出静态图形到SVG文件，自动改后缀名为.svg
+- (int)importSVGPath:(int)sid d:(NSString *)d;  //!< 用SVG路径的d坐标序列创建或设置图形形状
+- (NSString *)exportSVGPath:(int)sid;       //!< 输出SVG路径的d坐标序列
 
 - (BOOL)zoomToExtent;                       //!< 放缩显示全部内容
 - (BOOL)zoomToModel:(CGRect)rect;           //!< 放缩显示指定范围到视图区域

@@ -6,7 +6,7 @@
 #import "GiViewImpl.h"
 #import "GiImageCache.h"
 
-#define IOSLIBVERSION     14
+#define IOSLIBVERSION     15
 extern NSString* EXTIMAGENAMES[];
 
 GiColor CGColorToGiColor(CGColorRef color) {
@@ -414,6 +414,25 @@ static GiViewHelper *_sharedInstance = nil;
     int ret = [_view coreView]->exportSVG([_view viewAdapter], [filename UTF8String]);
     NSLog(@"GiViewHelper exportSVG: %@, %d", filename, ret);
     return ret >= 0;
+}
+
+- (int)importSVGPath:(int)sid d:(NSString *)d {
+    long shapes = [_view coreView]->backShapes();
+    
+    sid = [_view coreView]->importSVGPath(shapes, sid, [d UTF8String]);
+    if (sid) {
+        [_view viewAdapter]->regenAll(true);
+    }
+    return sid;
+}
+
+- (NSString *)exportSVGPath:(int)sid {
+    __block NSString *ret = nil;
+    GiStringCallback c(^(NSString *s) {
+        ret = s;
+    });
+    [_view coreView]->exportSVGPath2(&c, [_view coreView]->backShapes(), sid);
+    return ret;
 }
 
 - (CGPoint)displayToModel:(CGPoint)point {

@@ -175,3 +175,15 @@ private:
 - (void)onContextActionsDisplay:(NSMutableArray *)buttons;
 
 @end
+
+//! 获取字符串的回调接口
+typedef void (^GiStringBlock)(NSString *s);
+
+//! 块回调代理的MgStringCallback实现类
+struct GiStringCallback : MgStringCallback {
+    GiStringBlock c;
+    GiStringCallback(GiStringBlock c) : c(c) {}
+    void onGetString(const char* text) {
+        c([NSString stringWithUTF8String:text]);
+    }
+};
