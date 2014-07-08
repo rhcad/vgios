@@ -463,7 +463,7 @@ static GiViewHelper *_sharedInstance = nil;
     return [_view coreView]->zoomToExtent();
 }
 
-- (BOOL)zoomToExtent:(int)margin {
+- (BOOL)zoomToExtent:(float)margin {
     return [_view coreView]->zoomToExtent(margin);
 }
 
