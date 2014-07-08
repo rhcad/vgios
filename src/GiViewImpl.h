@@ -85,6 +85,9 @@ public:
         unsigned int didShapesRecorded:1;
         unsigned int didShapeDeleted:1;
         unsigned int didShapeClicked:1;
+        unsigned int didGestureShouldBegin:1;
+        unsigned int didGestureBegan:1;
+        unsigned int didGestureEnded:1;
     } respondsTo;
     
     GiViewAdapter(GiPaintView *mainView, GiViewAdapter *refView, int flags);

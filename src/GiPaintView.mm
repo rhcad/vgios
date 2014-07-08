@@ -453,6 +453,9 @@ GiColor CGColorToGiColor(CGColorRef color);
         _adapter->respondsTo.didShapesRecorded |= [d respondsToSelector:@selector(onShapesRecorded:)];
         _adapter->respondsTo.didShapeDeleted |= [d respondsToSelector:@selector(onShapeDeleted:)];
         _adapter->respondsTo.didShapeClicked |= [d respondsToSelector:@selector(onShapeClicked:)];
+        _adapter->respondsTo.didGestureShouldBegin |= [d respondsToSelector:@selector(onGestureShouldBegin:)];
+        _adapter->respondsTo.didGestureBegan |= [d respondsToSelector:@selector(onGestureBegan:)];
+        _adapter->respondsTo.didGestureEnded |= [d respondsToSelector:@selector(onGestureEnded:)];
     }
 }
 
@@ -661,10 +664,57 @@ GiColor CGColorToGiColor(CGColorRef color);
     return allow;
 }
 
+- (BOOL)onGestureShouldBegin_:(UIGestureRecognizer*)sender {
+    size_t n = _adapter->respondsTo.didGestureShouldBegin ? _adapter->delegates.size() : 0;
+    
+    for (size_t i = 0; i < n; i++) {
+        if ([_adapter->delegates[i] respondsToSelector:@selector(onGestureShouldBegin:)]) {
+            if (![_adapter->delegates[i] onGestureShouldBegin:sender])
+                return NO;
+        }
+    }
+    if ([self respondsToSelector:@selector(onGestureShouldBegin:)]) {
+        if (![self performSelector:@selector(onGestureShouldBegin:) withObject:sender])
+            return NO;
+    }
+    
+    return YES;
+}
+
+- (void)onGestureBegan_:(UIGestureRecognizer*)sender {
+    size_t n = _adapter->respondsTo.didGestureBegan ? _adapter->delegates.size() : 0;
+    
+    for (size_t i = 0; i < n; i++) {
+        if ([_adapter->delegates[i] respondsToSelector:@selector(onGestureBegan:)]) {
+            [_adapter->delegates[i] onGestureBegan:sender];
+        }
+    }
+    if ([self respondsToSelector:@selector(onGestureBegan:)]) {
+        [self performSelector:@selector(onGestureBegan:) withObject:sender];
+    }
+}
+
+- (void)onGestureEnded_:(UIGestureRecognizer*)sender {
+    size_t n = _adapter->respondsTo.didGestureEnded ? _adapter->delegates.size() : 0;
+    
+    for (size_t i = 0; i < n; i++) {
+        if ([_adapter->delegates[i] respondsToSelector:@selector(onGestureEnded:)]) {
+            [_adapter->delegates[i] onGestureEnded:sender];
+        }
+    }
+    if ([self respondsToSelector:@selector(onGestureEnded:)]) {
+        [self performSelector:@selector(onGestureEnded:) withObject:sender];
+    }
+}
+
 - (BOOL)gestureCheck:(UIGestureRecognizer*)sender {
     _gestureRecognized = (sender.state == UIGestureRecognizerStateBegan
                           || sender.state == UIGestureRecognizerStateChanged);
     
+    if (sender.state == UIGestureRecognizerStatePossible
+        && _gestureEnabled && ![self onGestureShouldBegin_:sender]) {
+        return NO;
+    }
     if (sender.state == UIGestureRecognizerStateBegan
         && [sender numberOfTouches] == 1
         && !(_adapter->getFlags() & GIViewFlagsNoMagnifier)
@@ -690,11 +740,13 @@ GiColor CGColorToGiColor(CGColorRef color);
 - (BOOL)gesturePost:(UIGestureRecognizer*)sender {
     if (sender.state == UIGestureRecognizerStateBegan) {
         _points.clear();
+        [self onGestureBegan_:sender];
     }
     else if (sender.state >= UIGestureRecognizerStateEnded) {
         _touchCount = 0;
         _points.clear();
         [_magnifierView hide];
+        [self onGestureEnded_:sender];
     }
     
     return YES;

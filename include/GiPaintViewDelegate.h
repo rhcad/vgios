@@ -22,4 +22,8 @@
 - (void)onShapeDeleted:(id)num;         //!< 图形已删除的通知, [NSNumber intValue]
 - (BOOL)onShapeClicked:(NSDictionary *)info;    //!< 图形点击的通知
 
+- (BOOL)onGestureShouldBegin:(UIGestureRecognizer *)g;    //!< 手势生效前的判断
+- (void)onGestureBegan:(UIGestureRecognizer *)g;    //!< 手势开始的通知
+- (void)onGestureEnded:(UIGestureRecognizer *)g;    //!< 手势结束的通知
+
 @end
