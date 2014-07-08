@@ -35,7 +35,7 @@ Welcome to the Chinese QQ group `192093613` to discuss and share.
 
 # How to Compile
 
-## Compile with CocoaPods
+## Compile TouchVG with CocoaPods
 
 Type `pod install` or `pod update --no-repo-update`, then open `TouchVG.xcworkspace` in Xcode, then build the `TouchVG` or `TouchVG-SVG` target.
 
@@ -43,7 +43,7 @@ Type `pod install` or `pod update --no-repo-update`, then open `TouchVG.xcworksp
   - `libTouchVG.a` does not support SVG display.
   - `libTouchVG-SVG.a` can display SVG shapes using [SVGKit](https://github.com/SVGKit/SVGK
 
-## Compile without CocoaPods
+## Compile TouchVG without CocoaPods
 
 Alternatively, you can build as one of the following methods:
 
@@ -77,6 +77,12 @@ pod 'TouchVG-SVG', :podspec => 'https://raw.githubusercontent.com/touchvg/vgios/
 ```
 
 Then type `pod install` or `pod update --no-repo-update`. Need to copy `podspec/SVGKit.podspec` to `~/.cocoapods/repos/master/Specs/SVGKit/2.0/` to use the lastest version of SVGKit.
+
+## Use TouchVG without CocoaPods
+
+- Add `libTouchVG.a` and `libTouchVGCore.a` to your project, or set OTHER_LDFLAGS as `-lTouchVGCore -lTouchVG`.
+
+- If the error `Undefined symbols for architecture ...in libTouchVGCore.a` occurs, then change the source file which uses TouchVG as *.mm rather than *.m to link with C++ classes.
 
 # Add more shapes and commands
 

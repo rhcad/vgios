@@ -173,10 +173,11 @@
     _docs = NULL;
     coreView->releaseGraphics(_gs);
     _gs = 0;
+    if (_drawing > 0)
+        --_drawing;
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [_adapter->mainView() setNeedsDisplay];
-        --_drawing;
     });
 }
 
