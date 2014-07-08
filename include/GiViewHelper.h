@@ -3,18 +3,10 @@
 // Copyright (c) 2012-2014, https://github.com/rhcad/touchvg
 
 #import <UIKit/UIKit.h>
+#import "GiViewEnums.h"
 
 @class GiPaintView;
 @protocol GiPaintViewDelegate;
-
-typedef NS_ENUM(int, GILineStyle) {
-    GILineStyleSolid,       //!< ----------
-    GILineStyleDash,        //!< － － － －
-    GILineStyleDot,         //!< ..........
-    GILineStyleDashDot,     //!< _._._._._
-    GILineStyleDashDotdot,  //!< _.._.._.._
-    GILineStyleNull         //!< Not draw.
-};
 
 //! iOS绘图视图辅助类
 /*! \ingroup GROUP_IOS
@@ -27,6 +19,9 @@ typedef NS_ENUM(int, GILineStyle) {
 
 + (GiPaintView *)activeView;                        //!< 得到当前激活的绘图视图
 - (GiPaintView *)createGraphView:(CGRect)frame :(UIView *)parentView;   //!< 创建普通图形视图，并记到本类
+- (GiPaintView *)createGraphView:(CGRect)frame
+                          inView:(UIView *)parentView
+                           flags:(int)flags;        //!< 以指定标志(GIViewFlags)创建普通图形视图
 - (GiPaintView *)createMagnifierView:(CGRect)frame refView:(GiPaintView *)refView
                           parentView:(UIView *)parentView;  //!< 创建放大镜视图(不需要额外释放)，并记到本类
 + (void)removeSubviews:(UIView *)owner;             //!< 关闭视图，用在拥有者的 removeFromSuperview 中
@@ -70,6 +65,7 @@ typedef NS_ENUM(int, GILineStyle) {
 - (NSString *)exportSVGPath:(int)sid;       //!< 输出SVG路径的d坐标序列
 
 - (BOOL)zoomToExtent;                       //!< 放缩显示全部内容
+- (BOOL)zoomToExtent:(int)margin;           //!< 全部内容放缩显示到视图内缩后的区域
 - (BOOL)zoomToModel:(CGRect)rect;           //!< 放缩显示指定范围到视图区域
 - (void)setZoomEnabled:(BOOL)enabled;       //!< 是否允许放缩显示
 

@@ -27,20 +27,24 @@
 }
 
 - (void)drawRect:(CGRect)rect {
-    GiCanvasAdapter canvas(_adapter->imageCache());
-    GiCoreView* coreView = _adapter->coreView();
+    [GiDynDrawView draw:_adapter];
+}
+
++ (void)draw:(GiViewAdapter *)adapter {
+    GiCanvasAdapter canvas(adapter->imageCache());
+    GiCoreView* coreView = adapter->coreView();
     long doc, gs, playh;
     mgvector<long> shapes;
     
-    @synchronized(_adapter->locker()) {
-        int sid = _adapter->getAppendID(0, playh);
+    @synchronized(adapter->locker()) {
+        int sid = adapter->getAppendID(0, playh);
         doc = sid != 0 ? coreView->acquireFrontDoc(playh) : 0;
-        gs = coreView->acquireGraphics(_adapter);
+        gs = coreView->acquireGraphics(adapter);
         coreView->acquireDynamicShapesArray(shapes);
     }
     
     if (canvas.beginPaint(UIGraphicsGetCurrentContext(), true)) {
-        for (int i = 0, sid = 0; (sid = _adapter->getAppendID(i, playh)) != 0; i++) {
+        for (int i = 0, sid = 0; (sid = adapter->getAppendID(i, playh)) != 0; i++) {
             coreView->drawAppend(doc, gs, &canvas, sid);
         }
         coreView->dynDraw(shapes, gs, &canvas);
@@ -50,7 +54,7 @@
     GiCoreView::releaseShapesArray(shapes);
     coreView->releaseGraphics(gs);
     
-    _adapter->onDynDrawEnded();
+    adapter->onDynDrawEnded();
 }
 
 @end
@@ -245,7 +249,7 @@ GiColor CGColorToGiColor(CGColorRef color);
     self = [super initWithCoder:aDecoder];
     if (self) {
         _activePaintView = self;
-        _adapter = new GiViewAdapter(self, NULL);
+        _adapter = new GiViewAdapter(self, NULL, 0);
         [self initView];
     }
     return self;
@@ -256,7 +260,19 @@ GiColor CGColorToGiColor(CGColorRef color);
     if (self) {
         self.autoresizingMask = 0xFF;               // 自动适应大小
         _activePaintView = self;                    // 设置为当前绘图视图
-        _adapter = new GiViewAdapter(self, NULL);
+        _adapter = new GiViewAdapter(self, NULL, 0);
+        _adapter->coreView()->onSize(_adapter, frame.size.width, frame.size.height);
+        [self initView];
+    }
+    return self;
+}
+
+- (id)initWithFrame:(CGRect)frame flags:(int)flags {
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.autoresizingMask = 0xFF;
+        _activePaintView = self;
+        _adapter = new GiViewAdapter(self, NULL, flags);
         _adapter->coreView()->onSize(_adapter, frame.size.width, frame.size.height);
         [self initView];
     }
@@ -267,7 +283,7 @@ GiColor CGColorToGiColor(CGColorRef color);
     self = [super initWithFrame:frame];
     if (self) {
         _mainView = refView;
-        _adapter = new GiViewAdapter(self, [refView viewAdapter2]);
+        _adapter = new GiViewAdapter(self, [refView viewAdapter2], 0);
         _adapter->coreView()->onSize(_adapter, frame.size.width, frame.size.height);
         [self initView];
     }
@@ -282,8 +298,8 @@ GiColor CGColorToGiColor(CGColorRef color);
     }
 }
 
-+ (GiPaintView *)createGraphView:(CGRect)frame :(UIView *)parentView {
-    GiPaintView *v = [[GiPaintView alloc]initWithFrame:frame];
++ (GiPaintView *)createGraphView:(CGRect)frame :(UIView *)parentView :(int)flags {
+    GiPaintView *v = [[GiPaintView alloc]initWithFrame:frame flags:flags];
     if (parentView) {
         [parentView addSubview:v];
     }
@@ -321,6 +337,8 @@ GiColor CGColorToGiColor(CGColorRef color);
     _adapter->coreView()->onSize(_adapter, self.bounds.size.width, self.bounds.size.height);
     if (!_adapter->renderInContext(UIGraphicsGetCurrentContext())) {
         _adapter->regenAll(false);
+    } else if (_adapter->getFlags() & GIViewFlagsNoDynDrawView) {
+        [GiDynDrawView draw:_adapter];
     }
 }
 
@@ -649,7 +667,9 @@ GiColor CGColorToGiColor(CGColorRef color);
     
     if (sender.state == UIGestureRecognizerStateBegan
         && [sender numberOfTouches] == 1
-        && self.viewToMagnify && !self.mainView && _adapter->canShowMagnifier())
+        && !(_adapter->getFlags() & GIViewFlagsNoMagnifier)
+        && self.viewToMagnify && !self.mainView
+        && _adapter->canShowMagnifier())
     {
         if (!_magnifierView) {
             _magnifierView = [[GiMagnifierView alloc]init];

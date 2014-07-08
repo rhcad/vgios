@@ -45,8 +45,8 @@ static int getExtraImageCount() { int n = 0; while (EXTIMAGENAMES[n]) n++; retur
 #define APPENDSIZE sizeof(_appendIDs)/sizeof(_appendIDs[0])
 NSString *GiLocalizedString(NSString *name);
 
-GiViewAdapter::GiViewAdapter(GiPaintView *mainView, GiViewAdapter *refView)
-    : _view(mainView), _dynview(nil), _buttons(nil), _buttonImages(nil)
+GiViewAdapter::GiViewAdapter(GiPaintView *mainView, GiViewAdapter *refView, int flags)
+    : _view(mainView), _dynview(nil), _buttons(nil), _buttonImages(nil), _flags(flags)
     , _actionEnabled(true), _oldAppendCount(0), _regenCount(0), _render(nil)
 {
     if (refView) {
@@ -61,7 +61,8 @@ GiViewAdapter::GiViewAdapter(GiPaintView *mainView, GiViewAdapter *refView)
     _imageCache = [[GiImageCache alloc]init];
     _messageHelper = [[GiMessageHelper alloc]init];
     
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad
+        && !(_flags & GIViewFlagsNoBackLayer)) {
         _render = [[GiLayerRender alloc]initWithAdapter:this];
     }
     
@@ -374,15 +375,20 @@ void GiViewAdapter::stopRegen() {
 }
 
 UIView *GiViewAdapter::getDynView(bool autoCreate) {
-    if (autoCreate && !_dynview && _view && _view.superview) {
-        _dynview = [[GiDynDrawView alloc]initView:_view.frame :this];
-        _dynview.autoresizingMask = _view.autoresizingMask;
-        if (isMainThread()) {
-            [_view.superview addSubview:_dynview];
-        } else {
-            dispatch_sync(dispatch_get_main_queue(), ^{
+    if (autoCreate && !_dynview && _view) {
+        if (_flags & GIViewFlagsNoDynDrawView) {
+            _dynview = _view;
+        }
+        else if (_view.superview) {
+            _dynview = [[GiDynDrawView alloc]initView:_view.frame :this];
+            _dynview.autoresizingMask = _view.autoresizingMask;
+            if (isMainThread()) {
                 [_view.superview addSubview:_dynview];
-            });
+            } else {
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    [_view.superview addSubview:_dynview];
+                });
+            }
         }
     }
     return _dynview;

@@ -98,7 +98,14 @@ static GiViewHelper *_sharedInstance = nil;
 }
 
 - (GiPaintView *)createGraphView:(CGRect)frame :(UIView *)parentView {
-    _view = [GiPaintView createGraphView:frame :parentView];
+    _view = [GiPaintView createGraphView:frame :parentView :0];
+    return _view;
+}
+
+- (GiPaintView *)createGraphView:(CGRect)frame
+                          inView:(UIView *)parentView
+                           flags:(int)flags {
+    _view = [GiPaintView createGraphView:frame :parentView :flags];
     return _view;
 }
 
@@ -454,6 +461,10 @@ static GiViewHelper *_sharedInstance = nil;
 
 - (BOOL)zoomToExtent {
     return [_view coreView]->zoomToExtent();
+}
+
+- (BOOL)zoomToExtent:(int)margin {
+    return [_view coreView]->zoomToExtent(margin);
 }
 
 - (BOOL)zoomToModel:(CGRect)rect {

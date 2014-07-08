@@ -3,6 +3,7 @@
 // Copyright (c) 2012-2014, https://github.com/rhcad/touchvg
 
 #import "GiPaintView.h"
+#import "GiViewEnums.h"
 #include "GiCanvasAdapter.h"
 #include "gicoreview.h"
 #include <vector>
@@ -19,6 +20,7 @@ class GiViewAdapter;
 }
 
 - (id)initView:(CGRect)frame :(GiViewAdapter *)adapter;
++ (void)draw:(GiViewAdapter *)adapter;
 
 @end
 
@@ -56,13 +58,14 @@ class GiViewAdapter : public GiView
 {
 private:
     GiPaintView     *_view;             //!< 静态图形视图
-    GiDynDrawView   *_dynview;          //!< 动态图形视图
+    UIView          *_dynview;          //!< 动态图形视图, GiDynDrawView
     GiCoreView      *_core;             //!< 内核视图分发器
     NSRecursiveLock *_lock;             //!< 内核对象临界区
     NSMutableArray  *_buttons;          //!< 上下文按钮的数组
     NSMutableDictionary *_buttonImages; //!< 按钮图像缓存
     GiImageCache    *_imageCache;       //!< 图像对象缓存
     GiMessageHelper *_messageHelper;    //!< 提示文字辅助对象
+    int             _flags;             //!< 视图创建标志，由 GIViewFlags 组成
     bool            _actionEnabled;     //!< 是否允许上下文操作
     long            _appendIDs[20];     //!< 还未来得及重构显示的新增图形的ID、playh
     int             _oldAppendCount;    //!< 后台渲染前的待渲染新增图形数
@@ -84,7 +87,7 @@ public:
         unsigned int didShapeClicked:1;
     } respondsTo;
     
-    GiViewAdapter(GiPaintView *mainView, GiViewAdapter *refView);
+    GiViewAdapter(GiPaintView *mainView, GiViewAdapter *refView, int flags);
     virtual ~GiViewAdapter();
     
     GiCoreView *coreView() { return _core; }
@@ -98,6 +101,7 @@ public:
     bool isMainThread() const;
     long acquireFrontDoc(long* gs = NULL);
     id<NSLocking> locker() { return _lock; }
+    int getFlags() const { return _flags; }
     
     int getAppendCount() const;
     void beginRender();

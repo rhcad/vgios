@@ -32,7 +32,7 @@ class GiViewAdapter;
 @property(nonatomic, readonly) NSArray              *delegates;                 //!< GiPaintViewDelegate
 
 //! 创建普通图形视图，并添加到父视图、设置为当前视图，不需要额外释放
-+ (GiPaintView *)createGraphView:(CGRect)frame :(UIView *)parentView;
++ (GiPaintView *)createGraphView:(CGRect)frame :(UIView *)parentView :(int)flags;
 
 //! 创建放大镜视图并添加到父视图，不需要额外释放
 + (GiPaintView *)createMagnifierView:(CGRect)frame

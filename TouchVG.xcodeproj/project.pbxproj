@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0206512F196BB0B5003AD648 /* GiViewEnums.h in Headers */ = {isa = PBXBuildFile; fileRef = 0206512E196BB0B5003AD648 /* GiViewEnums.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		02065130196BB0B5003AD648 /* GiViewEnums.h in Headers */ = {isa = PBXBuildFile; fileRef = 0206512E196BB0B5003AD648 /* GiViewEnums.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		025F58DB195D250E00302988 /* ARCMacro.h in Headers */ = {isa = PBXBuildFile; fileRef = 025F58C9195D250E00302988 /* ARCMacro.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		025F58DC195D250E00302988 /* ARCMacro.h in Headers */ = {isa = PBXBuildFile; fileRef = 025F58C9195D250E00302988 /* ARCMacro.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		025F58DD195D250E00302988 /* GiCanvasAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 025F58CA195D250E00302988 /* GiCanvasAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -70,6 +72,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0206512E196BB0B5003AD648 /* GiViewEnums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GiViewEnums.h; sourceTree = "<group>"; };
 		025F58C9195D250E00302988 /* ARCMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARCMacro.h; sourceTree = "<group>"; };
 		025F58CA195D250E00302988 /* GiCanvasAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GiCanvasAdapter.h; sourceTree = "<group>"; };
 		025F58CB195D250E00302988 /* GiPaintView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GiPaintView.h; sourceTree = "<group>"; };
@@ -130,6 +133,7 @@
 				025F58CB195D250E00302988 /* GiPaintView.h */,
 				025F58CC195D250E00302988 /* GiPaintViewDelegate.h */,
 				025F58CD195D250E00302988 /* GiViewHelper.h */,
+				0206512E196BB0B5003AD648 /* GiViewEnums.h */,
 			);
 			path = include;
 			sourceTree = SOURCE_ROOT;
@@ -216,6 +220,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02065130196BB0B5003AD648 /* GiViewEnums.h in Headers */,
 				025F58E2195D250E00302988 /* GiPaintViewDelegate.h in Headers */,
 				025F58E4195D250E00302988 /* GiViewHelper.h in Headers */,
 				025F58DC195D250E00302988 /* ARCMacro.h in Headers */,
@@ -241,6 +246,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0206512F196BB0B5003AD648 /* GiViewEnums.h in Headers */,
 				025F58E1195D250E00302988 /* GiPaintViewDelegate.h in Headers */,
 				025F58E3195D250E00302988 /* GiViewHelper.h in Headers */,
 				025F58DB195D250E00302988 /* ARCMacro.h in Headers */,
