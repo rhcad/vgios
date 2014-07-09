@@ -279,6 +279,10 @@ static GiViewHelper *_sharedInstance = nil;
     return [_view coreView]->getShapeCount();
 }
 
+- (int)getUnlockedShapeCount {
+    return [_view coreView]->getUnlockedShapeCount();
+}
+
 - (int)selectedCount {
     return [_view coreView]->getSelectedShapeCount();
 }
@@ -374,6 +378,12 @@ static GiViewHelper *_sharedInstance = nil;
     @synchronized([_view locker]) {
         [_view coreView]->clear();
         [_view.imageCache clearCachedData];
+    }
+}
+
+- (void)eraseView {
+    @synchronized([_view locker]) {
+        [_view coreView]->setCommand("erasewnd");
     }
 }
 
