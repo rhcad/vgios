@@ -375,11 +375,11 @@ void GiViewAdapter::stopRegen() {
 }
 
 UIView *GiViewAdapter::getDynView(bool autoCreate) {
-    if (autoCreate && !_dynview && _view) {
+    if (autoCreate && (!_dynview || _dynview == _view)
+        && _view && _view.superview) {
         if (_flags & GIViewFlagsNoDynDrawView) {
             _dynview = _view;
-        }
-        else if (_view.superview) {
+        } else {
             _dynview = [[GiDynDrawView alloc]initView:_view.frame :this];
             _dynview.autoresizingMask = _view.autoresizingMask;
             if (isMainThread()) {

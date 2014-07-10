@@ -54,6 +54,12 @@
     UIImage *image = name ? [_images objectForKey:name] : nil;
     
     if (!image && name && [name length] > 1) {
+        image = [UIImage imageNamed:name];
+        if (image) {
+            [_images setObject:image forKey:name];
+            return image;
+        }
+        
         if ([name hasPrefix:@"png:"]) {
             [self addPNGFromResource:[name substringFromIndex:4] :&name];
         }

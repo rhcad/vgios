@@ -249,7 +249,7 @@ GiColor CGColorToGiColor(CGColorRef color);
     self = [super initWithCoder:aDecoder];
     if (self) {
         _activePaintView = self;
-        _adapter = new GiViewAdapter(self, NULL, GIViewFlagsNoBackLayer|GIViewFlagsNoDynDrawView);
+        _adapter = new GiViewAdapter(self, NULL, GIViewFlagsNoBackLayer);
         [self initView];
     }
     return self;
