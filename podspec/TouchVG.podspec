@@ -21,5 +21,5 @@ Pod::Spec.new do |s|
     "HEADER_SEARCH_PATHS" => '$(PODS_ROOT)/Headers/TouchVGCore'
   }
   s.resource = 'TouchVG.bundle'
-  s.dependency "TouchVGCore", "~> 1.0.37"
+  s.dependency "TouchVGCore"
 end

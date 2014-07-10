@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
     "HEADER_SEARCH_PATHS" => '$(PODS_ROOT)/Headers/TouchVGCore $(PODS_ROOT)/Headers/SVGKit'
   }
   s.resource = 'TouchVG.bundle'
-  s.dependency "TouchVGCore", "~> 1.0.37"
+  s.dependency "TouchVGCore"
   s.dependency "SVGKit", "~> 2.0"
   # Need to copy `podspec/SVGKit.podspec` to `~/.cocoapods/repos/master/Specs/SVGKit/2.0/`.
 end
