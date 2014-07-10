@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name        = "TouchVG"
-  s.version     = "1.1.14"
+  s.version     = "1.1.15"
   s.summary     = "A lightweight 2D vector drawing framework for iOS."
   s.homepage    = "https://github.com/touchvg/vgios"
   s.screenshots = "http://touchvg.github.io/images/iphone1.png"
