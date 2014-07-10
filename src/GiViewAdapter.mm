@@ -258,7 +258,7 @@ void GiViewAdapter::stopRecord(bool forUndo)
     }
 }
 
-void GiViewAdapter::recordShapes(bool forUndo, long doc, long shapes)
+void GiViewAdapter::recordShapes(bool forUndo, long changeCount, long doc, long shapes)
 {
     int i = forUndo ? 0 : 1;
     if ((doc || shapes) && _queues[i]) {
@@ -268,10 +268,10 @@ void GiViewAdapter::recordShapes(bool forUndo, long doc, long shapes)
                 bool ret;
                 if (!forUndo) {
                     RecordShapesCallback c(this);
-                    ret = _core->recordShapes(forUndo, tick, doc, shapes, NULL,
+                    ret = _core->recordShapes(forUndo, tick, changeCount, doc, shapes, NULL,
                                               hasShapesRecorded() ? &c : NULL);
                 } else {
-                    ret = _core->recordShapes(forUndo, tick, doc, shapes);
+                    ret = _core->recordShapes(forUndo, tick, changeCount, doc, shapes);
                 }
                 if (!ret) {
                     NSLog(@"Fail to record shapes, forUndo=%d, doc=%ld, shapes=%ld", forUndo, doc, shapes);
@@ -335,13 +335,14 @@ void GiViewAdapter::regen_(bool changed, int sid, long playh, bool loading) {
     long doc0 = 0, doc1 = 0, shapes1 = 0, gs = 0;
     int docd = 0;
     mgvector<long>* docs = NULL;
+    long changeCount = _core->getChangeCount();
     
     @synchronized(locker()) {
         docd = regenLocked(changed, sid, playh, loading, doc0, doc1, shapes1, gs, docs);
     }
     
-    recordShapes(true, doc0, 0);
-    recordShapes(false, doc1, shapes1);
+    recordShapes(true, changeCount, doc0, 0);
+    recordShapes(false, changeCount, doc1, shapes1);
     
     if (_render) {
         [_render startRender:docs :gs];
@@ -401,7 +402,7 @@ void GiViewAdapter::redraw(bool changed) {
                 _core->submitDynamicShapes(this);
                 if (_queues[1] && !_core->isPlaying()) {
                     long shapes = _core->acquireDynamicShapes();
-                    recordShapes(false, 0, shapes);
+                    recordShapes(false, 0, 0, shapes);
                 }
             }
         }

@@ -147,7 +147,7 @@ private:
     int  regenLocked(bool changed, int sid, long playh, bool loading, long& doc0,
                      long& doc1, long& shapes1, long& gs, mgvector<long>*& docs);
     void regen_(bool changed, int sid, long playh, bool loading);
-    void recordShapes(bool forUndo, long doc, long shapes);
+    void recordShapes(bool forUndo, long changeCount, long doc, long shapes);
 };
 
 /*! \category GiPaintView()
