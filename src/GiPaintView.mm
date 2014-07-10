@@ -205,6 +205,7 @@ GiColor CGColorToGiColor(CGColorRef color);
 @synthesize viewToMagnify;
 @synthesize imageCache;
 @synthesize delegates;
+@synthesize flags;
 
 #pragma mark - Respond to low-memory warnings
 + (void)initialize {
@@ -249,7 +250,7 @@ GiColor CGColorToGiColor(CGColorRef color);
     self = [super initWithCoder:aDecoder];
     if (self) {
         _activePaintView = self;
-        _adapter = new GiViewAdapter(self, NULL, GIViewFlagsNoBackLayer);
+        _adapter = new GiViewAdapter(self, NULL, 0);
         [self initView];
     }
     return self;
@@ -267,12 +268,12 @@ GiColor CGColorToGiColor(CGColorRef color);
     return self;
 }
 
-- (id)initWithFrame:(CGRect)frame flags:(int)flags {
+- (id)initWithFrame:(CGRect)frame flags:(int)f {
     self = [super initWithFrame:frame];
     if (self) {
         self.autoresizingMask = 0xFF;
         _activePaintView = self;
-        _adapter = new GiViewAdapter(self, NULL, flags);
+        _adapter = new GiViewAdapter(self, NULL, f);
         _adapter->coreView()->onSize(_adapter, frame.size.width, frame.size.height);
         [self initView];
     }
@@ -322,6 +323,14 @@ GiColor CGColorToGiColor(CGColorRef color);
     return v;
 }
 
+- (int)flags {
+    return _adapter->getFlags();
+}
+
+- (void)setFlags:(int)f {
+    _adapter->setFlags(f);
+}
+
 - (void)didEnteredBackground:(NSNotification*)notification {
     [self clearCachedData];
     _adapter->coreView()->onPause(getTickCount());
@@ -337,7 +346,7 @@ GiColor CGColorToGiColor(CGColorRef color);
     _adapter->coreView()->onSize(_adapter, self.bounds.size.width, self.bounds.size.height);
     if (!_adapter->renderInContext(UIGraphicsGetCurrentContext())) {
         _adapter->regenAll(false);
-    } else if (_adapter->getFlags() & GIViewFlagsNoDynDrawView) {
+    } else if (self.flags & GIViewFlagsNoDynDrawView) {
         [GiDynDrawView draw:_adapter];
     }
 }
@@ -717,7 +726,7 @@ GiColor CGColorToGiColor(CGColorRef color);
     }
     if (sender.state == UIGestureRecognizerStateBegan
         && [sender numberOfTouches] == 1
-        && !(_adapter->getFlags() & GIViewFlagsNoMagnifier)
+        && !(self.flags & GIViewFlagsNoMagnifier)
         && self.viewToMagnify && !self.mainView
         && _adapter->canShowMagnifier())
     {

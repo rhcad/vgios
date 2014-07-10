@@ -367,11 +367,37 @@ void GiViewAdapter::regenAppend(int sid, long playh) {
 void GiViewAdapter::stopRegen() {
     _core->stopDrawing();
     [_render stopRender];
-    _view = nil;
-    if (_dynview) {
+    if (_dynview && _dynview != _view) {
         [_dynview removeFromSuperview];
         [_dynview RELEASE];
         _dynview = nil;
+    }
+    _view = nil;
+}
+
+void GiViewAdapter::setFlags(int flags)
+{
+    int old = _flags;
+    
+    _flags = flags;
+    if ((old & GIViewFlagsNoDynDrawView) != (flags & GIViewFlagsNoDynDrawView)) {
+        if (_flags & GIViewFlagsNoDynDrawView) {
+            if (_dynview && _dynview != _view) {
+                [_dynview removeFromSuperview];
+                [_dynview RELEASE];
+                _dynview = nil;
+            }
+        }
+    }
+    if ((old & GIViewFlagsNoBackLayer) != (flags & GIViewFlagsNoBackLayer)) {
+        if (flags & GIViewFlagsNoBackLayer) {
+            if (!_render) {
+                _render = [[GiLayerRender alloc]initWithAdapter:this];
+            }
+        } else if (_render) {
+            [_render RELEASE];
+            _render = nil;
+        }
     }
 }
 

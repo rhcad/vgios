@@ -105,6 +105,7 @@ public:
     long acquireFrontDoc(long* gs = NULL);
     id<NSLocking> locker() { return _lock; }
     int getFlags() const { return _flags; }
+    void setFlags(int flags);
     
     int getAppendCount() const;
     void beginRender();
@@ -153,7 +154,7 @@ private:
 /*! \category GiPaintView()
     \brief GiPaintView 的内部数据定义
  */
-@interface GiPaintView()<UIGestureRecognizerDelegate> {
+@interface GiPaintView() {
     GiViewAdapter   *_adapter;              //!< 视图回调适配器
     
     UIGestureRecognizer     *_recognizers[7];
