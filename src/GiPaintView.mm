@@ -31,6 +31,10 @@
 }
 
 + (void)draw:(GiViewAdapter *)adapter {
+    if (adapter->getFlags() & GIViewFlagsNotDynDraw) {
+        return;
+    }
+    
     GiCanvasAdapter canvas(adapter->imageCache());
     GiCoreView* coreView = adapter->coreView();
     long doc, gs, playh;

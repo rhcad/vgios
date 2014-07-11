@@ -295,8 +295,9 @@ int GiViewAdapter::regenLocked(bool changed, int sid, long playh, bool loading, 
         }
     } else if (changed || _regenCount == 0) {
         _core->submitBackDoc(this, changed);
+        _core->submitDynamicShapes(this);
+        
         if (changed) {
-            _core->submitDynamicShapes(this);
             if (_queues[0]) {
                 doc0 = _core->acquireFrontDoc();
             }
@@ -398,6 +399,9 @@ void GiViewAdapter::setFlags(int flags)
             [_render RELEASE];
             _render = nil;
         }
+    }
+    if ((old & GIViewFlagsNotDynDraw) != (flags & GIViewFlagsNotDynDraw)) {
+        [getDynView(false) setNeedsDisplay];
     }
 }
 
