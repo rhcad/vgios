@@ -298,6 +298,7 @@ GiColor CGColorToGiColor(CGColorRef color);
 - (void) setFrame:(CGRect)frame {
     [super setFrame:frame];
     if (_adapter) {
+        [_adapter->getDynView(false) setFrame:frame];
         _adapter->coreView()->onSize(_adapter, frame.size.width, frame.size.height);
         _adapter->regenAll(false);
     }

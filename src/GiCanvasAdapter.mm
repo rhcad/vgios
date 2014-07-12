@@ -72,19 +72,31 @@ void GiCanvasAdapter::setPen(int argb, float width, int style, float phase, floa
     if (width > 0) {
         CGContextSetLineWidth(_ctx, width);
     }
-    
-    if (style > 0 && style < 5) {
-        CGFloat pattern[6];
-        int n = 0;
-        for (; LINEDASH[style][n] > 0.1f; n++) {
-            pattern[n] = LINEDASH[style][n] * (width < 1.f ? 1.f : width);
+    if (style >= 0) {
+        int linecap = style & kLineCapMask;
+        
+        style = style & kLineDashMask;
+        if (style > 0 && style < 5) {
+            CGFloat pattern[6];
+            int n = 0;
+            for (; LINEDASH[style][n] > 0.1f; n++) {
+                pattern[n] = LINEDASH[style][n] * (width < 1.f ? 1.f : width);
+            }
+            CGContextSetLineDash(_ctx, phase, pattern, n);
         }
-        CGContextSetLineDash(_ctx, phase, pattern, n);
-        CGContextSetLineCap(_ctx, kCGLineCapButt);
-    }
-    else if (0 == style) {
-        CGContextSetLineDash(_ctx, 0, NULL, 0);
-        CGContextSetLineCap(_ctx, kCGLineCapRound);
+        else if (0 == style) {
+            CGContextSetLineDash(_ctx, 0, NULL, 0);
+        }
+        if (linecap & kLineCapButt)
+            CGContextSetLineCap(_ctx, kCGLineCapButt);
+        else if (linecap & kLineCapRound)
+            CGContextSetLineCap(_ctx, kCGLineCapRound);
+        else if (linecap & kLineCapSquare)
+            CGContextSetLineCap(_ctx, kCGLineCapSquare);
+        else {
+            CGContextSetLineCap(_ctx, (style > 0 && style < 5)
+                                ? kCGLineCapButt : kCGLineCapRound);
+        }
     }
 }
 
@@ -180,6 +192,9 @@ void GiCanvasAdapter::closePath()
 
 void GiCanvasAdapter::drawPath(bool stroke, bool fill)
 {
+    if (!stroke && !fill) {
+        return; // can used to clip later
+    }
     if (_gradient && !CGContextIsPathEmpty(_ctx)) {
         CGContextSaveGState(_ctx);
         CGRect rect = CGContextGetPathBoundingBox(_ctx);
