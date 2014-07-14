@@ -298,7 +298,6 @@ GiColor CGColorToGiColor(CGColorRef color);
 - (void) setFrame:(CGRect)frame {
     [super setFrame:frame];
     if (_adapter) {
-        [_adapter->getDynView(false) setFrame:frame];
         _adapter->coreView()->onSize(_adapter, frame.size.width, frame.size.height);
         _adapter->regenAll(false);
     }
@@ -349,6 +348,11 @@ GiColor CGColorToGiColor(CGColorRef color);
 
 - (void)drawRect:(CGRect)rect {
     _adapter->coreView()->onSize(_adapter, self.bounds.size.width, self.bounds.size.height);
+    UIView *dynview = _adapter->getDynView(false);
+    if (dynview && dynview != self && !CGRectEqualToRect(dynview.bounds, self.bounds)) {
+        [dynview setFrame:self.frame];
+    }
+    
     if (!_adapter->renderInContext(UIGraphicsGetCurrentContext())) {
         _adapter->regenAll(false);
     } else if (self.flags & GIViewFlagsNoDynDrawView) {
