@@ -735,7 +735,6 @@ GiColor CGColorToGiColor(CGColorRef color);
     }
     if (sender.state == UIGestureRecognizerStateBegan
         && [sender numberOfTouches] == 1
-        && !(self.flags & GIViewFlagsNoMagnifier)
         && self.viewToMagnify && !self.mainView
         && _adapter->canShowMagnifier())
     {
