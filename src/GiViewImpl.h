@@ -38,7 +38,6 @@ class GiViewAdapter;
 - (void)stopRender;
 - (void)clearCachedData;
 - (void)startRender:(mgvector<long>*)docs :(long)gs;
-- (void)startRenderForPending;
 - (BOOL)renderInContext:(CGContextRef)ctx;
 
 @end

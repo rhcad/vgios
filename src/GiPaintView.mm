@@ -122,12 +122,9 @@
     } else {
         _docs = docs;
         _gs = gs;
+        _drawing = 0;
         [self startRender_:NO];
     }
-}
-
-- (void)startRenderForPending {
-    [self startRender_:YES];
 }
 
 - (void)startRender_:(BOOL)forPending {
@@ -186,6 +183,8 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [_adapter->mainView() setNeedsDisplay];
+        if (_drawing > 0)
+            [self startRender_:YES];
     });
 }
 

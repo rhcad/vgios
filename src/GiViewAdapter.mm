@@ -115,7 +115,6 @@ bool GiViewAdapter::renderInContext(CGContextRef ctx) {
             }
             _oldAppendCount = 0;
         }
-        [_render startRenderForPending];
     }
     else {
         long gs;
@@ -289,7 +288,7 @@ int GiViewAdapter::regenLocked(bool changed, int sid, long playh, bool loading, 
                                long& doc1, long& shapes1, long& gs, mgvector<long>*& docs)
 {
     if (loading) {
-        if (!_core->isPlaying()) {
+        if (_queues[1] && !_core->isPlaying()) {
             doc1 = _core->acquireFrontDoc();
             shapes1 = _core->acquireDynamicShapes();
         }
@@ -399,9 +398,6 @@ void GiViewAdapter::setFlags(int flags)
             [_render RELEASE];
             _render = nil;
         }
-    }
-    if ((old & GIViewFlagsNotDynDraw) != (flags & GIViewFlagsNotDynDraw)) {
-        [getDynView(false) setNeedsDisplay];
     }
 }
 
