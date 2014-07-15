@@ -399,6 +399,9 @@ void GiViewAdapter::setFlags(int flags)
             _render = nil;
         }
     }
+    if ((old & GIViewFlagsNotDynDraw) != (flags & GIViewFlagsNotDynDraw)) {
+        [getDynView(false) setNeedsDisplay];
+    }
 }
 
 UIView *GiViewAdapter::getDynView(bool autoCreate) {
