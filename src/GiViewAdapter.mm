@@ -117,11 +117,16 @@ bool GiViewAdapter::renderInContext(CGContextRef ctx) {
         }
     }
     else {
-        long gs;
+        long gs = 0;
         mgvector<long> docs;
         
         @synchronized(locker()) {
-            gs = _core->acquireFrontDocs(docs) ? _core->acquireGraphics(this) : 0;
+            if (_core->acquireFrontDocs(docs)) {
+                gs = _core->acquireGraphics(this);
+            } else {
+                _core->submitBackDoc(this, false);
+                gs = _core->acquireFrontDocs(docs) ? _core->acquireGraphics(this) : 0;
+            }
         }
         if (!gs) {
             return false;

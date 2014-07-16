@@ -25,6 +25,9 @@
 - (GiPaintView *)createMagnifierView:(CGRect)frame refView:(GiPaintView *)refView
                           parentView:(UIView *)parentView;  //!< 创建放大镜视图(不需要额外释放)，并记到本类
 + (void)removeSubviews:(UIView *)owner;             //!< 关闭视图，用在拥有者的 removeFromSuperview 中
+
+- (id)initWithFrame:(CGRect)frame;                  //!< 创建一个临时视图
+- (GiPaintView *)view;                              //!< 返回视图对象
 - (long)cmdViewHandle;                              //!< 返回内核视图的句柄, MgView 指针
 
 @property(nonatomic, assign) NSString   *command;   //!< 当前命令名称

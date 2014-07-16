@@ -89,8 +89,21 @@ static GiViewHelper *_sharedInstance = nil;
     return _sharedInstance ? nil : [super init];
 }
 
+- (id)initWithFrame:(CGRect)frame {
+    self = [super init];
+    if (self) {
+        int flags = GIViewFlagsNoBackLayer|GIViewFlagsNoDynDrawView;
+        _view = [GiPaintView createGraphView:frame :nil :flags];
+    }
+    return self;
+}
+
 - (void)dealloc {
     [super DEALLOC];
+}
+
+- (GiPaintView *)view {
+    return _view;
 }
 
 + (GiPaintView *)activeView {
