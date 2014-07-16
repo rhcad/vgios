@@ -414,6 +414,8 @@ UIView *GiViewAdapter::getDynView(bool autoCreate) {
             _dynview.autoresizingMask = _view.autoresizingMask;
             if (isMainThread()) {
                 [_view.superview addSubview:_dynview];
+                [_view.superview sendSubviewToBack:_dynview];
+                [_view.superview sendSubviewToBack:_view];
             } else {
                 dispatch_sync(dispatch_get_main_queue(), ^{
                     [_view.superview addSubview:_dynview];
