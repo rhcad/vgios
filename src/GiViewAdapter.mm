@@ -334,7 +334,15 @@ int GiViewAdapter::regenLocked(bool changed, int sid, long playh, bool loading, 
 }
 
 void GiViewAdapter::regen_(bool changed, int sid, long playh, bool loading) {
-    if (_core->isStopping() || (!_regenCount && !_view.window)) {
+    if (_core->isStopping() || _regenCount < 0) {
+        return;
+    }
+    if (changed && (_flags & GIViewFlagsZoomExtent)) {
+        _regenCount -= 10000;
+        _core->zoomToExtent();
+        _regenCount += 10000;
+    }
+    if (!_regenCount && !_view.window) {
         return;
     }
     

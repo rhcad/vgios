@@ -275,10 +275,12 @@ GiColor CGColorToGiColor(CGColorRef color);
     self = [super initWithFrame:frame];
     if (self) {
         self.autoresizingMask = 0xFF;
-        _activePaintView = self;
         _adapter = new GiViewAdapter(self, NULL, f);
         _adapter->coreView()->onSize(_adapter, frame.size.width, frame.size.height);
         [self initView];
+        if (!(f & GIViewFlagsNoCmd)) {
+            _activePaintView = self;
+        }
     }
     return self;
 }
@@ -298,7 +300,10 @@ GiColor CGColorToGiColor(CGColorRef color);
     [super setFrame:frame];
     if (_adapter) {
         _adapter->coreView()->onSize(_adapter, frame.size.width, frame.size.height);
-        _adapter->regenAll(false);
+        if ( ! (_adapter->getFlags() & GIViewFlagsZoomExtent)
+            || !_adapter->coreView()->zoomToExtent()) {
+            _adapter->regenAll(false);
+        }
     }
 }
 
@@ -393,9 +398,13 @@ GiColor CGColorToGiColor(CGColorRef color);
 
 - (UIImage *)snapshot {
     [self hideContextActions];
-    
     UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.opaque, 0);
-    [self.layer renderInContext:UIGraphicsGetCurrentContext()];
+    
+    if (self.window) {
+        [self.layer renderInContext:UIGraphicsGetCurrentContext()];
+    } else {
+        _adapter->renderInContext(UIGraphicsGetCurrentContext());
+    }
     
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();

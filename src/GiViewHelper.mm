@@ -92,7 +92,8 @@ static GiViewHelper *_sharedInstance = nil;
 - (id)initWithFrame:(CGRect)frame {
     self = [super init];
     if (self) {
-        int flags = GIViewFlagsNoBackLayer|GIViewFlagsNoDynDrawView|GIViewFlagsNoCmd;
+        int flags = (GIViewFlagsNoBackLayer|GIViewFlagsNoDynDrawView
+                     |GIViewFlagsZoomExtent|GIViewFlagsNoCmd);
         _view = [GiPaintView createGraphView:frame :nil :flags];
     }
     return self;
