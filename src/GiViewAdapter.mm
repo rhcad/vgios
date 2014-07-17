@@ -53,7 +53,8 @@ GiViewAdapter::GiViewAdapter(GiPaintView *mainView, GiViewAdapter *refView, int 
         _core = GiCoreView::createMagnifierView(this, refView->coreView(), refView);
         _lock = [refView->_lock RETAIN];
     } else {
-        _core = GiCoreView::createView(this);
+        int type = (flags & GIViewFlagsNoCmd) ? GiCoreView::kNoCmdType : GiCoreView::kNormalType;
+        _core = GiCoreView::createView(this, type);
         _lock = [[NSRecursiveLock alloc] init];
     }
     memset(&respondsTo, 0, sizeof(respondsTo));
