@@ -396,7 +396,43 @@ GiColor CGColorToGiColor(CGColorRef color);
     [self coreView]->releaseDoc(doc);
 }
 
+- (UIImage *)snapshotCG {
+    float scale = [UIScreen mainScreen].scale;
+    CGSize size = self.bounds.size;
+    
+    size.width *= scale;
+    size.height *= scale;
+    
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef ctx = CGBitmapContextCreate(NULL, size.width, size.height, 8, size.width * 4,
+                                             colorSpace, kCGImageAlphaPremultipliedLast);
+    CGColorSpaceRelease(colorSpace);
+    
+    CGContextClearRect(ctx, CGRectMake(0, 0, size.width, size.height));
+    
+    CGContextTranslateCTM(ctx, 0, size.height);
+    CGContextScaleCTM(ctx, scale, - scale);
+    
+    if (self.window) {
+        [self.layer renderInContext:ctx];
+    } else {
+        _adapter->renderInContext(ctx);
+    }
+    
+    CGImageRef cgimage = CGBitmapContextCreateImage(ctx);
+    UIImage *image = [UIImage imageWithCGImage:cgimage];
+    
+    CGImageRelease(cgimage);
+    CGContextRelease(ctx);
+    
+    return image;
+}
+
 - (UIImage *)snapshot {
+    if (!_adapter->isMainThread()) {
+        return [self snapshotCG];
+    }
+    
     [self hideContextActions];
     UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.opaque, 0);
     
