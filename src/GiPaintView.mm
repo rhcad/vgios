@@ -605,8 +605,9 @@ GiColor CGColorToGiColor(CGColorRef color);
     int i = 0;
     
     _gestureEnabled = self.userInteractionEnabled;
-    if (!_gestureEnabled)
+    if (!_gestureEnabled || (_adapter->getFlags() & GIViewFlagsNoCmd)) {
         return;
+    }
     
     _recognizers[i++] = _pinchRecognizer =
     [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(moveHandler:)];
