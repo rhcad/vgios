@@ -65,13 +65,10 @@ static GiViewHelper *_sharedInstance = nil;
     return [NSString stringWithFormat:@"1.1.%d.%d", IOSLIBVERSION, GiCoreView::getVersion()];
 }
 
-+ (void)initialize {
++ (GiViewHelper *)sharedInstance {
     if (!_sharedInstance) {
         _sharedInstance = [[GiViewHelper alloc] init];
     }
-}
-
-+ (GiViewHelper *)sharedInstance {
     if (!_sharedInstance.view) {
         _sharedInstance.view = [GiPaintView activeView];
     }
@@ -79,24 +76,13 @@ static GiViewHelper *_sharedInstance = nil;
 }
 
 + (GiViewHelper *)sharedInstance:(GiPaintView *)view {
+    if (!_sharedInstance) {
+        _sharedInstance = [[GiViewHelper alloc] init];
+    }
     if (_sharedInstance.view != view) {
         _sharedInstance.view = view;
     }
     return _sharedInstance;
-}
-
-- (id)init {
-    return _sharedInstance ? nil : [super init];
-}
-
-- (id)initWithFrame:(CGRect)frame {
-    self = [super init];
-    if (self) {
-        int flags = (GIViewFlagsNoBackLayer|GIViewFlagsNoDynDrawView
-                     |GIViewFlagsZoomExtent|GIViewFlagsNoCmd);
-        _view = [GiPaintView createGraphView:frame :nil :flags];
-    }
-    return self;
 }
 
 - (void)dealloc {
@@ -121,6 +107,11 @@ static GiViewHelper *_sharedInstance = nil;
                            flags:(int)flags {
     _view = [GiPaintView createGraphView:frame :parentView :flags];
     return _view;
+}
+
+- (GiPaintView *)createDummyView:(CGSize)size {
+    return [self createGraphView:CGRectMake(0, 0, size.width, size.height)
+                          inView:nil flags:GIViewFlagsDummyView];
 }
 
 - (GiPaintView *)createMagnifierView:(CGRect)frame

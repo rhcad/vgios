@@ -20,6 +20,8 @@ typedef NS_ENUM(int, GIViewFlags) { //!< 视图创建标志
     GIViewFlagsNotDynDraw = 4,      //!< 屏蔽动态显示
     GIViewFlagsZoomExtent = 8,      //!< 自动放缩到图形范围
     GIViewFlagsNoCmd = 16,          //!< 不使用交互命令
+    GIViewFlagsDummyView = (GIViewFlagsNoBackLayer|GIViewFlagsNoDynDrawView
+                            |GIViewFlagsZoomExtent|GIViewFlagsNoCmd)
 };
 
 #endif // __TOUCHVG_VIEWENUMS_H

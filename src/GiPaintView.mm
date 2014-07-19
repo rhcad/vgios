@@ -308,7 +308,7 @@ GiColor CGColorToGiColor(CGColorRef color);
 }
 
 + (GiPaintView *)createGraphView:(CGRect)frame :(UIView *)parentView :(int)flags {
-    GiPaintView *v = [[GiPaintView alloc]initWithFrame:frame flags:flags];
+    GiPaintView *v = [[[GiPaintView alloc]initWithFrame:frame flags:flags] AUTORELEASE];
     if (parentView) {
         [parentView addSubview:v];
     }
@@ -323,7 +323,7 @@ GiColor CGColorToGiColor(CGColorRef color);
     if (!refView)
         return nil;
     
-    GiPaintView *v = [[GiPaintView alloc]initWithFrame:frame :refView];
+    GiPaintView *v = [[[GiPaintView alloc]initWithFrame:frame :refView] AUTORELEASE];
     if (parentView) {
         [parentView addSubview:v];
     }

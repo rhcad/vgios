@@ -24,9 +24,9 @@
                            flags:(int)flags;        //!< 以指定标志(GIViewFlags)创建普通图形视图
 - (GiPaintView *)createMagnifierView:(CGRect)frame refView:(GiPaintView *)refView
                           parentView:(UIView *)parentView;  //!< 创建放大镜视图(不需要额外释放)，并记到本类
+- (GiPaintView *)createDummyView:(CGSize)size;       //!< 创建不使用交互命令的临时视图
 + (void)removeSubviews:(UIView *)owner;             //!< 关闭视图，用在拥有者的 removeFromSuperview 中
 
-- (id)initWithFrame:(CGRect)frame;                  //!< 创建一个临时视图
 - (GiPaintView *)view;                              //!< 返回视图对象
 - (long)cmdViewHandle;                              //!< 返回内核视图的句柄, MgView 指针
 
