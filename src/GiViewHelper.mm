@@ -85,6 +85,13 @@ static GiViewHelper *_sharedInstance = nil;
     return _sharedInstance;
 }
 
+-(id)init{
+    if (self = [super init]) {
+    
+    }
+    return self;
+}
+
 - (void)dealloc {
     [super DEALLOC];
 }
