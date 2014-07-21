@@ -13,8 +13,8 @@
  */
 @interface GiViewHelper : NSObject
 
-+ (GiViewHelper *)sharedInstance;                           //!< 返回单实例对象
-+ (GiViewHelper *)sharedInstance:(GiPaintView *)view;       //!< 指定绘图视图
++ (GiViewHelper *)sharedInstance;                   //!< 返回单实例对象，未设置视图则取为当前视图
++ (GiViewHelper *)sharedInstance:(GiPaintView *)view;   //!< 返回单实例对象，并指定绘图视图
 + (NSString *)version;                              //!< 返回本库的版本号, 1.1.ioslibver.corelibver
 
 + (GiPaintView *)activeView;                        //!< 得到当前激活的绘图视图
@@ -24,7 +24,7 @@
                            flags:(int)flags;        //!< 以指定标志(GIViewFlags)创建普通图形视图
 - (GiPaintView *)createMagnifierView:(CGRect)frame refView:(GiPaintView *)refView
                           parentView:(UIView *)parentView;  //!< 创建放大镜视图(不需要额外释放)，并记到本类
-- (GiPaintView *)createDummyView:(CGSize)size;       //!< 创建不使用交互命令的临时视图
+- (GiPaintView *)createDummyView:(CGSize)size;      //!< 创建不使用交互命令的临时隐藏视图，需要 removeFromSuperview
 + (void)removeSubviews:(UIView *)owner;             //!< 关闭视图，用在拥有者的 removeFromSuperview 中
 
 - (GiPaintView *)view;                              //!< 返回视图对象
