@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name        = "TouchVG-SVG"
-  s.version     = "1.1.14"
+  s.version     = "1.1.15"
   s.summary     = "A lightweight 2D vector drawing framework for iOS."
   s.homepage    = "https://github.com/touchvg/vgios"
   s.screenshots = "http://touchvg.github.io/images/iphone1.png"
@@ -10,8 +10,8 @@ Pod::Spec.new do |s|
 
   s.platform    = :ios, "5.0"
   s.source      = { :git => "https://github.com/touchvg/vgios.git", :branch => "develop" }
-  s.ios.source_files    = 'TouchVG/include/*.h', 'TouchVG/src/*.{h,m,mm}'
-  s.public_header_files = 'TouchVG/include/*.h'
+  s.ios.source_files    = 'include/*.h', 'src/*.{h,m,mm}'
+  s.public_header_files = 'include/*.h'
   s.frameworks = "UIKit", "QuartzCore", "CoreGraphics", "Foundation"
 
   s.requires_arc = false
@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
     "HEADER_SEARCH_PATHS" => '$(PODS_ROOT)/Headers/TouchVGCore $(PODS_ROOT)/Headers/SVGKit'
   }
   s.resource = 'TouchVG.bundle'
-  s.dependency "TouchVGCore", "~> 1.0.37"
+  s.dependency "TouchVGCore"
   s.dependency "SVGKit", "~> 2.0"
   # Need to copy `podspec/SVGKit.podspec` to `~/.cocoapods/repos/master/Specs/SVGKit/2.0/`.
 end

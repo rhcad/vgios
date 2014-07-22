@@ -16,7 +16,7 @@ class GiViewAdapter;
 /*! \ingroup GROUP_IOS
     \see GiPaintViewDelegate
  */
-@interface GiPaintView : UIView
+@interface GiPaintView : UIView<UIGestureRecognizerDelegate>
 
 @property(nonatomic, readonly) UIPanGestureRecognizer *panRecognizer;           //!< 拖动手势识别器
 @property(nonatomic, readonly) UITapGestureRecognizer *tapRecognizer;           //!< 单指点击手势识别器
@@ -30,9 +30,10 @@ class GiViewAdapter;
 @property(nonatomic, readonly) GiPaintView          *mainView;                  //!< 放大镜对应的主视图
 @property(nonatomic, assign)   UIView               *viewToMagnify;             //!< 待放大的视图
 @property(nonatomic, readonly) NSArray              *delegates;                 //!< GiPaintViewDelegate
+@property(nonatomic)           int flags;               //!< 由 GIViewFlags 按位组成的视图特性标志
 
 //! 创建普通图形视图，并添加到父视图、设置为当前视图，不需要额外释放
-+ (GiPaintView *)createGraphView:(CGRect)frame :(UIView *)parentView;
++ (GiPaintView *)createGraphView:(CGRect)frame :(UIView *)parentView :(int)flags;
 
 //! 创建放大镜视图并添加到父视图，不需要额外释放
 + (GiPaintView *)createMagnifierView:(CGRect)frame

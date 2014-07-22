@@ -27,20 +27,28 @@
 }
 
 - (void)drawRect:(CGRect)rect {
-    GiCanvasAdapter canvas(_adapter->imageCache());
-    GiCoreView* coreView = _adapter->coreView();
+    [GiDynDrawView draw:_adapter];
+}
+
++ (void)draw:(GiViewAdapter *)adapter {
+    if (adapter->getFlags() & GIViewFlagsNotDynDraw) {
+        return;
+    }
+    
+    GiCanvasAdapter canvas(adapter->imageCache());
+    GiCoreView* coreView = adapter->coreView();
     long doc, gs, playh;
     mgvector<long> shapes;
     
-    @synchronized(_adapter->locker()) {
-        int sid = _adapter->getAppendID(0, playh);
+    @synchronized(adapter->locker()) {
+        int sid = adapter->getAppendID(0, playh);
         doc = sid != 0 ? coreView->acquireFrontDoc(playh) : 0;
-        gs = coreView->acquireGraphics(_adapter);
+        gs = coreView->acquireGraphics(adapter);
         coreView->acquireDynamicShapesArray(shapes);
     }
     
     if (canvas.beginPaint(UIGraphicsGetCurrentContext(), true)) {
-        for (int i = 0, sid = 0; (sid = _adapter->getAppendID(i, playh)) != 0; i++) {
+        for (int i = 0, sid = 0; (sid = adapter->getAppendID(i, playh)) != 0; i++) {
             coreView->drawAppend(doc, gs, &canvas, sid);
         }
         coreView->dynDraw(shapes, gs, &canvas);
@@ -50,7 +58,7 @@
     GiCoreView::releaseShapesArray(shapes);
     coreView->releaseGraphics(gs);
     
-    _adapter->onDynDrawEnded();
+    adapter->onDynDrawEnded();
 }
 
 @end
@@ -114,12 +122,9 @@
     } else {
         _docs = docs;
         _gs = gs;
+        _drawing = 0;
         [self startRender_:NO];
     }
-}
-
-- (void)startRenderForPending {
-    [self startRender_:YES];
 }
 
 - (void)startRender_:(BOOL)forPending {
@@ -173,10 +178,13 @@
     _docs = NULL;
     coreView->releaseGraphics(_gs);
     _gs = 0;
+    if (_drawing > 0)
+        --_drawing;
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [_adapter->mainView() setNeedsDisplay];
-        --_drawing;
+        if (_drawing > 0)
+            [self startRender_:YES];
     });
 }
 
@@ -200,6 +208,7 @@ GiColor CGColorToGiColor(CGColorRef color);
 @synthesize viewToMagnify;
 @synthesize imageCache;
 @synthesize delegates;
+@synthesize flags;
 
 #pragma mark - Respond to low-memory warnings
 + (void)initialize {
@@ -244,7 +253,7 @@ GiColor CGColorToGiColor(CGColorRef color);
     self = [super initWithCoder:aDecoder];
     if (self) {
         _activePaintView = self;
-        _adapter = new GiViewAdapter(self, NULL);
+        _adapter = new GiViewAdapter(self, NULL, GIViewFlagsNoBackLayer|GIViewFlagsNoDynDrawView);
         [self initView];
     }
     return self;
@@ -255,9 +264,23 @@ GiColor CGColorToGiColor(CGColorRef color);
     if (self) {
         self.autoresizingMask = 0xFF;               // 自动适应大小
         _activePaintView = self;                    // 设置为当前绘图视图
-        _adapter = new GiViewAdapter(self, NULL);
+        _adapter = new GiViewAdapter(self, NULL, 0);
         _adapter->coreView()->onSize(_adapter, frame.size.width, frame.size.height);
         [self initView];
+    }
+    return self;
+}
+
+- (id)initWithFrame:(CGRect)frame flags:(int)f {
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.autoresizingMask = 0xFF;
+        _adapter = new GiViewAdapter(self, NULL, f);
+        _adapter->coreView()->onSize(_adapter, frame.size.width, frame.size.height);
+        [self initView];
+        if (!(f & GIViewFlagsNoCmd)) {
+            _activePaintView = self;
+        }
     }
     return self;
 }
@@ -266,7 +289,7 @@ GiColor CGColorToGiColor(CGColorRef color);
     self = [super initWithFrame:frame];
     if (self) {
         _mainView = refView;
-        _adapter = new GiViewAdapter(self, [refView viewAdapter2]);
+        _adapter = new GiViewAdapter(self, [refView viewAdapter2], 0);
         _adapter->coreView()->onSize(_adapter, frame.size.width, frame.size.height);
         [self initView];
     }
@@ -277,12 +300,15 @@ GiColor CGColorToGiColor(CGColorRef color);
     [super setFrame:frame];
     if (_adapter) {
         _adapter->coreView()->onSize(_adapter, frame.size.width, frame.size.height);
-        _adapter->regenAll(false);
+        if ( ! (_adapter->getFlags() & GIViewFlagsZoomExtent)
+            || !_adapter->coreView()->zoomToExtent()) {
+            _adapter->regenAll(false);
+        }
     }
 }
 
-+ (GiPaintView *)createGraphView:(CGRect)frame :(UIView *)parentView {
-    GiPaintView *v = [[GiPaintView alloc]initWithFrame:frame];
++ (GiPaintView *)createGraphView:(CGRect)frame :(UIView *)parentView :(int)flags {
+    GiPaintView *v = [[[GiPaintView alloc]initWithFrame:frame flags:flags] AUTORELEASE];
     if (parentView) {
         [parentView addSubview:v];
     }
@@ -297,12 +323,20 @@ GiColor CGColorToGiColor(CGColorRef color);
     if (!refView)
         return nil;
     
-    GiPaintView *v = [[GiPaintView alloc]initWithFrame:frame :refView];
+    GiPaintView *v = [[[GiPaintView alloc]initWithFrame:frame :refView] AUTORELEASE];
     if (parentView) {
         [parentView addSubview:v];
     }
     
     return v;
+}
+
+- (int)flags {
+    return _adapter->getFlags();
+}
+
+- (void)setFlags:(int)f {
+    _adapter->setFlags(f);
 }
 
 - (void)didEnteredBackground:(NSNotification*)notification {
@@ -318,8 +352,15 @@ GiColor CGColorToGiColor(CGColorRef color);
 
 - (void)drawRect:(CGRect)rect {
     _adapter->coreView()->onSize(_adapter, self.bounds.size.width, self.bounds.size.height);
+    UIView *dynview = _adapter->getDynView(false);
+    if (dynview && dynview != self && !CGRectEqualToRect(dynview.bounds, self.bounds)) {
+        [dynview setFrame:self.frame];
+    }
+    
     if (!_adapter->renderInContext(UIGraphicsGetCurrentContext())) {
         _adapter->regenAll(false);
+    } else if (!(self.flags & GIViewFlagsNoDynDrawView)) {
+        [GiDynDrawView draw:_adapter];
     }
 }
 
@@ -355,11 +396,51 @@ GiColor CGColorToGiColor(CGColorRef color);
     [self coreView]->releaseDoc(doc);
 }
 
-- (UIImage *)snapshot {
-    [self hideContextActions];
+- (UIImage *)snapshotCG {
+    float scale = [UIScreen mainScreen].scale;
+    CGSize size = self.bounds.size;
     
+    size.width *= scale;
+    size.height *= scale;
+    
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef ctx = CGBitmapContextCreate(NULL, size.width, size.height, 8, size.width * 4,
+                                             colorSpace, kCGImageAlphaPremultipliedLast);
+    CGColorSpaceRelease(colorSpace);
+    
+    CGContextClearRect(ctx, CGRectMake(0, 0, size.width, size.height));
+    
+    CGContextTranslateCTM(ctx, 0, size.height);
+    CGContextScaleCTM(ctx, scale, - scale);
+    
+    if (self.window) {
+        [self.layer renderInContext:ctx];
+    } else {
+        _adapter->renderInContext(ctx);
+    }
+    
+    CGImageRef cgimage = CGBitmapContextCreateImage(ctx);
+    UIImage *image = [UIImage imageWithCGImage:cgimage];
+    
+    CGImageRelease(cgimage);
+    CGContextRelease(ctx);
+    
+    return image;
+}
+
+- (UIImage *)snapshot {
+    if (!_adapter->isMainThread()) {
+        return [self snapshotCG];
+    }
+    
+    [self hideContextActions];
     UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.opaque, 0);
-    [self.layer renderInContext:UIGraphicsGetCurrentContext()];
+    
+    if (self.window) {
+        [self.layer renderInContext:UIGraphicsGetCurrentContext()];
+    } else {
+        _adapter->renderInContext(UIGraphicsGetCurrentContext());
+    }
     
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
@@ -434,6 +515,9 @@ GiColor CGColorToGiColor(CGColorRef color);
         _adapter->respondsTo.didShapesRecorded |= [d respondsToSelector:@selector(onShapesRecorded:)];
         _adapter->respondsTo.didShapeDeleted |= [d respondsToSelector:@selector(onShapeDeleted:)];
         _adapter->respondsTo.didShapeClicked |= [d respondsToSelector:@selector(onShapeClicked:)];
+        _adapter->respondsTo.didGestureShouldBegin |= [d respondsToSelector:@selector(onGestureShouldBegin:)];
+        _adapter->respondsTo.didGestureBegan |= [d respondsToSelector:@selector(onGestureBegan:)];
+        _adapter->respondsTo.didGestureEnded |= [d respondsToSelector:@selector(onGestureEnded:)];
     }
 }
 
@@ -521,8 +605,9 @@ GiColor CGColorToGiColor(CGColorRef color);
     int i = 0;
     
     _gestureEnabled = self.userInteractionEnabled;
-    if (!_gestureEnabled)
+    if (!_gestureEnabled || (_adapter->getFlags() & GIViewFlagsNoCmd)) {
         return;
+    }
     
     _recognizers[i++] = _pinchRecognizer =
     [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(moveHandler:)];
@@ -642,15 +727,61 @@ GiColor CGColorToGiColor(CGColorRef color);
     return allow;
 }
 
+- (BOOL)onGestureShouldBegin_:(UIGestureRecognizer*)sender {
+    size_t n = _adapter->respondsTo.didGestureShouldBegin ? _adapter->delegates.size() : 0;
+    
+    for (size_t i = 0; i < n; i++) {
+        if ([_adapter->delegates[i] respondsToSelector:@selector(onGestureShouldBegin:)]) {
+            if (![_adapter->delegates[i] onGestureShouldBegin:sender])
+                return NO;
+        }
+    }
+    if ([self respondsToSelector:@selector(onGestureShouldBegin:)]) {
+        if (![self performSelector:@selector(onGestureShouldBegin:) withObject:sender])
+            return NO;
+    }
+    
+    return YES;
+}
+
+- (void)onGestureBegan_:(UIGestureRecognizer*)sender {
+    size_t n = _adapter->respondsTo.didGestureBegan ? _adapter->delegates.size() : 0;
+    
+    for (size_t i = 0; i < n; i++) {
+        if ([_adapter->delegates[i] respondsToSelector:@selector(onGestureBegan:)]) {
+            [_adapter->delegates[i] onGestureBegan:sender];
+        }
+    }
+    if ([self respondsToSelector:@selector(onGestureBegan:)]) {
+        [self performSelector:@selector(onGestureBegan:) withObject:sender];
+    }
+}
+
+- (void)onGestureEnded_:(UIGestureRecognizer*)sender {
+    size_t n = _adapter->respondsTo.didGestureEnded ? _adapter->delegates.size() : 0;
+    
+    for (size_t i = 0; i < n; i++) {
+        if ([_adapter->delegates[i] respondsToSelector:@selector(onGestureEnded:)]) {
+            [_adapter->delegates[i] onGestureEnded:sender];
+        }
+    }
+    if ([self respondsToSelector:@selector(onGestureEnded:)]) {
+        [self performSelector:@selector(onGestureEnded:) withObject:sender];
+    }
+}
+
 - (BOOL)gestureCheck:(UIGestureRecognizer*)sender {
     _gestureRecognized = (sender.state == UIGestureRecognizerStateBegan
                           || sender.state == UIGestureRecognizerStateChanged);
     
+    if (sender.state == UIGestureRecognizerStatePossible
+        && _gestureEnabled && ![self onGestureShouldBegin_:sender]) {
+        return NO;
+    }
     if (sender.state == UIGestureRecognizerStateBegan
         && [sender numberOfTouches] == 1
-        && self.viewToMagnify
-        && !self.mainView
-        && ![self coreView]->isCommand("splines"))
+        && self.viewToMagnify && !self.mainView
+        && _adapter->canShowMagnifier())
     {
         if (!_magnifierView) {
             _magnifierView = [[GiMagnifierView alloc]init];
@@ -671,11 +802,13 @@ GiColor CGColorToGiColor(CGColorRef color);
 - (BOOL)gesturePost:(UIGestureRecognizer*)sender {
     if (sender.state == UIGestureRecognizerStateBegan) {
         _points.clear();
+        [self onGestureBegan_:sender];
     }
     else if (sender.state >= UIGestureRecognizerStateEnded) {
         _touchCount = 0;
         _points.clear();
         [_magnifierView hide];
+        [self onGestureEnded_:sender];
     }
     
     return YES;

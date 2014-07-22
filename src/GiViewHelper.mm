@@ -6,7 +6,7 @@
 #import "GiViewImpl.h"
 #import "GiImageCache.h"
 
-#define IOSLIBVERSION     14
+#define IOSLIBVERSION     15
 extern NSString* EXTIMAGENAMES[];
 
 GiColor CGColorToGiColor(CGColorRef color) {
@@ -65,13 +65,10 @@ static GiViewHelper *_sharedInstance = nil;
     return [NSString stringWithFormat:@"1.1.%d.%d", IOSLIBVERSION, GiCoreView::getVersion()];
 }
 
-+ (void)initialize {
++ (GiViewHelper *)sharedInstance {
     if (!_sharedInstance) {
         _sharedInstance = [[GiViewHelper alloc] init];
     }
-}
-
-+ (GiViewHelper *)sharedInstance {
     if (!_sharedInstance.view) {
         _sharedInstance.view = [GiPaintView activeView];
     }
@@ -79,18 +76,28 @@ static GiViewHelper *_sharedInstance = nil;
 }
 
 + (GiViewHelper *)sharedInstance:(GiPaintView *)view {
+    if (!_sharedInstance) {
+        _sharedInstance = [[GiViewHelper alloc] init];
+    }
     if (_sharedInstance.view != view) {
         _sharedInstance.view = view;
     }
     return _sharedInstance;
 }
 
-- (id)init {
-    return _sharedInstance ? nil : [super init];
+-(id)init{
+    if (self = [super init]) {
+    
+    }
+    return self;
 }
 
 - (void)dealloc {
     [super DEALLOC];
+}
+
+- (GiPaintView *)view {
+    return _view;
 }
 
 + (GiPaintView *)activeView {
@@ -98,8 +105,20 @@ static GiViewHelper *_sharedInstance = nil;
 }
 
 - (GiPaintView *)createGraphView:(CGRect)frame :(UIView *)parentView {
-    _view = [GiPaintView createGraphView:frame :parentView];
+    _view = [GiPaintView createGraphView:frame :parentView :0];
     return _view;
+}
+
+- (GiPaintView *)createGraphView:(CGRect)frame
+                          inView:(UIView *)parentView
+                           flags:(int)flags {
+    _view = [GiPaintView createGraphView:frame :parentView :flags];
+    return _view;
+}
+
+- (GiPaintView *)createDummyView:(CGSize)size {
+    return [self createGraphView:CGRectMake(0, 0, size.width, size.height)
+                          inView:nil flags:GIViewFlagsDummyView];
 }
 
 - (GiPaintView *)createMagnifierView:(CGRect)frame
@@ -272,6 +291,10 @@ static GiViewHelper *_sharedInstance = nil;
     return [_view coreView]->getShapeCount();
 }
 
+- (int)getUnlockedShapeCount {
+    return [_view coreView]->getUnlockedShapeCount();
+}
+
 - (int)selectedCount {
     return [_view coreView]->getSelectedShapeCount();
 }
@@ -370,6 +393,12 @@ static GiViewHelper *_sharedInstance = nil;
     }
 }
 
+- (void)eraseView {
+    @synchronized([_view locker]) {
+        [_view coreView]->setCommand("erasewnd");
+    }
+}
+
 - (UIImage *)snapshot {
     return [_view snapshot];
 }
@@ -416,6 +445,25 @@ static GiViewHelper *_sharedInstance = nil;
     return ret >= 0;
 }
 
+- (int)importSVGPath:(int)sid d:(NSString *)d {
+    long shapes = [_view coreView]->backShapes();
+    
+    sid = [_view coreView]->importSVGPath(shapes, sid, [d UTF8String]);
+    if (sid) {
+        [_view viewAdapter]->regenAll(true);
+    }
+    return sid;
+}
+
+- (NSString *)exportSVGPath:(int)sid {
+    __block NSString *ret = nil;
+    GiStringCallback c(^(NSString *s) {
+        ret = s;
+    });
+    [_view coreView]->exportSVGPath2(&c, [_view coreView]->backShapes(), sid);
+    return ret;
+}
+
 - (CGPoint)displayToModel:(CGPoint)point {
     mgvector<float> pt(point.x, point.y);
     if ([_view coreView]->displayToModel(pt))
@@ -435,6 +483,10 @@ static GiViewHelper *_sharedInstance = nil;
 
 - (BOOL)zoomToExtent {
     return [_view coreView]->zoomToExtent();
+}
+
+- (BOOL)zoomToExtent:(float)margin {
+    return [_view coreView]->zoomToExtent(margin);
 }
 
 - (BOOL)zoomToModel:(CGRect)rect {
@@ -632,15 +684,7 @@ static GiViewHelper *_sharedInstance = nil;
     return [_view coreView]->isPlaying();
 }
 
-- (BOOL)playPause {
-    return [_view coreView]->onPause(getTickCount());
-}
-
-- (BOOL)playResume {
-    return [_view coreView]->onResume(getTickCount());
-}
-
-- (long)getPlayTicks {
+- (long)getRecordTicks {
     return [_view coreView]->getRecordTick(false, getTickCount());
 }
 
