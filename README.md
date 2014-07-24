@@ -1,18 +1,18 @@
 # TouchVG for iOS
 
-This is a lightweight 2D vector drawing framework using [TouchVGCore](https://github.com/touchvg/vgcore) for iOS.
+This is a lightweight 2D vector drawing framework using [TouchVGCore](http://git.oschina.net/vg/vgcore) for iOS.
 
-Features described in [Online document](http://touchvg.github.io). Please visit [TouchVG Demo](https://github.com/touchvg/vgios-demo) to see more examples.
+Features described in [Online document](http://touchvg.github.io). Please visit [TouchVG Demo](http://git.oschina.net/vg/vgios-demo) to see more examples.
 
-![arch](http://touchvg.github.io/images/arch.svg)
+![arch](https://git.oschina.net/vg/touchvg.io/raw/master/images/arch.png)
 
-![iphone1](http://touchvg.github.io/images/iphone1.png) | ![iphone2](http://touchvg.github.io/images/iphone2.png)
+![iphone1](https://git.oschina.net/vg/touchvg.io/raw/master/images/iphone1.png) | ![iphone2](https://git.oschina.net/vg/touchvg.io/raw/master/images/iphone2.png)
 
 ## License
 
 This is an open source [LGPL 2.1](LICENSE.md) licensed project. It uses the following open source projects:
 
-- [TouchVGCore](https://github.com/touchvg/vgcore) (LGPL): Cross-platform vector drawing libraries using C++.
+- [TouchVGCore](http://git.oschina.net/vg/vgcore) (LGPL): Cross-platform vector drawing libraries using C++.
 - [SVGKit](https://github.com/SVGKit/SVGKit) (MIT): Display and interact with SVG Images with CoreAnimation on iOS.
 - [simple-svg](http://code.google.com/p/simple-svg) (BSD): A C++ header file for creating SVG files.
 - [rapidjson](https://github.com/Kanma/rapidjson) (MIT): A fast JSON parser/generator for C++ with both SAX/DOM style API.
@@ -86,12 +86,12 @@ Then type `pod install` or `pod update --no-repo-update`. Need to copy `podspec/
 
 # Add more shapes and commands
 
-- You can use [newproj.py](https://github.com/touchvg/DemoCmds/blob/master/newproj.py) to create library project containing your own shapes and commands. So the TouchVG and TouchVGCore libraries does not require changes.
+- You can use [newproj.py](http://git.oschina.net/vg/DemoCmds/blob/master/newproj.py) to create library project containing your own shapes and commands. So the TouchVG and TouchVGCore libraries does not require changes.
 
-  - Checkout and enter [DemoCmds](https://github.com/touchvg/DemoCmds) directory, then type `python newproj.py YourCmds`:
+  - Checkout and enter [DemoCmds](http://git.oschina.net/vg/DemoCmds) directory, then type `python newproj.py YourCmds`:
 
      ```shell
-     git clone https://github.com/touchvg/DemoCmds.git
+     git clone http://git.oschina.net/vg/DemoCmds.git
      cd DemoCmds
      python newproj.py MyCmds
      ```
