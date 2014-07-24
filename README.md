@@ -1,6 +1,7 @@
 # TouchVG for iOS
 
 This is a lightweight 2D vector drawing framework using [TouchVGCore](https://github.com/touchvg/vgcore) for iOS.
+It uses the CoreGraphics and UIKit frameworks to render shapes and handle gestures.
 
 Features described in [Online document](http://touchvg.github.io). Please visit [TouchVG Demo](https://github.com/touchvg/vgios-demo) to see more examples.
 
@@ -14,8 +15,6 @@ This is an open source [LGPL 2.1](LICENSE.md) licensed project. It uses the foll
 
 - [TouchVGCore](https://github.com/touchvg/vgcore) (LGPL): Cross-platform vector drawing libraries using C++.
 - [SVGKit](https://github.com/SVGKit/SVGKit) (MIT): Display and interact with SVG Images with CoreAnimation on iOS.
-- [simple-svg](http://code.google.com/p/simple-svg) (BSD): A C++ header file for creating SVG files.
-- [rapidjson](https://github.com/Kanma/rapidjson) (MIT): A fast JSON parser/generator for C++ with both SAX/DOM style API.
 - [iOS-Universal-Library-Template](https://github.com/michaeltyson/iOS-Universal-Library-Template): Use it to create static library project.
 
 ## How to Contribute
