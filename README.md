@@ -66,13 +66,13 @@ pod 'TouchVG'
 Or use the develop version:
 
 ```ruby
-pod 'TouchVG', :podspec => 'https://raw.githubusercontent.com/touchvg/vgios/develop/podspec/TouchVG.podspec'
+pod 'TouchVG', :podspec => 'http://git.oschina.net/vg/vgios/raw/develop/podspec/TouchVG.podspec'
 ```
 
 Or add the following to use SVG rendering feature with [SVGKit](https://github.com/SVGKit/SVGKit):
 
 ```ruby
-pod 'TouchVG-SVG', :podspec => 'https://raw.githubusercontent.com/touchvg/vgios/develop/podspec/TouchVG-SVG.podspec'
+pod 'TouchVG-SVG', :podspec => 'http://git.oschina.net/vg/vgios/raw/develop/podspec/TouchVG-SVG.podspec'
 ```
 
 Then type `pod install` or `pod update --no-repo-update`. Need to copy `podspec/SVGKit.podspec` to `~/.cocoapods/repos/master/Specs/SVGKit/2.0/` to use the lastest version of SVGKit.
