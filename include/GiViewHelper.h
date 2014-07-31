@@ -7,6 +7,8 @@
 
 @class GiPaintView;
 @protocol GiPaintViewDelegate;
+struct MgView;
+struct MgShapeFactory;
 
 //! iOS绘图视图辅助类
 /*! \ingroup GROUP_IOS
@@ -29,6 +31,11 @@
 
 - (GiPaintView *)view;                              //!< 返回视图对象
 - (long)cmdViewHandle;                              //!< 返回内核视图的句柄, MgView 指针
+
+#ifdef __cplusplus
+- (MgView *)cmdView;                                //!< 返回内核命令视图
+- (MgShapeFactory *)shapeFactory;                   //!< 返回图形工厂对象
+#endif
 
 @property(nonatomic, assign) NSString   *command;   //!< 当前命令名称
 @property (nonatomic)         float     lineWidth;  //!< 线宽，正数表示毫米单位，零表示1像素宽，负数表示像素单位

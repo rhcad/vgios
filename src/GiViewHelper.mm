@@ -5,8 +5,9 @@
 #import "GiViewHelper.h"
 #import "GiViewImpl.h"
 #import "GiImageCache.h"
+#include "mgview.h"
 
-#define IOSLIBVERSION     15
+#define IOSLIBVERSION     16
 extern NSString* EXTIMAGENAMES[];
 
 GiColor CGColorToGiColor(CGColorRef color) {
@@ -144,6 +145,14 @@ static GiViewHelper *_sharedInstance = nil;
 
 - (long)cmdViewHandle {
     return [_view coreView]->viewAdapterHandle();
+}
+
+- (MgView *)cmdView {
+    return MgView::fromHandle([_view coreView]->viewAdapterHandle());
+}
+
+- (MgShapeFactory *)shapeFactory {
+    return [self cmdView]->getShapeFactory();
 }
 
 - (NSString *)command {
