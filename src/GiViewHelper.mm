@@ -503,6 +503,11 @@ static GiViewHelper *_sharedInstance = nil;
                                          rect.size.width, rect.size.height);
 }
 
+- (BOOL)zoomPandx:(float)dxPixel dy:(float)dyPixel
+{
+    return [_view coreView]->zoomPan(dxPixel,dyPixel);
+}
+
 - (void)setZoomEnabled:(BOOL)enabled {
     [_view coreView]->setZoomEnabled([_view viewAdapter], enabled);
 }
