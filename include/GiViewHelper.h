@@ -79,7 +79,7 @@ struct MgShapeFactory;
 - (BOOL)zoomToExtent;                       //!< 放缩显示全部内容
 - (BOOL)zoomToExtent:(float)margin;         //!< 全部内容放缩显示到视图内缩后的区域
 - (BOOL)zoomToModel:(CGRect)rect;           //!< 放缩显示指定范围到视图区域
-- (BOOL)zoomPandx:(float)dxPixel dy:(float)dyPixel;//!< 平移
+- (BOOL)zoomPan:(CGVector)offPixel;        //!< 平移
 - (void)setZoomEnabled:(BOOL)enabled;       //!< 是否允许放缩显示
 
 - (int)addShapesForTest;                    //!< 添加测试图形
