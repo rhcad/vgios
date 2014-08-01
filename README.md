@@ -1,6 +1,7 @@
 # TouchVG for iOS
 
 This is a lightweight 2D vector drawing framework using [TouchVGCore](http://git.oschina.net/vg/vgcore) for iOS.
+It uses the CoreGraphics and UIKit frameworks to render shapes and handle gestures.
 
 Features described in [Online document](http://touchvg.github.io). Please visit [TouchVG Demo](http://git.oschina.net/vg/vgios-demo) to see more examples.
 
@@ -14,8 +15,6 @@ This is an open source [LGPL 2.1](LICENSE.md) licensed project. It uses the foll
 
 - [TouchVGCore](http://git.oschina.net/vg/vgcore) (LGPL): Cross-platform vector drawing libraries using C++.
 - [SVGKit](https://github.com/SVGKit/SVGKit) (MIT): Display and interact with SVG Images with CoreAnimation on iOS.
-- [simple-svg](http://code.google.com/p/simple-svg) (BSD): A C++ header file for creating SVG files.
-- [rapidjson](https://github.com/Kanma/rapidjson) (MIT): A fast JSON parser/generator for C++ with both SAX/DOM style API.
 - [iOS-Universal-Library-Template](https://github.com/michaeltyson/iOS-Universal-Library-Template): Use it to create static library project.
 
 ## How to Contribute
@@ -67,13 +66,13 @@ pod 'TouchVG'
 Or use the develop version:
 
 ```ruby
-pod 'TouchVG', :podspec => 'https://raw.githubusercontent.com/touchvg/vgios/develop/podspec/TouchVG.podspec'
+pod 'TouchVG', :podspec => 'http://git.oschina.net/vg/vgios/raw/develop/podspec/TouchVG.podspec'
 ```
 
 Or add the following to use SVG rendering feature with [SVGKit](https://github.com/SVGKit/SVGKit):
 
 ```ruby
-pod 'TouchVG-SVG', :podspec => 'https://raw.githubusercontent.com/touchvg/vgios/develop/podspec/TouchVG-SVG.podspec'
+pod 'TouchVG-SVG', :podspec => 'http://git.oschina.net/vg/vgios/raw/develop/podspec/TouchVG-SVG.podspec'
 ```
 
 Then type `pod install` or `pod update --no-repo-update`. Need to copy `podspec/SVGKit.podspec` to `~/.cocoapods/repos/master/Specs/SVGKit/2.0/` to use the lastest version of SVGKit.
