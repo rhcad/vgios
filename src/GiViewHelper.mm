@@ -86,13 +86,6 @@ static GiViewHelper *_sharedInstance = nil;
     return _sharedInstance;
 }
 
--(id)init{
-    if (self = [super init]) {
-    
-    }
-    return self;
-}
-
 - (void)dealloc {
     [super DEALLOC];
 }
@@ -501,6 +494,11 @@ static GiViewHelper *_sharedInstance = nil;
 - (BOOL)zoomToModel:(CGRect)rect {
     return [_view coreView]->zoomToModel(rect.origin.x, rect.origin.y,
                                          rect.size.width, rect.size.height);
+}
+
+- (BOOL)zoomPan:(CGVector)offPixel
+{
+    return [_view coreView]->zoomPan(offPixel.dx, offPixel.dy);
 }
 
 - (void)setZoomEnabled:(BOOL)enabled {
