@@ -359,7 +359,7 @@ GiColor CGColorToGiColor(CGColorRef color);
     
     if (!_adapter->renderInContext(UIGraphicsGetCurrentContext())) {
         _adapter->regenAll(false);
-    } else if (!(self.flags & GIViewFlagsNoDynDrawView)) {
+    } else if (!(self.flags & GIViewFlagsNotDynDraw)) {
         [GiDynDrawView draw:_adapter];
     }
 }
