@@ -115,6 +115,7 @@ struct MgShapeFactory;
 - (BOOL)hasImageShape;                      //!< 返回是否有容纳图像的图形对象
 - (int)findShapeByImageID:(NSString *)name; //!< 查找指定名称的图像对应的图形对象ID
 - (int)findShapeByTag:(int)tag;             //!< 查找指定Tag的图形对象ID
+- (BOOL)getImageSize:(float*)info shape:(int)sid;   //!< 获取图像的原始宽高、显示宽高、角度, info[5]
 - (NSArray *)getImageShapes;                //!< 遍历有容纳图像的图形对象
 - (void)setImagePath:(NSString *)path;      //!< 设置图像文件的默认路径(可以没有末尾的分隔符)，自动加载时用
 - (NSString *)getImagePath;                 //!< 返回图像文件的默认路径
