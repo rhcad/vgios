@@ -7,7 +7,8 @@
 #import "GiImageCache.h"
 #include "mgview.h"
 
-#define IOSLIBVERSION     16
+#define IOSLIBVERSION     17
+
 extern NSString* EXTIMAGENAMES[];
 
 GiColor CGColorToGiColor(CGColorRef color) {
@@ -600,6 +601,16 @@ static GiViewHelper *_sharedInstance = nil;
     long doc = [self acquireFrontDoc];
     int ret = [_view coreView]->findShapeByTag(doc, tag);
     [_view coreView]->releaseDoc(doc);
+    return ret;
+}
+
+- (BOOL)getImageSize:(float*)info shape:(int)sid {
+    mgvector<float> arr(5);
+    bool ret = [_view coreView]->getImageSize(arr, sid);
+    
+    for (int i = 0; i < 5; i++) {
+        info[i] = arr.get(i);
+    }
     return ret;
 }
 
