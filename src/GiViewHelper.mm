@@ -744,10 +744,11 @@ static GiViewHelper *_sharedInstance = nil;
         for (NSString *group in dict.allKeys) {
             NSDictionary *subd = dict[group];
             
-            if (subd && subd.count > 0) {
+            if (subd.count > 0) {
                 for (NSString *name in subd.allKeys) {
+                    NSString *value = [subd[name] description];
                     cv->setOption([group UTF8String], [name UTF8String],
-                                  [subd[name] UTF8String]);
+                                  [value UTF8String]);
                 }
             } else {
                 cv->setOption([group UTF8String], NULL, NULL);
