@@ -45,6 +45,8 @@ struct MgShapeFactory;
 @property (nonatomic)         float     lineAlpha;  //!< 线条透明度, 0-1
 @property (nonatomic, assign) UIColor   *fillColor; //!< 填充颜色，忽略透明度，clearColor或nil表示不填充
 @property (nonatomic)         float     fillAlpha;  //!< 填充透明度, 0-1
+@property (nonatomic, assign) NSDictionary *options;    //!< 绘图命令选项
+
 - (void)setContextEditing:(BOOL)editing;            //!< 线条属性是否正在动态修改
 - (BOOL)setCommand:(NSString *)name withParam:(NSString *)param;    //!< 指定名称和JSON串参数，启动命令
 - (BOOL)switchCommand;                              //!< 切换到下一命令
