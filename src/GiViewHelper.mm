@@ -7,7 +7,7 @@
 #import "GiImageCache.h"
 #include "mgview.h"
 
-#define IOSLIBVERSION     17
+#define IOSLIBVERSION     18
 
 extern NSString* EXTIMAGENAMES[];
 
@@ -50,6 +50,24 @@ struct GiImageFinderD : public MgFindImageCallback {
     }
 };
 
+struct GiOptionCallback : public MgOptionCallback {
+    NSMutableDictionary *rootDict;
+    
+    GiOptionCallback(NSMutableDictionary *dict) : rootDict(dict) {}
+    
+    virtual void onGetOption(const char* group, const char* name, const char* text) {
+        NSString *key = [NSString stringWithUTF8String:group];
+        NSMutableDictionary *dict = [rootDict objectForKey:key];
+        
+        if (!dict) {
+            dict = [NSMutableDictionary dictionary];
+            rootDict[key] = dict;
+        }
+        key = [NSString stringWithUTF8String:name];
+        dict[key] = [NSString stringWithUTF8String:text];
+    }
+};
+
 @interface GiViewHelper ()
 @property (nonatomic, WEAK) GiPaintView *view;
 @end
@@ -59,7 +77,7 @@ struct GiImageFinderD : public MgFindImageCallback {
 @synthesize shapeCount, selectedCount, selectedType, selectedShapeID, content;
 @synthesize changeCount, drawCount, displayExtent, boundingBox;
 @synthesize command, lineWidth, strokeWidth, lineColor, lineAlpha;
-@synthesize lineStyle, fillColor, fillAlpha;
+@synthesize lineStyle, fillColor, fillAlpha, options;
 
 static GiViewHelper *_sharedInstance = nil;
 
@@ -711,6 +729,34 @@ static GiViewHelper *_sharedInstance = nil;
 
 - (void)removeDelegate:(id<GiPaintViewDelegate>)d {
     [_view removeDelegate:d];
+}
+
+- (NSDictionary *)options {
+    GiOptionCallback c([NSMutableDictionary dictionary]);
+    [_view coreView]->traverseOptions(&c);
+    return c.rootDict;
+}
+
+- (void)setOptions:(NSDictionary *)dict {
+    GiCoreView *cv = [_view coreView];
+    
+    if (dict && dict.count > 0) {
+        for (NSString *group in dict.allKeys) {
+            NSDictionary *subd = dict[group];
+            
+            if (subd.count > 0) {
+                for (NSString *name in subd.allKeys) {
+                    NSString *value = [subd[name] description];
+                    cv->setOption([group UTF8String], [name UTF8String],
+                                  [value UTF8String]);
+                }
+            } else {
+                cv->setOption([group UTF8String], NULL, NULL);
+            }
+        }
+    } else {
+        cv->setOption(NULL, NULL, NULL);
+    }
 }
 
 @end
