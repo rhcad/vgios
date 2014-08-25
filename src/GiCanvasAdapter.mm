@@ -219,7 +219,7 @@ bool GiCanvasAdapter::clipPath()
     return !CGRectIsEmpty(rect);
 }
 
-bool GiCanvasAdapter::drawHandle(float x, float y, int type)
+bool GiCanvasAdapter::drawHandle(float x, float y, int type, float angle)
 {
     if (type >= 0) {
         NSString *name;
