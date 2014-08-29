@@ -38,7 +38,7 @@ bool GiCanvasAdapter::beginPaint(CGContextRef context, bool fast)
     CGContextSetShouldAntialias(_ctx, true);       // 两者都为true才反走样
     CGContextSetAllowsAntialiasing(_ctx, true);
     
-    CGContextSetFlatness(_ctx, fast ? 10 : 3);      // 平滑度为3达到精确和速度的平衡点
+    //CGContextSetFlatness(_ctx, fast ? 10 : 3);      // 平滑度为3达到精确和速度的平衡点
     CGContextSetInterpolationQuality(_ctx, kCGInterpolationLow);
     
     CGContextSetLineCap(_ctx, kCGLineCapRound);     // 圆端
