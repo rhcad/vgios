@@ -778,6 +778,14 @@ GiColor CGColorToGiColor(CGColorRef color);
         && _gestureEnabled && ![self onGestureShouldBegin_:sender]) {
         return NO;
     }
+    
+    if (!self.viewToMagnify && sender.state == UIGestureRecognizerStateBegan
+        && (_adapter->getFlags() & GIViewFlagsMagnifier)) {
+        if (_adapter->getFlags() & GIViewFlagsNoDynDrawView)
+            self.viewToMagnify = self;
+        else
+            self.viewToMagnify = self.superview;
+    }
     if (sender.state == UIGestureRecognizerStateBegan
         && [sender numberOfTouches] == 1
         && self.viewToMagnify && !self.mainView

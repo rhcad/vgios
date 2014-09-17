@@ -38,7 +38,7 @@ bool GiCanvasAdapter::beginPaint(CGContextRef context, bool fast)
     CGContextSetShouldAntialias(_ctx, true);       // 两者都为true才反走样
     CGContextSetAllowsAntialiasing(_ctx, true);
     
-    CGContextSetFlatness(_ctx, fast ? 10 : 3);      // 平滑度为3达到精确和速度的平衡点
+    //CGContextSetFlatness(_ctx, fast ? 10 : 3);      // 平滑度为3达到精确和速度的平衡点
     CGContextSetInterpolationQuality(_ctx, kCGInterpolationLow);
     
     CGContextSetLineCap(_ctx, kCGLineCapRound);     // 圆端
@@ -224,9 +224,12 @@ bool GiCanvasAdapter::drawHandle(float x, float y, int type, float angle)
     if (type >= 0) {
         NSString *name;
         
-        if (type < 6) {
+        if (type < 13) {
             NSString *names[] = { @"vgdot1.png", @"vgdot2.png", @"vgdot3.png",
-                @"vg_lock.png", @"vg_unlock.png", @"vg_back.png", @"vg_endedit.png" };
+                @"vg_lock.png", @"vg_unlock.png", @"vg_back.png", @"vg_endedit.png",
+                @"vgnode.png", @"vgcen.png", @"vgmid.png", @"vgquad.png",
+                @"vgcross.png", @"vgnear.png"
+            };
             name = [@"TouchVG.bundle" stringByAppendingPathComponent:names[type]];
         } else {
             name = [NSString stringWithFormat:@"vgdot%d.png", type];

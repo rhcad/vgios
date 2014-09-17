@@ -120,6 +120,7 @@ bool GiViewAdapter::renderInContext(CGContextRef ctx) {
     else {
         long gs = 0;
         mgvector<long> docs;
+        mgvector<int> ignoreIds;
         
         @synchronized(locker()) {
             if (_core->acquireFrontDocs(docs)) {
@@ -128,6 +129,9 @@ bool GiViewAdapter::renderInContext(CGContextRef ctx) {
                 _core->submitBackDoc(this, false);
                 gs = _core->acquireFrontDocs(docs) ? _core->acquireGraphics(this) : 0;
             }
+            if (gs && (_flags & GIViewFlagsNoDynDrawView)) {
+                _core->getSkipDrawIds(ignoreIds);
+            }
         }
         if (!gs) {
             return false;
@@ -135,7 +139,7 @@ bool GiViewAdapter::renderInContext(CGContextRef ctx) {
         
         GiCanvasAdapter canvas(imageCache());
         if (canvas.beginPaint(ctx)) {
-            _core->drawAll(docs, gs, &canvas);
+            _core->drawAll(docs, gs, &canvas, ignoreIds);
             canvas.endPaint();
         }
         GiCoreView::releaseDocs(docs);
