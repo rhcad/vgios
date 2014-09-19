@@ -47,6 +47,7 @@ struct MgShapeFactory;
 @property (nonatomic)         float     fillAlpha;  //!< 填充透明度, 0-1
 @property (nonatomic, assign) NSDictionary *options;    //!< 绘图命令选项
 
+- (void)setOption:(id)value forKey:(NSString *)key; //!< 设置绘图命令选项
 - (void)setContextEditing:(BOOL)editing;            //!< 线条属性是否正在动态修改
 - (BOOL)setCommand:(NSString *)name withParam:(NSString *)param;    //!< 指定名称和JSON串参数，启动命令
 - (BOOL)switchCommand;                              //!< 切换到下一命令

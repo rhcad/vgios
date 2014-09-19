@@ -393,7 +393,7 @@ void GiViewAdapter::stopRegen() {
     _view = nil;
 }
 
-void GiViewAdapter::setFlags(int flags)
+int GiViewAdapter::setFlags(int flags)
 {
     int old = _flags;
     
@@ -420,6 +420,8 @@ void GiViewAdapter::setFlags(int flags)
     if ((old & GIViewFlagsNotDynDraw) != (flags & GIViewFlagsNotDynDraw)) {
         [getDynView(false) setNeedsDisplay];
     }
+    
+    return old;
 }
 
 UIView *GiViewAdapter::getDynView(bool autoCreate) {

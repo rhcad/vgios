@@ -209,6 +209,7 @@ GiColor CGColorToGiColor(CGColorRef color);
 @synthesize imageCache;
 @synthesize delegates;
 @synthesize flags;
+@synthesize contextActionEnabled;
 
 #pragma mark - Respond to low-memory warnings
 + (void)initialize {
@@ -336,7 +337,13 @@ GiColor CGColorToGiColor(CGColorRef color);
 }
 
 - (void)setFlags:(int)f {
-    _adapter->setFlags(f);
+    int old = _adapter->setFlags(f);
+    
+    if ((old & GIViewFlagsMagnifier) && !(f & GIViewFlagsMagnifier)) {
+        [_magnifierView hide];
+        [_magnifierView RELEASE];
+        _magnifierView = nil;
+    }
 }
 
 - (void)didEnteredBackground:(NSNotification*)notification {
@@ -528,6 +535,10 @@ GiColor CGColorToGiColor(CGColorRef color);
             break;
         }
     }
+}
+
+- (BOOL)contextActionEnabled {
+    return _adapter->getContextActionEnabled();
 }
 
 - (void)setContextActionEnabled:(BOOL)enabled {

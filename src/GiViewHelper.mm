@@ -55,16 +55,17 @@ struct GiOptionCallback : public MgOptionCallback {
     
     GiOptionCallback(NSMutableDictionary *dict) : rootDict(dict) {}
     
-    virtual void onGetOption(const char* group, const char* name, const char* text) {
-        NSString *key = [NSString stringWithUTF8String:group];
-        NSMutableDictionary *dict = [rootDict objectForKey:key];
-        
-        if (!dict) {
-            dict = [NSMutableDictionary dictionary];
-            rootDict[key] = dict;
-        }
-        key = [NSString stringWithUTF8String:name];
-        dict[key] = [NSString stringWithUTF8String:text];
+    virtual void onGetOptionBool(const char* name, bool value) {
+        NSString *key = [NSString stringWithUTF8String:name];
+        rootDict[key] = [NSNumber numberWithBool:value];
+    }
+    virtual void onGetOptionInt(const char* name, int value) {
+        NSString *key = [NSString stringWithUTF8String:name];
+        rootDict[key] = [NSNumber numberWithInt:value];
+    }
+    virtual void onGetOptionFloat(const char* name, float value) {
+        NSString *key = [NSString stringWithUTF8String:name];
+        rootDict[key] = [NSNumber numberWithFloat:value];
     }
 };
 
@@ -734,6 +735,8 @@ static GiViewHelper *_sharedInstance = nil;
 - (NSDictionary *)options {
     GiOptionCallback c([NSMutableDictionary dictionary]);
     [_view coreView]->traverseOptions(&c);
+    c.onGetOptionBool("contextActionEnabled", _view.contextActionEnabled);
+    c.onGetOptionBool("showMagnifier", !!(_view.flags & GIViewFlagsMagnifier));
     return c.rootDict;
 }
 
@@ -741,21 +744,44 @@ static GiViewHelper *_sharedInstance = nil;
     GiCoreView *cv = [_view coreView];
     
     if (dict && dict.count > 0) {
-        for (NSString *group in dict.allKeys) {
-            NSDictionary *subd = dict[group];
+        NSNumber *num = dict[@"contextActionEnabled"];
+        if (num) {
+            _view.contextActionEnabled = [num boolValue];
+            [_view hideContextActions];
+            return;
+        }
+        num = dict[@"showMagnifier"];
+        if (num) {
+            if ([num boolValue])
+                _view.flags |= GIViewFlagsMagnifier;
+            else
+                _view.flags &= ~GIViewFlagsMagnifier;
+            return;
+        }
+        
+        for (NSString *name in dict.allKeys) {
+            num = dict[name];
             
-            if (subd.count > 0) {
-                for (NSString *name in subd.allKeys) {
-                    NSString *value = [subd[name] description];
-                    cv->setOption([group UTF8String], [name UTF8String],
-                                  [value UTF8String]);
-                }
+            if (strcmp([num objCType], @encode(BOOL)) == 0) {
+                cv->setOptionBool([name UTF8String], [num boolValue]);
+            } else if (strcmp([num objCType], @encode(int)) == 0) {
+                cv->setOptionInt([name UTF8String], [num intValue]);
+            } else if (strcmp([num objCType], @encode(float)) == 0) {
+                cv->setOptionFloat([name UTF8String], [num floatValue]);
             } else {
-                cv->setOption([group UTF8String], NULL, NULL);
+                NSLog(@"Unsupported number type: %@", name);
             }
         }
     } else {
-        cv->setOption(NULL, NULL, NULL);
+        cv->setOptionBool(NULL, false);
+    }
+}
+
+- (void)setOption:(id)value forKey:(NSString *)key {
+    if (key) {
+        self.options = @{ key : value };
+    } else {
+        [_view coreView]->setOptionBool(NULL, false);
     }
 }
 
