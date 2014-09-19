@@ -38,13 +38,13 @@ struct MgShapeFactory;
 #endif
 
 @property(nonatomic, assign) NSString   *command;   //!< 当前命令名称
-@property (nonatomic)         float     lineWidth;  //!< 线宽，正数表示毫米单位，零表示1像素宽，负数表示像素单位
-@property (nonatomic)         float     strokeWidth; //!< 像素单位的线宽，总是为正数
+@property (nonatomic)         CGFloat   lineWidth;  //!< 线宽，正数表示毫米单位，零表示1像素宽，负数表示像素单位
+@property (nonatomic)         CGFloat   strokeWidth; //!< 像素单位的线宽，总是为正数
 @property (nonatomic)       GILineStyle lineStyle;  //!< 线型
 @property (nonatomic, assign) UIColor   *lineColor; //!< 线条颜色，忽略透明度，clearColor或nil表示不画线条
-@property (nonatomic)         float     lineAlpha;  //!< 线条透明度, 0-1
+@property (nonatomic)         CGFloat   lineAlpha;  //!< 线条透明度, 0-1
 @property (nonatomic, assign) UIColor   *fillColor; //!< 填充颜色，忽略透明度，clearColor或nil表示不填充
-@property (nonatomic)         float     fillAlpha;  //!< 填充透明度, 0-1
+@property (nonatomic)         CGFloat   fillAlpha;  //!< 填充透明度, 0-1
 @property (nonatomic, assign) NSDictionary *options;    //!< 绘图命令选项
 
 - (void)setOption:(id)value forKey:(NSString *)key; //!< 设置绘图命令选项
@@ -63,6 +63,7 @@ struct MgShapeFactory;
 @property(nonatomic, readonly) CGRect displayExtent; //!< 所有图形的显示范围，视图坐标
 @property(nonatomic, readonly) CGRect boundingBox;  //!< 选择包络框，视图坐标
 @property(nonatomic, assign) NSString *content;     //!< 图形的JSON内容
+@property(nonatomic) BOOL zoomEnabled;              //!< 是否允许放缩显示
 
 - (BOOL)loadFromFile:(NSString *)vgfile readOnly:(BOOL)r;   //!< 从JSON文件中只读加载图形，自动改后缀名为.vg
 - (BOOL)loadFromFile:(NSString *)vgfile;    //!< 从JSON文件中加载图形，自动改后缀名为.vg
@@ -83,7 +84,6 @@ struct MgShapeFactory;
 - (BOOL)zoomToExtent:(float)margin;         //!< 全部内容放缩显示到视图内缩后的区域
 - (BOOL)zoomToModel:(CGRect)rect;           //!< 放缩显示指定范围到视图区域
 - (BOOL)zoomPan:(CGVector)offPixel;         //!< 图形向右上平移显示，点单位
-- (void)setZoomEnabled:(BOOL)enabled;       //!< 是否允许放缩显示
 
 - (int)addShapesForTest;                    //!< 添加测试图形
 - (void)clearCachedData;                    //!< 释放临时数据内存

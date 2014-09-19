@@ -14,7 +14,7 @@ class GiViewAdapter;
 
 //! iOS绘图视图类
 /*! \ingroup GROUP_IOS
-    \see GiPaintViewDelegate
+    \see GiPaintViewDelegate, GiPaintViewXIB
  */
 @interface GiPaintView : UIView<UIGestureRecognizerDelegate>
 
@@ -30,7 +30,7 @@ class GiViewAdapter;
 @property(nonatomic, readonly) GiPaintView          *mainView;                  //!< 放大镜对应的主视图
 @property(nonatomic, assign)   UIView               *viewToMagnify;             //!< 待放大的视图
 @property(nonatomic, readonly) NSArray              *delegates;                 //!< GiPaintViewDelegate
-@property(nonatomic)           int flags;               //!< 由 GIViewFlags 按位组成的视图特性标志
+@property(nonatomic, assign)   NSInteger            flags; //!< 由 GIViewFlags 按位组成的视图特性标志
 @property(nonatomic, assign)   BOOL                 contextActionEnabled;       //!< 是否允许上下文操作
 
 //! 创建普通图形视图，并添加到父视图、设置为当前视图，不需要额外释放

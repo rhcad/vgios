@@ -7,7 +7,7 @@
 #import "GiImageCache.h"
 #include "mgview.h"
 
-#define IOSLIBVERSION     20
+#define IOSLIBVERSION     21
 
 extern NSString* EXTIMAGENAMES[];
 
@@ -78,7 +78,7 @@ struct GiOptionCallback : public MgOptionCallback {
 @synthesize shapeCount, selectedCount, selectedType, selectedShapeID, content;
 @synthesize changeCount, drawCount, displayExtent, boundingBox;
 @synthesize command, lineWidth, strokeWidth, lineColor, lineAlpha;
-@synthesize lineStyle, fillColor, fillAlpha, options;
+@synthesize lineStyle, fillColor, fillAlpha, options, zoomEnabled;
 
 static GiViewHelper *_sharedInstance = nil;
 
@@ -197,22 +197,22 @@ static GiViewHelper *_sharedInstance = nil;
     EXTIMAGENAMES[i] = nil;
 }
 
-- (float)lineWidth {
+- (CGFloat)lineWidth {
     float w = [_view coreView]->getContext(false).getLineWidth();
     return w > 1e-6f ? 100.f * w : w;
 }
 
-- (void)setLineWidth:(float)value {
+- (void)setLineWidth:(CGFloat)value {
     [_view coreView]->getContext(true).setLineWidth(value > 1e-6f ? value / 100.f : value, true);
     [_view coreView]->setContext(GiContext::kLineWidth);
 }
 
-- (float)strokeWidth {
+- (CGFloat)strokeWidth {
     GiContext& ctx = [_view coreView]->getContext(false);
     return [_view coreView]->calcPenWidth([_view viewAdapter], ctx.getLineWidth());
 }
 
-- (void)setStrokeWidth:(float)value {
+- (void)setStrokeWidth:(CGFloat)value {
     [_view coreView]->getContext(true).setLineWidth(-fabsf(value), true);
     [_view coreView]->setContext(GiContext::kLineWidth);
 }
@@ -258,11 +258,11 @@ static GiViewHelper *_sharedInstance = nil;
     [_view coreView]->setContext(c.a ? GiContext::kLineRGB : GiContext::kLineARGB);
 }
 
-- (float)lineAlpha {
+- (CGFloat)lineAlpha {
     return (float)[_view coreView]->getContext(false).getLineAlpha() / 255.f;
 }
 
-- (void)setLineAlpha:(float)value {
+- (void)setLineAlpha:(CGFloat)value {
     [_view coreView]->getContext(true).setLineAlpha((int)lroundf(value * 255.f));
     [_view coreView]->setContext(GiContext::kLineAlpha);
 }
@@ -278,11 +278,11 @@ static GiViewHelper *_sharedInstance = nil;
     [_view coreView]->setContext(c.a ? GiContext::kFillRGB : GiContext::kFillARGB);
 }
 
-- (float)fillAlpha {
+- (CGFloat)fillAlpha {
     return (float)[_view coreView]->getContext(false).getFillAlpha() / 255.f;
 }
 
-- (void)setFillAlpha:(float)value {
+- (void)setFillAlpha:(CGFloat)value {
     [_view coreView]->getContext(true).setFillAlpha((int)lroundf(value * 255.f));
     [_view coreView]->setContext(GiContext::kFillAlpha);
 }
@@ -518,6 +518,10 @@ static GiViewHelper *_sharedInstance = nil;
 
 - (BOOL)zoomPan:(CGVector)offPixel {
     return [_view coreView]->zoomPan(offPixel.dx, offPixel.dy);
+}
+
+- (BOOL)zoomEnabled {
+    return [_view coreView]->isZoomEnabled([_view viewAdapter]);
 }
 
 - (void)setZoomEnabled:(BOOL)enabled {

@@ -83,6 +83,7 @@ public:
         unsigned int didDynDrawEnded:1;
         unsigned int didShapesRecorded:1;
         unsigned int didShapeDeleted:1;
+        unsigned int didCompositeWillEdit:1;
         unsigned int didShapeClicked:1;
         unsigned int didGestureShouldBegin:1;
         unsigned int didGestureBegan:1;
@@ -135,6 +136,7 @@ public:
     virtual void contentChanged();
     virtual void dynamicChanged();
     virtual void shapeDeleted(int sid);
+    virtual bool compositeShapeWillEdit(int sid);
     virtual bool shapeClicked(int sid, int tag, float x, float y);
     virtual void showMessage(const char* text);
     virtual void getLocalizedString(const char* name, MgStringCallback* result);
