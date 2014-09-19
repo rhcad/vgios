@@ -106,6 +106,14 @@ static GiViewHelper *_sharedInstance = nil;
     return _sharedInstance;
 }
 
+- (id)initWithView:(GiPaintView *)view {
+    self = [super init];
+    if (self) {
+        _view = view;
+    }
+    return self;
+}
+
 - (void)dealloc {
     [super DEALLOC];
 }

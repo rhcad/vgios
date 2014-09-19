@@ -4,7 +4,14 @@
 
 #import "GiViewHelper.h"
 #import "GiPaintViewXIB.h"
+#include "ARCMacro.h"
 #include "mgview.h"
+
+@interface GiPaintViewXIB () {
+    GiViewHelper    *hlp;
+}
+
+@end
 
 @implementation GiPaintViewXIB
 
@@ -13,33 +20,46 @@
 @synthesize options, content, path, zoomEnabled;
 @synthesize extent, zoomExtent, viewScale, viewCenter, modelScale;
 
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        hlp = [[GiViewHelper alloc]initWithView:self];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [hlp RELEASE];
+    [super DEALLOC];
+}
+
 - (NSString *)command {
-    return [GiViewHelper sharedInstance:self].command;
+    return hlp.command;
 }
 
 - (void)setCommand:(NSString *)value {
-    [GiViewHelper sharedInstance:self].command = value;
+    hlp.command = value;
 }
 
 - (CGFloat)lineWidth {
-    return [GiViewHelper sharedInstance:self].lineWidth;
+    return hlp.lineWidth;
 }
 
 - (void)setLineWidth:(CGFloat)value {
-    [GiViewHelper sharedInstance:self].lineWidth = value;
+    hlp.lineWidth = value;
 }
 
 - (CGFloat)strokeWidth {
-    return [GiViewHelper sharedInstance:self].strokeWidth;
+    return hlp.strokeWidth;
 }
 
 - (void)setStrokeWidth:(CGFloat)value {
-    [GiViewHelper sharedInstance:self].strokeWidth = value;
+    hlp.strokeWidth = value;
 }
 
 - (NSString *)lineStyle {
     NSString *arr[] = { @"solid", @"dash", @"dot", @"dashdot", @"dashdotdot", @"null" };
-    int n = [GiViewHelper sharedInstance:self].lineStyle;
+    int n = hlp.lineStyle;
     return arr[n >= 0 && n < 6 ? n : 0];
 }
 
@@ -47,93 +67,91 @@
     NSString *arr[] = { @"solid", @"dash", @"dot", @"dashdot", @"dashdotdot", @"null", nil };
     for (int i = 0; arr[i]; i++) {
         if ([arr[i] isEqualToString:value]) {
-            [GiViewHelper sharedInstance:self].lineStyle = (GILineStyle)i;
+            hlp.lineStyle = (GILineStyle)i;
             break;
         }
     }
 }
 
 - (UIColor  *)lineColor {
-    return [GiViewHelper sharedInstance:self].lineColor;
+    return hlp.lineColor;
 }
 
 - (void)setLineColor:(UIColor *)value {
-    [GiViewHelper sharedInstance:self].lineColor = value;
+    hlp.lineColor = value;
 }
 
 - (CGFloat)lineAlpha {
-    return [GiViewHelper sharedInstance:self].lineAlpha;
+    return hlp.lineAlpha;
 }
 
 - (void)setLineAlpha:(CGFloat)value {
-    [GiViewHelper sharedInstance:self].lineAlpha = value;
+    hlp.lineAlpha = value;
 }
 
 - (UIColor  *)fillColor {
-    return [GiViewHelper sharedInstance:self].fillColor;
+    return hlp.fillColor;
 }
 
 - (void)setFillColor:(UIColor *)value {
-    [GiViewHelper sharedInstance:self].fillColor = value;
+    hlp.fillColor = value;
 }
 
 - (CGFloat)fillAlpha {
-    return [GiViewHelper sharedInstance:self].fillAlpha;
+    return hlp.fillAlpha;
 }
 
 - (void)setFillAlpha:(CGFloat)value {
-    [GiViewHelper sharedInstance:self].fillAlpha = value;
+    hlp.fillAlpha = value;
 }
 
 - (NSDictionary *)options {
-    return [GiViewHelper sharedInstance:self].options;
+    return hlp.options;
 }
 
 - (void)setOptions:(NSDictionary *)value {
-    [GiViewHelper sharedInstance:self].options = value;
+    hlp.options = value;
 }
 
 - (NSString *)content {
-    return [GiViewHelper sharedInstance:self].content;
+    return hlp.content;
 }
 
 - (void)setContent:(NSString *)value {
-    [GiViewHelper sharedInstance:self].content = value;
+    hlp.content = value;
 }
 
 - (NSString *)path {
-    GiViewHelper *hlp = [GiViewHelper sharedInstance:self];
     return [hlp exportSVGPath:hlp.selectedShapeID];
 }
 
 - (void)setPath:(NSString *)value {
-    GiViewHelper *hlp = [GiViewHelper sharedInstance:self];
     [hlp importSVGPath:hlp.selectedShapeID d:value];
 }
 
 - (CGRect)extent {
-    MgView *view = [GiViewHelper sharedInstance:self].cmdView;
+    MgView *view = hlp.cmdView;
     Box2d rect(view->shapes()->getExtent());
     return CGRectMake(rect.xmin, rect.ymin, rect.width(), rect.height());
 }
 
 - (CGRect)zoomExtent {
-    MgView *view = [GiViewHelper sharedInstance:self].cmdView;
+    MgView *view = hlp.cmdView;
     Box2d rect(view->xform()->getWndRectM());
     return CGRectMake(rect.xmin, rect.ymin, rect.width(), rect.height());
 }
 
 - (void)setZoomExtent:(CGRect)value {
-    [[GiViewHelper sharedInstance:self] zoomToModel:value];
+    [hlp zoomToModel:value];
 }
 
 - (CGFloat)viewScale {
-    MgView *view = [GiViewHelper sharedInstance:self].cmdView;
+    MgView *view = hlp.cmdView;
     return view->xform()->getViewScale();
 }
 
 - (void)setViewScale:(CGFloat)value {
-    MgView *view = [GiViewHelper sharedInstance:self].cmdView;
+    MgView *view = hlp.cmdView;
     
     if (view->xform()->zoomScale(value)) {
         view->regenAll(false);
@@ -141,13 +159,13 @@
 }
 
 - (CGPoint)viewCenter {
-    MgView *view = [GiViewHelper sharedInstance:self].cmdView;
+    MgView *view = hlp.cmdView;
     Point2d pt(view->xform()->getCenterW());
     return CGPointMake(pt.x, pt.y);
 }
 
 - (void)setViewCenter:(CGPoint)value {
-    MgView *view = [GiViewHelper sharedInstance:self].cmdView;
+    MgView *view = hlp.cmdView;
     
     if (view->xform()->zoomTo(Point2d(value.x, value.y))) {
         view->regenAll(false);
@@ -155,13 +173,13 @@
 }
 
 - (CGSize)modelScale {
-    MgView *view = [GiViewHelper sharedInstance:self].cmdView;
+    MgView *view = hlp.cmdView;
     Matrix2d mat(view->xform()->modelToWorld());
     return CGSizeMake(mat.m11, mat.m22);
 }
 
 - (void)setModelScale:(CGSize)value {
-    MgView *view = [GiViewHelper sharedInstance:self].cmdView;
+    MgView *view = hlp.cmdView;
     Matrix2d mat(Matrix2d::scaling(value.width, value.height));
     
     if (view->xform()->setModelTransform(mat)) {
@@ -170,11 +188,11 @@
 }
 
 - (BOOL)zoomEnabled {
-    return [GiViewHelper sharedInstance:self].zoomEnabled;
+    return hlp.zoomEnabled;
 }
 
 - (void)setZoomEnabled:(BOOL)enabled {
-    [GiViewHelper sharedInstance:self].zoomEnabled = enabled;
+    hlp.zoomEnabled = enabled;
 }
 
 @end

@@ -337,7 +337,7 @@ GiColor CGColorToGiColor(CGColorRef color);
 }
 
 - (void)setFlags:(NSInteger)f {
-    int old = _adapter->setFlags(f);
+    int old = _adapter->setFlags((int)f);
     
     if ((old & GIViewFlagsMagnifier) && !(f & GIViewFlagsMagnifier)) {
         [_magnifierView hide];

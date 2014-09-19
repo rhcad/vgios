@@ -12,6 +12,7 @@ struct MgShapeFactory;
 
 //! iOS绘图视图辅助类
 /*! \ingroup GROUP_IOS
+    \note sharedInstance 单实例对象用于在函数内临时使用。用作类的成员变量则应使用 init 或 initWithView 方法。
  */
 @interface GiViewHelper : NSObject
 
@@ -27,6 +28,7 @@ struct MgShapeFactory;
 - (GiPaintView *)createMagnifierView:(CGRect)frame refView:(GiPaintView *)refView
                           parentView:(UIView *)parentView;  //!< 创建放大镜视图(不需要额外释放)，并记到本类
 - (GiPaintView *)createDummyView:(CGSize)size;      //!< 创建不使用交互命令的临时隐藏视图，需要 removeFromSuperview
+- (id)initWithView:(GiPaintView *)view;             //!< 用于构造非单实例对象
 + (void)removeSubviews:(UIView *)owner;             //!< 关闭视图，用在拥有者的 removeFromSuperview 中
 
 - (GiPaintView *)view;                              //!< 返回视图对象
