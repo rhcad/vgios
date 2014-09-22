@@ -4,6 +4,9 @@
 
 #import "GiPaintView.h"
 
+//! 可在XIB和StoryBoard中指定属性的的绘图视图类
+/*! \ingroup GROUP_IOS
+ */
 @interface GiPaintViewXIB : GiPaintView
 
 //@property BOOL        gestureEnabled;         // 是否允许触摸交互

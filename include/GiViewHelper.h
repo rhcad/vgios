@@ -13,6 +13,7 @@ struct MgShapeFactory;
 //! iOS绘图视图辅助类
 /*! \ingroup GROUP_IOS
     \note sharedInstance 单实例对象用于在函数内临时使用。用作类的成员变量则应使用 init 或 initWithView 方法。
+    可使用本类创建绘图视图，或者使用 GiPaintViewXIB 类在XIB和StoryBoard中创建绘图视图。
  */
 @interface GiViewHelper : NSObject
 
