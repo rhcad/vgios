@@ -20,7 +20,7 @@
 - (void)onDynDrawEnded:(id)view;        //!< 动态绘图完成的通知
 - (void)onShapesRecorded:(NSDictionary *)info;  //!< 录制的通知
 - (void)onShapeDeleted:(id)num;         //!< 图形已删除的通知, [NSNumber intValue]
-- (BOOL)onCompositeShapeWillEdit:(id)view;      //!< 组合图形将要编辑的通知
+- (BOOL)onShapeDblClick:(id)view;       //!< 图形双击编辑的通知
 - (BOOL)onShapeClicked:(NSDictionary *)info;    //!< 图形点击的通知
 
 - (BOOL)onGestureShouldBegin:(UIGestureRecognizer *)g;    //!< 手势生效前的判断

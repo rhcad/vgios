@@ -695,16 +695,16 @@ void GiViewAdapter::shapeDeleted(int sid)
     }
 }
 
-bool GiViewAdapter::compositeShapeWillEdit(int sid)
+bool GiViewAdapter::shapeDblClick(int type, int sid)
 {
-    for (size_t i = 0; i < delegates.size() && respondsTo.didCompositeWillEdit; i++) {
-        if ([delegates[i] respondsToSelector:@selector(onCompositeShapeWillEdit:)]
-            && [delegates[i] onCompositeShapeWillEdit:_view]) {
+    for (size_t i = 0; i < delegates.size() && respondsTo.didShapeDblClick; i++) {
+        if ([delegates[i] respondsToSelector:@selector(onShapeDblClick:)]
+            && [delegates[i] onShapeDblClick:_view]) {
             return true;
         }
     }
-    if ([_view respondsToSelector:@selector(onCompositeShapeWillEdit:)]
-        && [_view performSelector:@selector(onCompositeShapeWillEdit:) withObject:_view]) {
+    if ([_view respondsToSelector:@selector(onShapeDblClick:)]
+        && [_view performSelector:@selector(onShapeDblClick:) withObject:_view]) {
         return true;
     }
     return false;

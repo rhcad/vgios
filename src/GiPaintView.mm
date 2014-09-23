@@ -521,7 +521,7 @@ GiColor CGColorToGiColor(CGColorRef color);
         _adapter->respondsTo.didDynDrawEnded |= [d respondsToSelector:@selector(onDynDrawEnded:)];
         _adapter->respondsTo.didShapesRecorded |= [d respondsToSelector:@selector(onShapesRecorded:)];
         _adapter->respondsTo.didShapeDeleted |= [d respondsToSelector:@selector(onShapeDeleted:)];
-        _adapter->respondsTo.didCompositeWillEdit |= [d respondsToSelector:@selector(onCompositeShapeWillEdit:)];
+        _adapter->respondsTo.didShapeDblClick |= [d respondsToSelector:@selector(onShapeDblClick:)];
         _adapter->respondsTo.didShapeClicked |= [d respondsToSelector:@selector(onShapeClicked:)];
         _adapter->respondsTo.didGestureShouldBegin |= [d respondsToSelector:@selector(onGestureShouldBegin:)];
         _adapter->respondsTo.didGestureBegan |= [d respondsToSelector:@selector(onGestureBegan:)];
