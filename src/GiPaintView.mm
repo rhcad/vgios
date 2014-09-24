@@ -436,7 +436,7 @@ GiColor CGColorToGiColor(CGColorRef color);
 }
 
 - (UIImage *)snapshot {
-    if (!_adapter->isMainThread()) {
+    if (![NSThread isMainThread]) {
         return [self snapshotCG];
     }
     

@@ -8,35 +8,56 @@
 //  Copyright (c) 2014 Zhang Yungui <github.com/rhcad>
 //
 
-#ifndef __IPHONE_7_0
 #import "NSString+Drawing.h"
 
-@implementation NSString (NSStringDrawing)
+@implementation NSString (NSStringDrawing6)
 
-- (CGSize)sizeWithAttributes:(NSDictionary *)attrs {
+- (BOOL)isIos7 {
+    static dispatch_once_t onceToken;
+    static bool ios7 = false;
+    
+    dispatch_once(&onceToken, ^{
+        ios7 = [self respondsToSelector:@selector(sizeWithAttributes:)];
+    });
+    
+    return ios7;
+}
+
+- (CGSize)sizeWithAttributes6:(NSDictionary *)attrs {
+#ifdef __IPHONE_7_0
+    if ([self isIos7]) return [self sizeWithAttributes:attrs];
+#endif
     return [self sizeWithFont:attrs[NSFontAttributeName]];
 }
 
-- (void)drawAtPoint:(CGPoint)point withAttributes:(NSDictionary *)attrs {
+- (void)drawAtPoint6:(CGPoint)point withAttributes:(NSDictionary *)attrs {
+#ifdef __IPHONE_7_0
+    if ([self isIos7]) [self drawAtPoint:point withAttributes:attrs]; else
+#endif
     [self drawAtPoint:point withFont:attrs[NSFontAttributeName]];
 }
 
-- (void)drawInRect:(CGRect)rect withAttributes:(NSDictionary *)attrs {
+- (void)drawInRect6:(CGRect)rect withAttributes:(NSDictionary *)attrs {
+#ifdef __IPHONE_7_0
+    if ([self isIos7]) { [self drawInRect:rect withAttributes:attrs]; return; }
+#endif
     NSParagraphStyle *paraStyle = attrs[NSParagraphStyleAttributeName];
     
     [self drawInRect:rect withFont:attrs[NSFontAttributeName]
        lineBreakMode:paraStyle.lineBreakMode
            alignment:paraStyle.alignment];
-    [self boundingRectWithSize:options:attributes:context:];
 }
 
-- (CGRect)boundingRectWithSize:(CGSize)size
-                       options:(NSStringDrawingOptions)options
-                    attributes:(NSDictionary *)attributes
-                       context:(NSStringDrawingContext *)context {
+- (CGRect)boundingRectWithSize6:(CGSize)size
+                        options:(NSStringDrawingOptions)options
+                     attributes:(NSDictionary *)attrs
+                        context:(NSStringDrawingContext *)context {
+#ifdef __IPHONE_7_0
+    if ([self isIos7]) return [self boundingRectWithSize:size options:options
+                                              attributes:attrs context:context];
+#endif
     size = [self sizeWithFont:attrs[NSFontAttributeName] constrainedToSize:size];
     return CGRectMake(0, 0, size.width, size.height);
 }
 
 @end
-#endif

@@ -147,7 +147,7 @@ bool GiViewAdapter::renderInContext(CGContextRef ctx) {
         for (int i = 0; i < APPENDSIZE; i++)
             _appendIDs[i] = 0;
         
-        if (isMainThread() && ++_regenCount == 1) {
+        if ([NSThread isMainThread] && ++_regenCount == 1) {
             onFirstRegen();
         }
     }
@@ -432,7 +432,7 @@ UIView *GiViewAdapter::getDynView(bool autoCreate) {
         } else {
             _dynview = [[GiDynDrawView alloc]initView:_view.frame :this];
             _dynview.autoresizingMask = _view.autoresizingMask;
-            if (isMainThread()) {
+            if ([NSThread isMainThread]) {
                 [_view.superview addSubview:_dynview];
                 [_view.superview sendSubviewToBack:_dynview];
                 [_view.superview sendSubviewToBack:_view];
@@ -469,11 +469,6 @@ void GiViewAdapter::redraw(bool changed) {
 bool GiViewAdapter::canShowMagnifier() const {
     return (!_core->isCommand("splines")
             && _core->getSelectedShapeType() != kMgShapeImage);
-}
-
-bool GiViewAdapter::isMainThread() const {
-    const char *label = dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL);
-    return label && strstr(label, "main-thread");
 }
 
 long GiViewAdapter::acquireFrontDoc(long* gs) {

@@ -294,15 +294,15 @@ float GiCanvasAdapter::drawTextAt(const char* text, float x, float y, float h, i
     
     // 实际字体大小 = 目标高度 h * 临时字体大小 h / 临时字体行高 actsize.height
     UIFont *font = [UIFont systemFontOfSize:h]; // 以像素点高度作为字体大小得到临时字体
-    CGSize actsize = [str boundingRectWithSize:CGSizeMake(1e4f, h)  // 限制单行高度
-                                       options:NSStringDrawingTruncatesLastVisibleLine
-                                    attributes:@{NSFontAttributeName:font}  // 使用临时字体计算文字显示宽高
-                                       context:nil].size;
+    CGSize actsize = [str boundingRectWithSize6:CGSizeMake(1e4f, h)  // 限制单行高度
+                                        options:NSStringDrawingTruncatesLastVisibleLine
+                                     attributes:@{NSFontAttributeName:font}  // 使用临时字体计算文字显示宽高
+                                        context:nil].size;
     font = [UIFont systemFontOfSize: h * h / actsize.height];
-    actsize = [str sizeWithAttributes:@{NSFontAttributeName:font}]; // 文字实际显示的宽高
+    actsize = [str sizeWithAttributes6:@{NSFontAttributeName:font}]; // 文字实际显示的宽高
     
     x -= (align == 2) ? actsize.width : ((align == 1) ? actsize.width / 2 : 0);
-    [str drawAtPoint:CGPointMake(x, y) withAttributes:@{NSFontAttributeName:font}];  // 显示文字
+    [str drawAtPoint6:CGPointMake(x, y) withAttributes:@{NSFontAttributeName:font}];  // 显示文字
     if (*text != '@')
         [str RELEASE];
     
