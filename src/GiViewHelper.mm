@@ -524,8 +524,8 @@ static GiViewHelper *_sharedInstance = nil;
                                          rect.size.width, rect.size.height);
 }
 
-- (BOOL)zoomPan:(CGVector)offPixel {
-    return [_view coreView]->zoomPan(offPixel.dx, offPixel.dy);
+- (BOOL)zoomPan:(CGPoint)offPixel {
+    return [_view coreView]->zoomPan(offPixel.x, offPixel.y);
 }
 
 - (BOOL)zoomEnabled {
