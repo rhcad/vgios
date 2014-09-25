@@ -147,7 +147,7 @@ bool GiViewAdapter::renderInContext(CGContextRef ctx) {
         for (int i = 0; i < APPENDSIZE; i++)
             _appendIDs[i] = 0;
         
-        if (isMainThread() && ++_regenCount == 1) {
+        if ([NSThread isMainThread] && ++_regenCount == 1) {
             onFirstRegen();
         }
     }
@@ -393,7 +393,7 @@ void GiViewAdapter::stopRegen() {
     _view = nil;
 }
 
-void GiViewAdapter::setFlags(int flags)
+int GiViewAdapter::setFlags(int flags)
 {
     int old = _flags;
     
@@ -420,6 +420,8 @@ void GiViewAdapter::setFlags(int flags)
     if ((old & GIViewFlagsNotDynDraw) != (flags & GIViewFlagsNotDynDraw)) {
         [getDynView(false) setNeedsDisplay];
     }
+    
+    return old;
 }
 
 UIView *GiViewAdapter::getDynView(bool autoCreate) {
@@ -430,7 +432,7 @@ UIView *GiViewAdapter::getDynView(bool autoCreate) {
         } else {
             _dynview = [[GiDynDrawView alloc]initView:_view.frame :this];
             _dynview.autoresizingMask = _view.autoresizingMask;
-            if (isMainThread()) {
+            if ([NSThread isMainThread]) {
                 [_view.superview addSubview:_dynview];
                 [_view.superview sendSubviewToBack:_dynview];
                 [_view.superview sendSubviewToBack:_view];
@@ -467,11 +469,6 @@ void GiViewAdapter::redraw(bool changed) {
 bool GiViewAdapter::canShowMagnifier() const {
     return (!_core->isCommand("splines")
             && _core->getSelectedShapeType() != kMgShapeImage);
-}
-
-bool GiViewAdapter::isMainThread() const {
-    const char *label = dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL);
-    return label && strstr(label, "main-thread");
 }
 
 long GiViewAdapter::acquireFrontDoc(long* gs) {
@@ -691,6 +688,21 @@ void GiViewAdapter::shapeDeleted(int sid)
     if ([_view respondsToSelector:@selector(onShapeDeleted:)]) {
         [_view performSelector:@selector(onShapeDeleted:) withObject:obj];
     }
+}
+
+bool GiViewAdapter::shapeDblClick(int type, int sid)
+{
+    for (size_t i = 0; i < delegates.size() && respondsTo.didShapeDblClick; i++) {
+        if ([delegates[i] respondsToSelector:@selector(onShapeDblClick:)]
+            && [delegates[i] onShapeDblClick:_view]) {
+            return true;
+        }
+    }
+    if ([_view respondsToSelector:@selector(onShapeDblClick:)]
+        && [_view performSelector:@selector(onShapeDblClick:) withObject:_view]) {
+        return true;
+    }
+    return false;
 }
 
 bool GiViewAdapter::shapeClicked(int sid, int tag, float x, float y)

@@ -209,6 +209,7 @@ GiColor CGColorToGiColor(CGColorRef color);
 @synthesize imageCache;
 @synthesize delegates;
 @synthesize flags;
+@synthesize contextActionEnabled;
 
 #pragma mark - Respond to low-memory warnings
 + (void)initialize {
@@ -331,12 +332,18 @@ GiColor CGColorToGiColor(CGColorRef color);
     return v;
 }
 
-- (int)flags {
+- (NSInteger)flags {
     return _adapter->getFlags();
 }
 
-- (void)setFlags:(int)f {
-    _adapter->setFlags(f);
+- (void)setFlags:(NSInteger)f {
+    int old = _adapter->setFlags((int)f);
+    
+    if ((old & GIViewFlagsMagnifier) && !(f & GIViewFlagsMagnifier)) {
+        [_magnifierView hide];
+        [_magnifierView RELEASE];
+        _magnifierView = nil;
+    }
 }
 
 - (void)didEnteredBackground:(NSNotification*)notification {
@@ -429,7 +436,7 @@ GiColor CGColorToGiColor(CGColorRef color);
 }
 
 - (UIImage *)snapshot {
-    if (!_adapter->isMainThread()) {
+    if (![NSThread isMainThread]) {
         return [self snapshotCG];
     }
     
@@ -514,6 +521,7 @@ GiColor CGColorToGiColor(CGColorRef color);
         _adapter->respondsTo.didDynDrawEnded |= [d respondsToSelector:@selector(onDynDrawEnded:)];
         _adapter->respondsTo.didShapesRecorded |= [d respondsToSelector:@selector(onShapesRecorded:)];
         _adapter->respondsTo.didShapeDeleted |= [d respondsToSelector:@selector(onShapeDeleted:)];
+        _adapter->respondsTo.didShapeDblClick |= [d respondsToSelector:@selector(onShapeDblClick:)];
         _adapter->respondsTo.didShapeClicked |= [d respondsToSelector:@selector(onShapeClicked:)];
         _adapter->respondsTo.didGestureShouldBegin |= [d respondsToSelector:@selector(onGestureShouldBegin:)];
         _adapter->respondsTo.didGestureBegan |= [d respondsToSelector:@selector(onGestureBegan:)];
@@ -528,6 +536,10 @@ GiColor CGColorToGiColor(CGColorRef color);
             break;
         }
     }
+}
+
+- (BOOL)contextActionEnabled {
+    return _adapter->getContextActionEnabled();
 }
 
 - (void)setContextActionEnabled:(BOOL)enabled {

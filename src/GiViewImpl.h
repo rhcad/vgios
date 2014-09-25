@@ -83,6 +83,7 @@ public:
         unsigned int didDynDrawEnded:1;
         unsigned int didShapesRecorded:1;
         unsigned int didShapeDeleted:1;
+        unsigned int didShapeDblClick:1;
         unsigned int didShapeClicked:1;
         unsigned int didGestureShouldBegin:1;
         unsigned int didGestureBegan:1;
@@ -100,11 +101,10 @@ public:
     void stopRegen();
     void onFirstRegen();
     bool canShowMagnifier() const;
-    bool isMainThread() const;
     long acquireFrontDoc(long* gs = NULL);
     id<NSLocking> locker() { return _lock; }
     int getFlags() const { return _flags; }
-    void setFlags(int flags);
+    int setFlags(int flags);
     
     int getAppendCount() const;
     void beginRender();
@@ -128,12 +128,14 @@ public:
                                     float x, float y, float w, float h);
     virtual void hideContextActions();
     void setContextActionEnabled(bool enabled) { _actionEnabled = enabled; }
+    bool getContextActionEnabled() const { return _actionEnabled; }
     
     virtual void commandChanged();
     virtual void selectionChanged();
     virtual void contentChanged();
     virtual void dynamicChanged();
     virtual void shapeDeleted(int sid);
+    virtual bool shapeDblClick(int type, int sid);
     virtual bool shapeClicked(int sid, int tag, float x, float y);
     virtual void showMessage(const char* text);
     virtual void getLocalizedString(const char* name, MgStringCallback* result);

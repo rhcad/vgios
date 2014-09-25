@@ -41,8 +41,6 @@
 		025F58F8195D250E00302988 /* GiViewImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 025F58D8195D250E00302988 /* GiViewImpl.h */; };
 		025F58F9195D250E00302988 /* NSString+Drawing.h in Headers */ = {isa = PBXBuildFile; fileRef = 025F58D9195D250E00302988 /* NSString+Drawing.h */; };
 		025F58FA195D250E00302988 /* NSString+Drawing.h in Headers */ = {isa = PBXBuildFile; fileRef = 025F58D9195D250E00302988 /* NSString+Drawing.h */; };
-		025F58FB195D250E00302988 /* NSString+Drawing.m in Sources */ = {isa = PBXBuildFile; fileRef = 025F58DA195D250E00302988 /* NSString+Drawing.m */; };
-		025F58FC195D250E00302988 /* NSString+Drawing.m in Sources */ = {isa = PBXBuildFile; fileRef = 025F58DA195D250E00302988 /* NSString+Drawing.m */; };
 		025F5942195D264600302988 /* GiCanvasAdapter.mm in Headers */ = {isa = PBXBuildFile; fileRef = 025F58CF195D250E00302988 /* GiCanvasAdapter.mm */; };
 		025F5943195D264600302988 /* GiDpiUtil.mm in Headers */ = {isa = PBXBuildFile; fileRef = 025F58D0195D250E00302988 /* GiDpiUtil.mm */; };
 		025F5944195D264600302988 /* GiImageCache.mm in Headers */ = {isa = PBXBuildFile; fileRef = 025F58D2195D250E00302988 /* GiImageCache.mm */; };
@@ -50,7 +48,6 @@
 		025F5946195D264600302988 /* GiPaintView.mm in Headers */ = {isa = PBXBuildFile; fileRef = 025F58D5195D250E00302988 /* GiPaintView.mm */; };
 		025F5947195D264600302988 /* GiViewAdapter.mm in Headers */ = {isa = PBXBuildFile; fileRef = 025F58D6195D250E00302988 /* GiViewAdapter.mm */; };
 		025F5948195D264600302988 /* GiViewHelper.mm in Headers */ = {isa = PBXBuildFile; fileRef = 025F58D7195D250E00302988 /* GiViewHelper.mm */; };
-		025F5949195D264600302988 /* NSString+Drawing.m in Headers */ = {isa = PBXBuildFile; fileRef = 025F58DA195D250E00302988 /* NSString+Drawing.m */; };
 		025F598F195D265100302988 /* GiCanvasAdapter.mm in Headers */ = {isa = PBXBuildFile; fileRef = 025F58CF195D250E00302988 /* GiCanvasAdapter.mm */; };
 		025F5990195D265100302988 /* GiDpiUtil.mm in Headers */ = {isa = PBXBuildFile; fileRef = 025F58D0195D250E00302988 /* GiDpiUtil.mm */; };
 		025F5991195D265100302988 /* GiImageCache.mm in Headers */ = {isa = PBXBuildFile; fileRef = 025F58D2195D250E00302988 /* GiImageCache.mm */; };
@@ -58,7 +55,10 @@
 		025F5993195D265100302988 /* GiPaintView.mm in Headers */ = {isa = PBXBuildFile; fileRef = 025F58D5195D250E00302988 /* GiPaintView.mm */; };
 		025F5994195D265100302988 /* GiViewAdapter.mm in Headers */ = {isa = PBXBuildFile; fileRef = 025F58D6195D250E00302988 /* GiViewAdapter.mm */; };
 		025F5995195D265100302988 /* GiViewHelper.mm in Headers */ = {isa = PBXBuildFile; fileRef = 025F58D7195D250E00302988 /* GiViewHelper.mm */; };
-		025F5996195D265100302988 /* NSString+Drawing.m in Headers */ = {isa = PBXBuildFile; fileRef = 025F58DA195D250E00302988 /* NSString+Drawing.m */; };
+		0265F26C19CC10FC00503BC8 /* GiPaintViewXIB.h in Headers */ = {isa = PBXBuildFile; fileRef = 0265F26B19CC10F200503BC8 /* GiPaintViewXIB.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0265F26D19CC10FD00503BC8 /* GiPaintViewXIB.h in Headers */ = {isa = PBXBuildFile; fileRef = 0265F26B19CC10F200503BC8 /* GiPaintViewXIB.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0265F26F19CC110700503BC8 /* GiPaintViewXIB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0265F26E19CC110700503BC8 /* GiPaintViewXIB.mm */; };
+		0265F27019CC110700503BC8 /* GiPaintViewXIB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0265F26E19CC110700503BC8 /* GiPaintViewXIB.mm */; };
 		02BD6692189A1E9A00A4A444 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE2A3B4D178FC7EB000194AE /* UIKit.framework */; };
 		02BD6693189A1E9A00A4A444 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE2A3B4B178FC7C1000194AE /* CoreGraphics.framework */; };
 		02BD6694189A1E9A00A4A444 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE2A3A4C178FC511000194AE /* Foundation.framework */; };
@@ -69,6 +69,8 @@
 		AE2A3B4E178FC7EB000194AE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE2A3B4D178FC7EB000194AE /* UIKit.framework */; };
 		AE756FEE19610C9C0017C705 /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AE756FED19610C9C0017C705 /* Prefix.pch */; };
 		AE756FEF19610C9C0017C705 /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AE756FED19610C9C0017C705 /* Prefix.pch */; };
+		AEAEC5C719D3023200237A6E /* NSString+Drawing.h in Headers */ = {isa = PBXBuildFile; fileRef = AEAEC5C619D3023100237A6E /* NSString+Drawing.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AEAEC5C819D3024800237A6E /* NSString+Drawing.h in Headers */ = {isa = PBXBuildFile; fileRef = AEAEC5C619D3023100237A6E /* NSString+Drawing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -89,7 +91,8 @@
 		025F58D7195D250E00302988 /* GiViewHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GiViewHelper.mm; sourceTree = "<group>"; };
 		025F58D8195D250E00302988 /* GiViewImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GiViewImpl.h; sourceTree = "<group>"; };
 		025F58D9195D250E00302988 /* NSString+Drawing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Drawing.h"; sourceTree = "<group>"; };
-		025F58DA195D250E00302988 /* NSString+Drawing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Drawing.m"; sourceTree = "<group>"; };
+		0265F26B19CC10F200503BC8 /* GiPaintViewXIB.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GiPaintViewXIB.h; sourceTree = "<group>"; };
+		0265F26E19CC110700503BC8 /* GiPaintViewXIB.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GiPaintViewXIB.mm; sourceTree = "<group>"; };
 		02BD66A8189A1E9A00A4A444 /* libTouchVG-SVG.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libTouchVG-SVG.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE11A5DA18B328CF00B88366 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		AE2A3A49178FC511000194AE /* libTouchVG.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libTouchVG.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,6 +100,7 @@
 		AE2A3B4B178FC7C1000194AE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		AE2A3B4D178FC7EB000194AE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		AE756FED19610C9C0017C705 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Prefix.pch; path = src/Prefix.pch; sourceTree = SOURCE_ROOT; };
+		AEAEC5C619D3023100237A6E /* NSString+Drawing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Drawing.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +132,8 @@
 		025F58C8195D250E00302988 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				AEAEC5C619D3023100237A6E /* NSString+Drawing.h */,
+				0265F26B19CC10F200503BC8 /* GiPaintViewXIB.h */,
 				025F58C9195D250E00302988 /* ARCMacro.h */,
 				025F58CA195D250E00302988 /* GiCanvasAdapter.h */,
 				025F58CB195D250E00302988 /* GiPaintView.h */,
@@ -141,6 +147,7 @@
 		025F58CE195D250E00302988 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				0265F26E19CC110700503BC8 /* GiPaintViewXIB.mm */,
 				025F58CF195D250E00302988 /* GiCanvasAdapter.mm */,
 				025F58D0195D250E00302988 /* GiDpiUtil.mm */,
 				025F58D1195D250E00302988 /* GiImageCache.h */,
@@ -152,7 +159,6 @@
 				025F58D7195D250E00302988 /* GiViewHelper.mm */,
 				025F58D8195D250E00302988 /* GiViewImpl.h */,
 				025F58D9195D250E00302988 /* NSString+Drawing.h */,
-				025F58DA195D250E00302988 /* NSString+Drawing.m */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -220,6 +226,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEAEC5C819D3024800237A6E /* NSString+Drawing.h in Headers */,
+				0265F26D19CC10FD00503BC8 /* GiPaintViewXIB.h in Headers */,
 				02065130196BB0B5003AD648 /* GiViewEnums.h in Headers */,
 				025F58E2195D250E00302988 /* GiPaintViewDelegate.h in Headers */,
 				025F58E4195D250E00302988 /* GiViewHelper.h in Headers */,
@@ -233,7 +241,6 @@
 				025F5993195D265100302988 /* GiPaintView.mm in Headers */,
 				025F5994195D265100302988 /* GiViewAdapter.mm in Headers */,
 				025F5995195D265100302988 /* GiViewHelper.mm in Headers */,
-				025F5996195D265100302988 /* NSString+Drawing.m in Headers */,
 				AE756FEF19610C9C0017C705 /* Prefix.pch in Headers */,
 				025F58FA195D250E00302988 /* NSString+Drawing.h in Headers */,
 				025F58EA195D250E00302988 /* GiImageCache.h in Headers */,
@@ -246,6 +253,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEAEC5C719D3023200237A6E /* NSString+Drawing.h in Headers */,
+				0265F26C19CC10FC00503BC8 /* GiPaintViewXIB.h in Headers */,
 				0206512F196BB0B5003AD648 /* GiViewEnums.h in Headers */,
 				025F58E1195D250E00302988 /* GiPaintViewDelegate.h in Headers */,
 				025F58E3195D250E00302988 /* GiViewHelper.h in Headers */,
@@ -259,7 +268,6 @@
 				025F5946195D264600302988 /* GiPaintView.mm in Headers */,
 				025F5947195D264600302988 /* GiViewAdapter.mm in Headers */,
 				025F5948195D264600302988 /* GiViewHelper.mm in Headers */,
-				025F5949195D264600302988 /* NSString+Drawing.m in Headers */,
 				AE756FEE19610C9C0017C705 /* Prefix.pch in Headers */,
 				025F58F9195D250E00302988 /* NSString+Drawing.h in Headers */,
 				025F58E9195D250E00302988 /* GiImageCache.h in Headers */,
@@ -404,7 +412,7 @@
 				025F58EC195D250E00302988 /* GiImageCache.mm in Sources */,
 				025F58F2195D250E00302988 /* GiPaintView.mm in Sources */,
 				025F58F0195D250E00302988 /* GiMagnifierView.m in Sources */,
-				025F58FC195D250E00302988 /* NSString+Drawing.m in Sources */,
+				0265F27019CC110700503BC8 /* GiPaintViewXIB.mm in Sources */,
 				025F58F6195D250E00302988 /* GiViewHelper.mm in Sources */,
 				025F58E6195D250E00302988 /* GiCanvasAdapter.mm in Sources */,
 				025F58E8195D250E00302988 /* GiDpiUtil.mm in Sources */,
@@ -419,7 +427,7 @@
 				025F58EB195D250E00302988 /* GiImageCache.mm in Sources */,
 				025F58F1195D250E00302988 /* GiPaintView.mm in Sources */,
 				025F58EF195D250E00302988 /* GiMagnifierView.m in Sources */,
-				025F58FB195D250E00302988 /* NSString+Drawing.m in Sources */,
+				0265F26F19CC110700503BC8 /* GiPaintViewXIB.mm in Sources */,
 				025F58F5195D250E00302988 /* GiViewHelper.mm in Sources */,
 				025F58E5195D250E00302988 /* GiCanvasAdapter.mm in Sources */,
 				025F58E7195D250E00302988 /* GiDpiUtil.mm in Sources */,

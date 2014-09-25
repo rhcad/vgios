@@ -7,7 +7,7 @@
 #import "GiImageCache.h"
 #include "mgview.h"
 
-#define IOSLIBVERSION     20
+#define IOSLIBVERSION     21
 
 extern NSString* EXTIMAGENAMES[];
 
@@ -55,16 +55,17 @@ struct GiOptionCallback : public MgOptionCallback {
     
     GiOptionCallback(NSMutableDictionary *dict) : rootDict(dict) {}
     
-    virtual void onGetOption(const char* group, const char* name, const char* text) {
-        NSString *key = [NSString stringWithUTF8String:group];
-        NSMutableDictionary *dict = [rootDict objectForKey:key];
-        
-        if (!dict) {
-            dict = [NSMutableDictionary dictionary];
-            rootDict[key] = dict;
-        }
-        key = [NSString stringWithUTF8String:name];
-        dict[key] = [NSString stringWithUTF8String:text];
+    virtual void onGetOptionBool(const char* name, bool value) {
+        NSString *key = [NSString stringWithUTF8String:name];
+        rootDict[key] = [NSNumber numberWithBool:value];
+    }
+    virtual void onGetOptionInt(const char* name, int value) {
+        NSString *key = [NSString stringWithUTF8String:name];
+        rootDict[key] = [NSNumber numberWithInt:value];
+    }
+    virtual void onGetOptionFloat(const char* name, float value) {
+        NSString *key = [NSString stringWithUTF8String:name];
+        rootDict[key] = [NSNumber numberWithFloat:value];
     }
 };
 
@@ -77,7 +78,7 @@ struct GiOptionCallback : public MgOptionCallback {
 @synthesize shapeCount, selectedCount, selectedType, selectedShapeID, content;
 @synthesize changeCount, drawCount, displayExtent, boundingBox;
 @synthesize command, lineWidth, strokeWidth, lineColor, lineAlpha;
-@synthesize lineStyle, fillColor, fillAlpha, options;
+@synthesize lineStyle, fillColor, fillAlpha, options, zoomEnabled;
 
 static GiViewHelper *_sharedInstance = nil;
 
@@ -103,6 +104,14 @@ static GiViewHelper *_sharedInstance = nil;
         _sharedInstance.view = view;
     }
     return _sharedInstance;
+}
+
+- (id)initWithView:(GiPaintView *)view {
+    self = [super init];
+    if (self) {
+        _view = view;
+    }
+    return self;
 }
 
 - (void)dealloc {
@@ -196,22 +205,22 @@ static GiViewHelper *_sharedInstance = nil;
     EXTIMAGENAMES[i] = nil;
 }
 
-- (float)lineWidth {
+- (CGFloat)lineWidth {
     float w = [_view coreView]->getContext(false).getLineWidth();
     return w > 1e-6f ? 100.f * w : w;
 }
 
-- (void)setLineWidth:(float)value {
+- (void)setLineWidth:(CGFloat)value {
     [_view coreView]->getContext(true).setLineWidth(value > 1e-6f ? value / 100.f : value, true);
     [_view coreView]->setContext(GiContext::kLineWidth);
 }
 
-- (float)strokeWidth {
+- (CGFloat)strokeWidth {
     GiContext& ctx = [_view coreView]->getContext(false);
     return [_view coreView]->calcPenWidth([_view viewAdapter], ctx.getLineWidth());
 }
 
-- (void)setStrokeWidth:(float)value {
+- (void)setStrokeWidth:(CGFloat)value {
     [_view coreView]->getContext(true).setLineWidth(-fabsf(value), true);
     [_view coreView]->setContext(GiContext::kLineWidth);
 }
@@ -257,11 +266,11 @@ static GiViewHelper *_sharedInstance = nil;
     [_view coreView]->setContext(c.a ? GiContext::kLineRGB : GiContext::kLineARGB);
 }
 
-- (float)lineAlpha {
+- (CGFloat)lineAlpha {
     return (float)[_view coreView]->getContext(false).getLineAlpha() / 255.f;
 }
 
-- (void)setLineAlpha:(float)value {
+- (void)setLineAlpha:(CGFloat)value {
     [_view coreView]->getContext(true).setLineAlpha((int)lroundf(value * 255.f));
     [_view coreView]->setContext(GiContext::kLineAlpha);
 }
@@ -277,11 +286,11 @@ static GiViewHelper *_sharedInstance = nil;
     [_view coreView]->setContext(c.a ? GiContext::kFillRGB : GiContext::kFillARGB);
 }
 
-- (float)fillAlpha {
+- (CGFloat)fillAlpha {
     return (float)[_view coreView]->getContext(false).getFillAlpha() / 255.f;
 }
 
-- (void)setFillAlpha:(float)value {
+- (void)setFillAlpha:(CGFloat)value {
     [_view coreView]->getContext(true).setFillAlpha((int)lroundf(value * 255.f));
     [_view coreView]->setContext(GiContext::kFillAlpha);
 }
@@ -515,8 +524,12 @@ static GiViewHelper *_sharedInstance = nil;
                                          rect.size.width, rect.size.height);
 }
 
-- (BOOL)zoomPan:(CGVector)offPixel {
-    return [_view coreView]->zoomPan(offPixel.dx, offPixel.dy);
+- (BOOL)zoomPan:(CGPoint)offPixel {
+    return [_view coreView]->zoomPan(offPixel.x, offPixel.y);
+}
+
+- (BOOL)zoomEnabled {
+    return [_view coreView]->isZoomEnabled([_view viewAdapter]);
 }
 
 - (void)setZoomEnabled:(BOOL)enabled {
@@ -734,6 +747,8 @@ static GiViewHelper *_sharedInstance = nil;
 - (NSDictionary *)options {
     GiOptionCallback c([NSMutableDictionary dictionary]);
     [_view coreView]->traverseOptions(&c);
+    c.onGetOptionBool("contextActionEnabled", _view.contextActionEnabled);
+    c.onGetOptionBool("showMagnifier", !!(_view.flags & GIViewFlagsMagnifier));
     return c.rootDict;
 }
 
@@ -741,21 +756,44 @@ static GiViewHelper *_sharedInstance = nil;
     GiCoreView *cv = [_view coreView];
     
     if (dict && dict.count > 0) {
-        for (NSString *group in dict.allKeys) {
-            NSDictionary *subd = dict[group];
+        NSNumber *num = dict[@"contextActionEnabled"];
+        if (num) {
+            _view.contextActionEnabled = [num boolValue];
+            [_view hideContextActions];
+            return;
+        }
+        num = dict[@"showMagnifier"];
+        if (num) {
+            if ([num boolValue])
+                _view.flags |= GIViewFlagsMagnifier;
+            else
+                _view.flags &= ~GIViewFlagsMagnifier;
+            return;
+        }
+        
+        for (NSString *name in dict.allKeys) {
+            num = dict[name];
             
-            if (subd.count > 0) {
-                for (NSString *name in subd.allKeys) {
-                    NSString *value = [subd[name] description];
-                    cv->setOption([group UTF8String], [name UTF8String],
-                                  [value UTF8String]);
-                }
+            if (strcmp([num objCType], @encode(BOOL)) == 0) {
+                cv->setOptionBool([name UTF8String], [num boolValue]);
+            } else if (strcmp([num objCType], @encode(int)) == 0) {
+                cv->setOptionInt([name UTF8String], [num intValue]);
+            } else if (strcmp([num objCType], @encode(float)) == 0) {
+                cv->setOptionFloat([name UTF8String], [num floatValue]);
             } else {
-                cv->setOption([group UTF8String], NULL, NULL);
+                NSLog(@"Unsupported number type: %@", name);
             }
         }
     } else {
-        cv->setOption(NULL, NULL, NULL);
+        cv->setOptionBool(NULL, false);
+    }
+}
+
+- (void)setOption:(id)value forKey:(NSString *)key {
+    if (key) {
+        self.options = @{ key : value };
+    } else {
+        [_view coreView]->setOptionBool(NULL, false);
     }
 }
 
