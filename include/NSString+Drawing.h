@@ -11,14 +11,8 @@
 #import <UIKit/UIKit.h>
 #include <CoreGraphics/CoreGraphics.h>
 
-@interface NSString (NSStringDrawing6)
-
-- (BOOL)isIos7;
-- (CGSize)sizeWithAttributes6:(NSDictionary *)attrs;
-- (void)drawAtPoint6:(CGPoint)point withAttributes:(NSDictionary *)attrs;
-- (void)drawInRect6:(CGRect)rect withAttributes:(NSDictionary *)attrs;
-- (CGRect)boundingRectWithSize6:(CGSize)size
-                        options:(NSStringDrawingOptions)options
-                     attributes:(NSDictionary *)attributes
-                        context:(NSStringDrawingContext *)context;
-@end
+CGSize sizeWithAttributes6(NSString *str, NSDictionary *attrs);
+void drawAtPoint6(NSString *str, CGPoint point, NSDictionary *attrs);
+void drawInRect6(NSString *str, CGRect rect, NSDictionary *attrs);
+CGRect boundingRectWithSize6(NSString *str, CGSize size, NSStringDrawingOptions options,
+                             NSDictionary *attrs, NSStringDrawingContext *context);

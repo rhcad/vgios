@@ -67,8 +67,8 @@
 		AE2A3B4E178FC7EB000194AE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE2A3B4D178FC7EB000194AE /* UIKit.framework */; };
 		AE756FEE19610C9C0017C705 /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AE756FED19610C9C0017C705 /* Prefix.pch */; };
 		AE756FEF19610C9C0017C705 /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AE756FED19610C9C0017C705 /* Prefix.pch */; };
-		AE7CEE4B19E68737005D03A9 /* NSString+Drawing.m in Sources */ = {isa = PBXBuildFile; fileRef = AE7CEE4A19E68737005D03A9 /* NSString+Drawing.m */; };
-		AE7CEE4C19E68737005D03A9 /* NSString+Drawing.m in Sources */ = {isa = PBXBuildFile; fileRef = AE7CEE4A19E68737005D03A9 /* NSString+Drawing.m */; };
+		AE7CEE4B19E68737005D03A9 /* NSString+Drawing.mm in Sources */ = {isa = PBXBuildFile; fileRef = AE7CEE4A19E68737005D03A9 /* NSString+Drawing.mm */; };
+		AE7CEE4C19E68737005D03A9 /* NSString+Drawing.mm in Sources */ = {isa = PBXBuildFile; fileRef = AE7CEE4A19E68737005D03A9 /* NSString+Drawing.mm */; };
 		AEAEC5C719D3023200237A6E /* NSString+Drawing.h in Headers */ = {isa = PBXBuildFile; fileRef = AEAEC5C619D3023100237A6E /* NSString+Drawing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AEAEC5C819D3024800237A6E /* NSString+Drawing.h in Headers */ = {isa = PBXBuildFile; fileRef = AEAEC5C619D3023100237A6E /* NSString+Drawing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
@@ -99,7 +99,7 @@
 		AE2A3B4B178FC7C1000194AE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		AE2A3B4D178FC7EB000194AE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		AE756FED19610C9C0017C705 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Prefix.pch; path = src/Prefix.pch; sourceTree = SOURCE_ROOT; };
-		AE7CEE4A19E68737005D03A9 /* NSString+Drawing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Drawing.m"; sourceTree = "<group>"; };
+		AE7CEE4A19E68737005D03A9 /* NSString+Drawing.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSString+Drawing.mm"; sourceTree = "<group>"; };
 		AEAEC5C619D3023100237A6E /* NSString+Drawing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Drawing.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -147,7 +147,7 @@
 		025F58CE195D250E00302988 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				AE7CEE4A19E68737005D03A9 /* NSString+Drawing.m */,
+				AE7CEE4A19E68737005D03A9 /* NSString+Drawing.mm */,
 				0265F26E19CC110700503BC8 /* GiPaintViewXIB.mm */,
 				025F58CF195D250E00302988 /* GiCanvasAdapter.mm */,
 				025F58D0195D250E00302988 /* GiDpiUtil.mm */,
@@ -412,7 +412,7 @@
 				025F58F0195D250E00302988 /* GiMagnifierView.m in Sources */,
 				0265F27019CC110700503BC8 /* GiPaintViewXIB.mm in Sources */,
 				025F58F6195D250E00302988 /* GiViewHelper.mm in Sources */,
-				AE7CEE4C19E68737005D03A9 /* NSString+Drawing.m in Sources */,
+				AE7CEE4C19E68737005D03A9 /* NSString+Drawing.mm in Sources */,
 				025F58E6195D250E00302988 /* GiCanvasAdapter.mm in Sources */,
 				025F58E8195D250E00302988 /* GiDpiUtil.mm in Sources */,
 			);
@@ -428,7 +428,7 @@
 				025F58EF195D250E00302988 /* GiMagnifierView.m in Sources */,
 				0265F26F19CC110700503BC8 /* GiPaintViewXIB.mm in Sources */,
 				025F58F5195D250E00302988 /* GiViewHelper.mm in Sources */,
-				AE7CEE4B19E68737005D03A9 /* NSString+Drawing.m in Sources */,
+				AE7CEE4B19E68737005D03A9 /* NSString+Drawing.mm in Sources */,
 				025F58E5195D250E00302988 /* GiCanvasAdapter.mm in Sources */,
 				025F58E7195D250E00302988 /* GiDpiUtil.mm in Sources */,
 			);
