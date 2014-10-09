@@ -13,13 +13,13 @@
 @implementation NSString (NSStringDrawing6)
 
 - (BOOL)isIos7 {
-    static dispatch_once_t onceToken;
     static bool ios7 = false;
-    
+#ifdef __IPHONE_7_0
+    static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         ios7 = [self respondsToSelector:@selector(sizeWithAttributes:)];
     });
-    
+#endif
     return ios7;
 }
 
