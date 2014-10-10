@@ -346,7 +346,7 @@ void GiViewAdapter::regen_(bool changed, int sid, long playh, bool loading) {
         _core->zoomToExtent();
         _regenCount += 10000;
     }
-    if (!_regenCount && !_view.window) {
+    if (!_regenCount && !_view.superview) {
         return;
     }
     

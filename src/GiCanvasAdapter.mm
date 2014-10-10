@@ -3,8 +3,8 @@
 // Copyright (c) 2012-2013, https://github.com/rhcad/touchvg
 
 #import "GiImageCache.h"
-#import "NSString+Drawing.h"
 #include "GiCanvasAdapter.h"
+#import "NSString+Drawing.h"
 
 static const float patDash[]      = { 4, 2, 0 };
 static const float patDot[]       = { 1, 2, 0 };
@@ -294,15 +294,15 @@ float GiCanvasAdapter::drawTextAt(const char* text, float x, float y, float h, i
     
     // 实际字体大小 = 目标高度 h * 临时字体大小 h / 临时字体行高 actsize.height
     UIFont *font = [UIFont systemFontOfSize:h]; // 以像素点高度作为字体大小得到临时字体
-    CGSize actsize = [str boundingRectWithSize6:CGSizeMake(1e4f, h)  // 限制单行高度
-                                        options:NSStringDrawingTruncatesLastVisibleLine
-                                     attributes:@{NSFontAttributeName:font}  // 使用临时字体计算文字显示宽高
-                                        context:nil].size;
+    CGSize actsize = boundingRectWithSize6(str, CGSizeMake(1e4f, h),    // 限制单行高度
+                                           NSStringDrawingTruncatesLastVisibleLine,
+                                           @{NSFontAttributeName:font}, // 使用临时字体计算文字显示宽高
+                                           nil).size;
     font = [UIFont systemFontOfSize: h * h / actsize.height];
-    actsize = [str sizeWithAttributes6:@{NSFontAttributeName:font}]; // 文字实际显示的宽高
+    actsize = sizeWithAttributes6(str, @{NSFontAttributeName:font});    // 文字实际显示的宽高
     
     x -= (align == 2) ? actsize.width : ((align == 1) ? actsize.width / 2 : 0);
-    [str drawAtPoint6:CGPointMake(x, y) withAttributes:@{NSFontAttributeName:font}];  // 显示文字
+    drawAtPoint6(str, CGPointMake(x, y), @{NSFontAttributeName:font});  // 显示文字
     if (*text != '@')
         [str RELEASE];
     
