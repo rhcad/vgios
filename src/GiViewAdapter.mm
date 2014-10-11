@@ -129,7 +129,8 @@ bool GiViewAdapter::renderInContext(CGContextRef ctx) {
                 _core->submitBackDoc(this, false);
                 gs = _core->acquireFrontDocs(docs) ? _core->acquireGraphics(this) : 0;
             }
-            if (gs && (_flags & GIViewFlagsNoDynDrawView)) {
+            if (gs && (_flags & GIViewFlagsNoDynDrawView)
+                && !(_flags & GIViewFlagsNoCmd)) {
                 _core->getSkipDrawIds(ignoreIds);
             }
         }
@@ -174,7 +175,7 @@ struct ImageFinder : public MgFindImageCallback {
         NSString *destFile = [destPath stringByAppendingPathComponent:fileTitle];
         NSFileManager *fm = [NSFileManager defaultManager];
         
-        if (![fm fileExistsAtPath:destFile]
+        if (srcFile && destFile && ![fm fileExistsAtPath:destFile]
             && [fm copyItemAtPath:srcFile toPath:destFile error:nil]) {
             NSLog(@"%d image files copied: %@", ++count, fileTitle);
         }
