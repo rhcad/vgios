@@ -15,6 +15,7 @@
 
 @implementation GiPaintViewXIB
 
+@synthesize helper = hlp;
 @synthesize command, lineWidth, strokeWidth, lineStyle;
 @synthesize lineColor, lineAlpha, fillColor, fillAlpha;
 @synthesize options, content, path, zoomEnabled;

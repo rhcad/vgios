@@ -1,8 +1,0 @@
-/* 
-  Localizable.strings for TouchVG
-*/
-
-"shape_too_small" = "图形太小，请重新绘制";
-"shape1_deleted" = "已删除一个图形";
-"shape_n_deleted" = "已删除 %d 个图形";
-"invalid_gridcell" = "单元格太小或太大，请重新拖动设置";
