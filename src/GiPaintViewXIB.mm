@@ -29,6 +29,14 @@
     return self;
 }
 
+- (id)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        hlp = [[GiViewHelper alloc]initWithView:self];
+    }
+    return self;
+}
+
 - (void)dealloc {
     [hlp RELEASE];
     [super DEALLOC];
