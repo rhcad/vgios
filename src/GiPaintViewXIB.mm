@@ -15,6 +15,7 @@
 
 @implementation GiPaintViewXIB
 
+@synthesize helper = hlp;
 @synthesize command, lineWidth, strokeWidth, lineStyle;
 @synthesize lineColor, lineAlpha, fillColor, fillAlpha;
 @synthesize options, content, path, zoomEnabled;
@@ -22,6 +23,14 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
+    if (self) {
+        hlp = [[GiViewHelper alloc]initWithView:self];
+    }
+    return self;
+}
+
+- (id)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
     if (self) {
         hlp = [[GiViewHelper alloc]initWithView:self];
     }

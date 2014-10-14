@@ -1,0 +1,15 @@
+/* 
+  Localizable.strings for TouchVG
+*/
+
+"shape_too_small"   = "图形太小，请重新绘制";
+"shape1_deleted"    = "已删除一个图形";
+"shape_n_deleted"   = "已删除 %d 个图形";
+"invalid_gridcell"  = "单元格太小或太大";
+"nodept"            = "顶点";
+"centerpt"          = "圆心";
+"midpt"             = "中点";
+"quadpt"            = "象限点";
+"crosspt"           = "交点";
+"nearpt"            = "线上点";
+"perppt"            = "垂足";

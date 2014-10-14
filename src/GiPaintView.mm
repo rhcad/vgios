@@ -205,7 +205,7 @@ GiColor CGColorToGiColor(CGColorRef color);
 @synthesize rotationRecognizer = _rotationRecognizer;
 @synthesize gestureEnabled = _gestureEnabled;
 @synthesize mainView = _mainView;
-@synthesize viewToMagnify;
+@synthesize viewToMagnify = _viewToMagnify;
 @synthesize imageCache;
 @synthesize delegates;
 @synthesize flags;
@@ -344,6 +344,14 @@ GiColor CGColorToGiColor(CGColorRef color);
         [_magnifierView RELEASE];
         _magnifierView = nil;
     }
+}
+
+- (void)setViewToMagnify:(UIView *)v {
+    _viewToMagnify = v;
+    if (v)
+        self.flags |= GIViewFlagsMagnifier;
+    else
+        self.flags &= ~GIViewFlagsMagnifier;
 }
 
 - (void)didEnteredBackground:(NSNotification*)notification {

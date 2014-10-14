@@ -4,6 +4,8 @@
 
 #import "GiPaintView.h"
 
+@class GiViewHelper;
+
 //! 可在XIB和StoryBoard中指定属性的的绘图视图类
 /*! \ingroup GROUP_IOS
  */
@@ -12,6 +14,9 @@
 //@property BOOL        gestureEnabled;         // 是否允许触摸交互
 //@property NSInteger   flags;                  // 由 GIViewFlags 按位组成的视图特性标志
 //@property BOOL        contextActionEnabled;   // 是否允许上下文操作
+
+//! 专用于此视图的绘图辅助对象
+@property(nonatomic, readonly)  GiViewHelper    *helper;
 
 //! 当前命令名称
 @property(nonatomic, assign)    NSString        *command;
@@ -62,6 +67,6 @@
 @property (nonatomic)           CGSize          modelScale;
 
 //! 是否允许放缩显示
-@property(nonatomic)            BOOL zoomEnabled;
+@property(nonatomic)            BOOL            zoomEnabled;
 
 @end
