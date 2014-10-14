@@ -468,7 +468,8 @@ void GiViewAdapter::redraw(bool changed) {
 }
 
 bool GiViewAdapter::canShowMagnifier() const {
-    return (!_core->isCommand("splines")
+    return ((_flags & GIViewFlagsMagnifier)
+            && !_core->isCommand("splines")
             && _core->getSelectedShapeType() != kMgShapeImage);
 }
 

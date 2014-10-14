@@ -67,6 +67,6 @@
 @property (nonatomic)           CGSize          modelScale;
 
 //! 是否允许放缩显示
-@property(nonatomic)            BOOL zoomEnabled;
+@property(nonatomic)            BOOL            zoomEnabled;
 
 @end
