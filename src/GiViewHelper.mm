@@ -7,7 +7,7 @@
 #import "GiImageCache.h"
 #include "mgview.h"
 
-#define IOSLIBVERSION     22
+#define IOSLIBVERSION     23
 
 extern NSString* EXTIMAGENAMES[];
 
@@ -762,27 +762,23 @@ static GiViewHelper *_sharedInstance = nil;
 
 - (void)setOptions:(NSDictionary *)dict {
     GiCoreView *cv = [_view coreView];
+    NSNumber *num;
     
     if (dict && dict.count > 0) {
-        NSNumber *num = dict[@"contextActionEnabled"];
-        if (num) {
-            _view.contextActionEnabled = [num boolValue];
-            [_view hideContextActions];
-            return;
-        }
-        num = dict[@"showMagnifier"];
-        if (num) {
-            if ([num boolValue])
-                _view.flags |= GIViewFlagsMagnifier;
-            else
-                _view.flags &= ~GIViewFlagsMagnifier;
-            return;
-        }
-        
         for (NSString *name in dict.allKeys) {
             num = dict[name];
             
-            if (strcmp([num objCType], @encode(BOOL)) == 0) {
+            if ([name isEqualToString:@"contextActionEnabled"]) {
+                _view.contextActionEnabled = [num boolValue];
+                [_view hideContextActions];
+            }
+            else if ([name isEqualToString:@"showMagnifier"]) {
+                if ([num boolValue])
+                _view.flags |= GIViewFlagsMagnifier;
+                else
+                _view.flags &= ~GIViewFlagsMagnifier;
+            }
+            else if (strcmp([num objCType], @encode(BOOL)) == 0) {
                 cv->setOptionBool([name UTF8String], [num boolValue]);
             } else if (strcmp([num objCType], @encode(int)) == 0) {
                 cv->setOptionInt([name UTF8String], [num intValue]);
