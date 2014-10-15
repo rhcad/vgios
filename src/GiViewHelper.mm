@@ -542,6 +542,14 @@ static GiViewHelper *_sharedInstance = nil;
     }
 }
 
+- (void)showMessage:(NSString *)text {
+    [_view viewAdapter]->showMessage([text UTF8String]);
+}
+
+- (NSString *)localizedString:(NSString *)name {
+    return GiLocalizedString(name);
+}
+
 - (void)clearCachedData {
     [_view clearCachedData];
 }

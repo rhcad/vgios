@@ -93,6 +93,8 @@ struct MgShapeFactory;
 - (CGPoint)displayToModel:(CGPoint)point;   //!< 视图坐标转为模型坐标
 - (CGRect)displayRectToModel:(CGRect)rect;  //!< 视图坐标转为模型坐标
 - (CGRect)getShapeBox:(int)sid;             //!< 得到指定ID的图形的包络框显示坐标
+- (void)showMessage:(NSString *)text;       //!< 显示消息文字
+- (NSString *)localizedString:(NSString *)name; //!< 本地化文字
 
 - (BOOL)startUndoRecord:(NSString *)path;   //!< 开始Undo录制，在视图初始化或onFirstRegen中调用
 - (void)stopUndoRecord;                     //!< 停止Undo录制，在主线程用

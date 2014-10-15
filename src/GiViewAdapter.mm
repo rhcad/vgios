@@ -43,7 +43,6 @@ static int getExtraImageCount() { int n = 0; while (EXTIMAGENAMES[n]) n++; retur
 @end
 
 #define APPENDSIZE sizeof(_appendIDs)/sizeof(_appendIDs[0])
-NSString *GiLocalizedString(NSString *name);
 
 GiViewAdapter::GiViewAdapter(GiPaintView *mainView, GiViewAdapter *refView, int flags)
     : _view(mainView), _dynview(nil), _buttons(nil), _buttonImages(nil), _flags(flags)

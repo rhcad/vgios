@@ -52,6 +52,8 @@ class GiViewAdapter;
 
 @end
 
+NSString *GiLocalizedString(NSString *name);
+
 //! iOS绘图视图适配器
 class GiViewAdapter : public GiView
 {
