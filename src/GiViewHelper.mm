@@ -76,7 +76,7 @@ struct GiOptionCallback : public MgOptionCallback {
 @implementation GiViewHelper
 
 @synthesize shapeCount, selectedCount, selectedType, selectedShapeID, content;
-@synthesize changeCount, drawCount, displayExtent, boundingBox;
+@synthesize changeCount, drawCount, displayExtent, boundingBox, selectedHandle;
 @synthesize command, lineWidth, strokeWidth, lineColor, lineAlpha;
 @synthesize lineStyle, fillColor, fillAlpha, options, zoomEnabled;
 
@@ -335,6 +335,10 @@ static GiViewHelper *_sharedInstance = nil;
 
 - (int)selectedShapeID {
     return [_view coreView]->getSelectedShapeID();
+}
+
+- (int)selectedHandle {
+    return [_view coreView]->getSelectedHandle();
 }
 
 - (long)changeCount {
