@@ -78,7 +78,7 @@ struct GiOptionCallback : public MgOptionCallback {
 @synthesize shapeCount, selectedCount, selectedType, selectedShapeID, content;
 @synthesize changeCount, drawCount, displayExtent, boundingBox, selectedHandle;
 @synthesize command, lineWidth, strokeWidth, lineColor, lineAlpha;
-@synthesize lineStyle, fillColor, fillAlpha, options, zoomEnabled;
+@synthesize lineStyle, fillColor, fillAlpha, options, zoomEnabled, viewBox;
 
 static GiViewHelper *_sharedInstance = nil;
 
@@ -347,6 +347,15 @@ static GiViewHelper *_sharedInstance = nil;
 
 - (long)drawCount {
     return [_view coreView]->getDrawCount();
+}
+
+- (CGRect)viewBox {
+    mgvector<float> box(4);
+    [_view coreView]->getViewModelBox(box);
+    
+    float w = box.get(2) - box.get(0);
+    float h = box.get(3) - box.get(1);
+    return CGRectMake(box.get(0), box.get(1), w, h);
 }
 
 - (CGRect)displayExtent {
