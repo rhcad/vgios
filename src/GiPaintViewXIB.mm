@@ -46,7 +46,7 @@
 }
 
 - (void)dealloc {
-    [hlp RELEASE];
+    [hlp RELEASEOBJ];
     [super DEALLOC];
 }
 

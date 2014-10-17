@@ -71,13 +71,13 @@ GiViewAdapter::GiViewAdapter(GiPaintView *mainView, GiViewAdapter *refView, int 
 }
 
 GiViewAdapter::~GiViewAdapter() {
-    [_buttons RELEASE];
-    [_buttonImages RELEASE];
-    [_imageCache RELEASE];
-    [_messageHelper RELEASE];
-    [_render RELEASE];
-    [_dynview RELEASE];
-    [_lock RELEASE];
+    [_buttons RELEASEOBJ];
+    [_buttonImages RELEASEOBJ];
+    [_imageCache RELEASEOBJ];
+    [_messageHelper RELEASEOBJ];
+    [_render RELEASEOBJ];
+    [_dynview RELEASEOBJ];
+    [_lock RELEASEOBJ];
     _core->destoryView(this);
     _core->release();
 }
@@ -387,7 +387,7 @@ void GiViewAdapter::stopRegen() {
     [_render stopRender];
     if (_dynview && _dynview != _view) {
         [_dynview removeFromSuperview];
-        [_dynview RELEASE];
+        [_dynview RELEASEOBJ];
         _dynview = nil;
     }
     _view = nil;
@@ -402,7 +402,7 @@ int GiViewAdapter::setFlags(int flags)
         if (_flags & GIViewFlagsNoDynDrawView) {
             if (_dynview && _dynview != _view) {
                 [_dynview removeFromSuperview];
-                [_dynview RELEASE];
+                [_dynview RELEASEOBJ];
                 _dynview = nil;
             }
         }
@@ -413,7 +413,7 @@ int GiViewAdapter::setFlags(int flags)
                 _render = [[GiLayerRender alloc]initWithAdapter:this];
             }
         } else if (_render) {
-            [_render RELEASE];
+            [_render RELEASEOBJ];
             _render = nil;
         }
     }
@@ -583,7 +583,7 @@ bool GiViewAdapter::showContextActions(const mgvector<int>& actions,
         btn.frame = [btnParent convertRect:btn.frame fromView:_view];
         [btnParent addSubview:btn];
         [_buttons addObject:btn];
-        [btn RELEASE];
+        [btn RELEASEOBJ];
     }
     [_view performSelector:@selector(onContextActionsDisplay:) withObject:_buttons];
     

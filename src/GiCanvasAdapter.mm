@@ -308,7 +308,7 @@ float GiCanvasAdapter::drawTextAt(const char* text, float x, float y, float h, i
     x -= (align == 2) ? actsize.width : ((align == 1) ? actsize.width / 2 : 0);
     drawAtPoint6(str, CGPointMake(x, y), @{NSFontAttributeName:font});  // 显示文字
     if (*text != '@')
-        [str RELEASE];
+        [str RELEASEOBJ];
     
     UIGraphicsPopContext();
     

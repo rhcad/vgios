@@ -21,8 +21,8 @@
 }
 
 - (void)dealloc {
-    [_images RELEASE];
-    [_spirits RELEASE];
+    [_images RELEASEOBJ];
+    [_spirits RELEASEOBJ];
     [super DEALLOC];
 }
 
@@ -169,7 +169,7 @@
         image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
     }
-    [svgimg RELEASE];
+    [svgimg RELEASEOBJ];
 #endif
     
     return image;
@@ -197,14 +197,14 @@
                 [_images setObject:image forKey:*name];
                 size = image.size;
             }
-            [svgimg RELEASE];
+            [svgimg RELEASEOBJ];
 #endif
         }
         else {
             image = [[UIImage alloc]initWithContentsOfFile:filename];
             if (image && image.size.width > 1) {
                 [_images setObject:image forKey:*name];
-                [image RELEASE];
+                [image RELEASEOBJ];
                 size = image.size;
             }
         }
