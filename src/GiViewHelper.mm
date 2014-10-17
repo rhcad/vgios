@@ -760,6 +760,7 @@ static GiViewHelper *_sharedInstance = nil;
     GiOptionCallback c([NSMutableDictionary dictionary]);
     [_view coreView]->traverseOptions(&c);
     c.onGetOptionBool("contextActionEnabled", _view.contextActionEnabled);
+    c.onGetOptionBool("zoomEnabled", self.zoomEnabled);
     c.onGetOptionBool("showMagnifier", !!(_view.flags & GIViewFlagsMagnifier));
     return c.rootDict;
 }
@@ -775,6 +776,9 @@ static GiViewHelper *_sharedInstance = nil;
             if ([name isEqualToString:@"contextActionEnabled"]) {
                 _view.contextActionEnabled = [num boolValue];
                 [_view hideContextActions];
+            }
+            else if ([name isEqualToString:@"zoomEnabled"]) {
+                self.zoomEnabled = [num boolValue];
             }
             else if ([name isEqualToString:@"showMagnifier"]) {
                 if ([num boolValue])

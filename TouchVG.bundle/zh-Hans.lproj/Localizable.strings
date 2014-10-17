@@ -29,6 +29,7 @@
 "snap_edge_tol"     = "边吸附距离";
 "snap_toltip"       = "1~100 mm";
 "context_actions"   = "上下文按钮";
+"zoom_enabled"      = "允许放缩";
 "show_magnifier"    = "显示放大镜";
 
 "select"            = "选择";
