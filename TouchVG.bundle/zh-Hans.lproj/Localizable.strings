@@ -34,6 +34,7 @@
 
 "select"            = "选择";
 "erase"             = "删除";
+"clear"             = "清空";
 "line"              = "线段";
 "lines"             = "折线";
 "rayline"           = "射线";
