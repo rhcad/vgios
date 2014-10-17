@@ -98,7 +98,7 @@
     }
     if (_layer) {
         _layer.delegate = nil;
-        [_layer RELEASE];
+        [_layer RELEASEOBJ];
         _layer = nil;
     }
 }
@@ -107,7 +107,7 @@
     if (_queue && _layer) {
         dispatch_async(_queue, ^{
             _layer.delegate = nil;
-            [_layer RELEASE];
+            [_layer RELEASEOBJ];
             _layer = nil;
         });
     }
@@ -341,7 +341,7 @@ GiColor CGColorToGiColor(CGColorRef color);
     
     if ((old & GIViewFlagsMagnifier) && !(f & GIViewFlagsMagnifier)) {
         [_magnifierView hide];
-        [_magnifierView RELEASE];
+        [_magnifierView RELEASEOBJ];
         _magnifierView = nil;
     }
 }
@@ -590,13 +590,13 @@ GiColor CGColorToGiColor(CGColorRef color);
     _adapter->stopRecord(true);
     if (_magnifierView) {
         [_magnifierView hide];
-        [_magnifierView RELEASE];
+        [_magnifierView RELEASEOBJ];
         _magnifierView = nil;
     }
     self.gestureEnabled = NO;
     for (int i = 0; _recognizers[i]; i++) {
         [self removeGestureRecognizer:_recognizers[i]];
-        [_recognizers[i] RELEASE];
+        [_recognizers[i] RELEASEOBJ];
         _recognizers[i] = nil;
     }
     _mainView = nil;

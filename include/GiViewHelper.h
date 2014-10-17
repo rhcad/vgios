@@ -61,8 +61,10 @@ struct MgShapeFactory;
 @property(nonatomic, readonly) int selectedCount;   //!< 选中的图形个数
 @property(nonatomic, readonly) int selectedType;    //!< 选中的图形的类型, MgShapeType
 @property(nonatomic, readonly) int selectedShapeID; //!< 当前选中的图形的ID，选中多个时只取第一个
+@property(nonatomic, readonly) int selectedHandle;  //!< 当前线性图形中当前控制点序号
 @property(nonatomic, readonly) long changeCount;    //!< 图形改变次数，可用于检查是否需要保存
 @property(nonatomic, readonly) long drawCount;      //!< 显示次数
+@property(nonatomic, readonly) CGRect viewBox;      //!< 当前视图区域的模型坐标范围，模型坐标
 @property(nonatomic, readonly) CGRect displayExtent; //!< 所有图形的显示范围，视图坐标
 @property(nonatomic, readonly) CGRect boundingBox;  //!< 选择包络框，视图坐标
 @property(nonatomic, assign) NSString *content;     //!< 图形的JSON内容
@@ -93,6 +95,8 @@ struct MgShapeFactory;
 - (CGPoint)displayToModel:(CGPoint)point;   //!< 视图坐标转为模型坐标
 - (CGRect)displayRectToModel:(CGRect)rect;  //!< 视图坐标转为模型坐标
 - (CGRect)getShapeBox:(int)sid;             //!< 得到指定ID的图形的包络框显示坐标
+- (void)showMessage:(NSString *)text;       //!< 显示消息文字
+- (NSString *)localizedString:(NSString *)name; //!< 本地化文字
 
 - (BOOL)startUndoRecord:(NSString *)path;   //!< 开始Undo录制，在视图初始化或onFirstRegen中调用
 - (void)stopUndoRecord;                     //!< 停止Undo录制，在主线程用

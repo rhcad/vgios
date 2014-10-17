@@ -7,7 +7,7 @@
 #import "GiImageCache.h"
 #include "mgview.h"
 
-#define IOSLIBVERSION     22
+#define IOSLIBVERSION     23
 
 extern NSString* EXTIMAGENAMES[];
 
@@ -76,9 +76,9 @@ struct GiOptionCallback : public MgOptionCallback {
 @implementation GiViewHelper
 
 @synthesize shapeCount, selectedCount, selectedType, selectedShapeID, content;
-@synthesize changeCount, drawCount, displayExtent, boundingBox;
+@synthesize changeCount, drawCount, displayExtent, boundingBox, selectedHandle;
 @synthesize command, lineWidth, strokeWidth, lineColor, lineAlpha;
-@synthesize lineStyle, fillColor, fillAlpha, options, zoomEnabled;
+@synthesize lineStyle, fillColor, fillAlpha, options, zoomEnabled, viewBox;
 
 static GiViewHelper *_sharedInstance = nil;
 
@@ -337,12 +337,25 @@ static GiViewHelper *_sharedInstance = nil;
     return [_view coreView]->getSelectedShapeID();
 }
 
+- (int)selectedHandle {
+    return [_view coreView]->getSelectedHandle();
+}
+
 - (long)changeCount {
     return [_view coreView]->getChangeCount();
 }
 
 - (long)drawCount {
     return [_view coreView]->getDrawCount();
+}
+
+- (CGRect)viewBox {
+    mgvector<float> box(4);
+    [_view coreView]->getViewModelBox(box);
+    
+    float w = box.get(2) - box.get(0);
+    float h = box.get(3) - box.get(1);
+    return CGRectMake(box.get(0), box.get(1), w, h);
 }
 
 - (CGRect)displayExtent {
@@ -540,6 +553,14 @@ static GiViewHelper *_sharedInstance = nil;
     @synchronized([_view locker]) {
         return [_view coreView]->addShapesForTest();
     }
+}
+
+- (void)showMessage:(NSString *)text {
+    [_view viewAdapter]->showMessage([text UTF8String]);
+}
+
+- (NSString *)localizedString:(NSString *)name {
+    return GiLocalizedString(name);
 }
 
 - (void)clearCachedData {
@@ -748,33 +769,33 @@ static GiViewHelper *_sharedInstance = nil;
     GiOptionCallback c([NSMutableDictionary dictionary]);
     [_view coreView]->traverseOptions(&c);
     c.onGetOptionBool("contextActionEnabled", _view.contextActionEnabled);
+    c.onGetOptionBool("zoomEnabled", self.zoomEnabled);
     c.onGetOptionBool("showMagnifier", !!(_view.flags & GIViewFlagsMagnifier));
     return c.rootDict;
 }
 
 - (void)setOptions:(NSDictionary *)dict {
     GiCoreView *cv = [_view coreView];
+    NSNumber *num;
     
     if (dict && dict.count > 0) {
-        NSNumber *num = dict[@"contextActionEnabled"];
-        if (num) {
-            _view.contextActionEnabled = [num boolValue];
-            [_view hideContextActions];
-            return;
-        }
-        num = dict[@"showMagnifier"];
-        if (num) {
-            if ([num boolValue])
-                _view.flags |= GIViewFlagsMagnifier;
-            else
-                _view.flags &= ~GIViewFlagsMagnifier;
-            return;
-        }
-        
         for (NSString *name in dict.allKeys) {
             num = dict[name];
             
-            if (strcmp([num objCType], @encode(BOOL)) == 0) {
+            if ([name isEqualToString:@"contextActionEnabled"]) {
+                _view.contextActionEnabled = [num boolValue];
+                [_view hideContextActions];
+            }
+            else if ([name isEqualToString:@"zoomEnabled"]) {
+                self.zoomEnabled = [num boolValue];
+            }
+            else if ([name isEqualToString:@"showMagnifier"]) {
+                if ([num boolValue])
+                _view.flags |= GIViewFlagsMagnifier;
+                else
+                _view.flags &= ~GIViewFlagsMagnifier;
+            }
+            else if (strcmp([num objCType], @encode(BOOL)) == 0) {
                 cv->setOptionBool([name UTF8String], [num boolValue]);
             } else if (strcmp([num objCType], @encode(int)) == 0) {
                 cv->setOptionInt([name UTF8String], [num intValue]);

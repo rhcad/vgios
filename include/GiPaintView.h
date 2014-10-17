@@ -41,6 +41,8 @@ class GiViewAdapter;
                              refView:(GiPaintView *)refView
                           parentView:(UIView *)parentView;
 
+- (id)initWithFrame:(CGRect)frame flags:(int)f;
+
 + (GiPaintView *)activeView;                //!< 得到当前激活的绘图视图
 - (void)activiteView;                       //!< 设置为当前活动视图，触摸时自动调用
 - (UIView *)dynamicShapeView:(BOOL)create;  //!< 动态图形视图
