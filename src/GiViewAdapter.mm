@@ -778,6 +778,10 @@ void GiViewAdapter::onShapesRecorded(NSDictionary *info)
 
 void GiViewAdapter::showMessage(const char* text)
 {
+    if (!text) {
+        return;
+    }
+    
     NSString *str;
     if (*text == '@') {
         str = GiLocalizedString([NSString stringWithUTF8String:text+1]);

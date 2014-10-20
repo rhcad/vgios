@@ -386,7 +386,7 @@ static GiViewHelper *_sharedInstance = nil;
 }
 
 + (NSString *)addExtension:(NSString *)filename :(NSString *)ext {
-    if (filename && ![filename hasSuffix:ext]) {
+    if (filename && ![filename hasSuffix:ext] && ![filename hasSuffix:@".json"]) {
         filename = [[filename stringByDeletingPathExtension]
                     stringByAppendingPathExtension:[ext substringFromIndex:1]];
     }
@@ -781,6 +781,10 @@ static GiViewHelper *_sharedInstance = nil;
     if (dict && dict.count > 0) {
         for (NSString *name in dict.allKeys) {
             num = dict[name];
+            
+            if (![num isKindOfClass:[NSNumber class]]) {
+                continue;
+            }
             
             if ([name isEqualToString:@"contextActionEnabled"]) {
                 _view.contextActionEnabled = [num boolValue];
