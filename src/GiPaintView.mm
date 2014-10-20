@@ -305,6 +305,12 @@ GiColor CGColorToGiColor(CGColorRef color);
             || !_adapter->coreView()->zoomToExtent()) {
             _adapter->regenAll(false);
         }
+        
+        for (size_t n = _adapter->delegates.size(), i = 0; i < n; i++) {
+            if ([_adapter->delegates[i] respondsToSelector:@selector(onResizeFrame:)]) {
+                [_adapter->delegates[i] onResizeFrame:self];
+            }
+        }
     }
 }
 
