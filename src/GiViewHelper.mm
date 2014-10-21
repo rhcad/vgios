@@ -38,10 +38,10 @@ struct GiImageFinderD : public MgFindImageCallback {
         : cache(cache), arr(arr) {}
     
     virtual void onFindImage(int sid, const char* name) {
-        NSString *title = [NSString stringWithUTF8String:name];
+        NSString *title = @(name);
         CGRect rect = [[GiViewHelper sharedInstance] getShapeBox:sid];
         
-        [arr addObject:@{@"id":[NSNumber numberWithInt:sid],
+        [arr addObject:@{@"id":@(sid),
                          @"name":title,
                          @"path":[cache.imagePath stringByAppendingPathComponent:title],
                          @"image":[cache loadImage:title],
@@ -56,16 +56,13 @@ struct GiOptionCallback : public MgOptionCallback {
     GiOptionCallback(NSMutableDictionary *dict) : rootDict(dict) {}
     
     virtual void onGetOptionBool(const char* name, bool value) {
-        NSString *key = [NSString stringWithUTF8String:name];
-        rootDict[key] = [NSNumber numberWithBool:value];
+        rootDict[@(name)] = @(value);
     }
     virtual void onGetOptionInt(const char* name, int value) {
-        NSString *key = [NSString stringWithUTF8String:name];
-        rootDict[key] = [NSNumber numberWithInt:value];
+        rootDict[@(name)] = @(value);
     }
     virtual void onGetOptionFloat(const char* name, float value) {
-        NSString *key = [NSString stringWithUTF8String:name];
-        rootDict[key] = [NSNumber numberWithFloat:value];
+        rootDict[@(name)] = @(value);
     }
 };
 
@@ -799,14 +796,16 @@ static GiViewHelper *_sharedInstance = nil;
                 else
                 _view.flags &= ~GIViewFlagsMagnifier;
             }
-            else if (strcmp([num objCType], @encode(BOOL)) == 0) {
+            else if (strstr(object_getClassName(num), "Boolean")) {
                 cv->setOptionBool([name UTF8String], [num boolValue]);
-            } else if (strcmp([num objCType], @encode(int)) == 0) {
+            } else if (strcmp([num objCType], @encode(int)) == 0 ||
+                       strcmp([num objCType], "q") == 0) {
                 cv->setOptionInt([name UTF8String], [num intValue]);
-            } else if (strcmp([num objCType], @encode(float)) == 0) {
+            } else if (strcmp([num objCType], @encode(float)) == 0 ||
+                       strcmp([num objCType], @encode(double)) == 0) {
                 cv->setOptionFloat([name UTF8String], [num floatValue]);
             } else {
-                NSLog(@"Unsupported number type: %@", name);
+                NSLog(@"Unsupported number type: %@, %s", name, [num objCType]);
             }
         }
     } else {

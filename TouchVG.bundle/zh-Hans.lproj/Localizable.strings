@@ -30,11 +30,13 @@
 "snap_toltip"       = "1~100 mm";
 "context_actions"   = "上下文按钮";
 "zoom_enabled"      = "允许放缩";
+"zoom_shape_enabled" = "允许双指缩放图形";
 "show_magnifier"    = "显示放大镜";
 
 "select"            = "选择";
 "erase"             = "删除";
 "clear"             = "清空";
+"splines"           = "自由画";
 "line"              = "线段";
 "lines"             = "折线";
 "rayline"           = "射线";

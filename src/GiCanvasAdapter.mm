@@ -259,7 +259,7 @@ bool GiCanvasAdapter::drawHandle(float x, float y, int type, float angle)
 bool GiCanvasAdapter::drawBitmap(const char* name, float xc, float yc,
                                  float w, float h, float angle)
 {
-    UIImage *image = (name && _cache ? [_cache loadImage:[NSString stringWithUTF8String:name]]
+    UIImage *image = (name && _cache ? [_cache loadImage:@(name)]
                       : [UIImage imageNamed:@"app57.png"]);
     if (image) {
         CGImageRef img = [image CGImage];
@@ -291,7 +291,7 @@ float GiCanvasAdapter::drawTextAt(const char* text, float x, float y, float h, i
     NSString *str;
     
     if (*text == '@') {
-        str = GiLocalizedString([NSString stringWithUTF8String:text+1]);
+        str = GiLocalizedString(@(text+1));
     } else {
         str = [[NSString alloc] initWithUTF8String:text];
     }

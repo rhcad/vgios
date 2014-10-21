@@ -169,7 +169,7 @@ struct ImageFinder : public MgFindImageCallback {
     ImageFinder(NSString *s, NSString *d) : srcPath(s), destPath(d) {}
     
     virtual void onFindImage(int sid, const char* name) {
-        NSString *fileTitle = [NSString stringWithUTF8String:name];
+        NSString *fileTitle = @(name);
         NSString *srcFile = [srcPath stringByAppendingPathComponent:fileTitle];
         NSString *destFile = [destPath stringByAppendingPathComponent:fileTitle];
         NSFileManager *fm = [NSFileManager defaultManager];
@@ -187,10 +187,10 @@ struct RecordShapesCallback : MgStringCallback {
     RecordShapesCallback(GiViewAdapter* adapter) : adapter(adapter) {}
     void onGetString(const char* filename) {
         GiCoreView* cv = adapter->coreView();
-        NSDictionary *info = @{ @"tick" : [NSNumber numberWithLong:cv->getFrameTick()],
-                                @"index" : [NSNumber numberWithInt:cv->getFrameIndex()],
-                                @"flags" : [NSNumber numberWithInt:cv->getFrameFlags()],
-                                @"filename" : [NSString stringWithUTF8String:filename],
+        NSDictionary *info = @{ @"tick" : @(cv->getFrameTick()),
+                                @"index" : @(cv->getFrameIndex()),
+                                @"flags" : @(cv->getFrameFlags()),
+                                @"filename" : @(filename),
                                 @"view" : adapter->mainView() };
         adapter->onShapesRecorded(info);
     }
@@ -679,7 +679,7 @@ void GiViewAdapter::dynamicChanged() {
 
 void GiViewAdapter::shapeDeleted(int sid)
 {
-    id obj = [NSNumber numberWithInt:sid];
+    NSNumber *obj = @(sid);
     
     for (size_t i = 0; i < delegates.size() && respondsTo.didShapeDeleted; i++) {
         if ([delegates[i] respondsToSelector:@selector(onShapeDeleted:)]) {
@@ -709,8 +709,8 @@ bool GiViewAdapter::shapeDblClick(int type, int sid)
 bool GiViewAdapter::shapeClicked(int sid, int tag, float x, float y)
 {
     if (respondsTo.didShapeClicked || [_view respondsToSelector:@selector(onShapeClicked:)]) {
-        NSDictionary *info = @{ @"id" : [NSNumber numberWithInt:sid],
-                                @"tag" : [NSNumber numberWithInt:tag],
+        NSDictionary *info = @{ @"id" : @(sid),
+                                @"tag" : @(tag),
                                 @"point" : [NSValue valueWithCGPoint:CGPointMake(x, y)],
                                 @"view" : mainView() };
         
@@ -784,9 +784,9 @@ void GiViewAdapter::showMessage(const char* text)
     
     NSString *str;
     if (*text == '@') {
-        str = GiLocalizedString([NSString stringWithUTF8String:text+1]);
+        str = GiLocalizedString(@(text+1));
     } else {
-        str = [NSString stringWithUTF8String:text];
+        str = @(text);
     }
     
     [_messageHelper showMessage:str inView:getDynView(true)];
@@ -794,7 +794,7 @@ void GiViewAdapter::showMessage(const char* text)
 
 void GiViewAdapter::getLocalizedString(const char* name, MgStringCallback* result)
 {
-    NSString *text = GiLocalizedString([NSString stringWithUTF8String:name]);
+    NSString *text = GiLocalizedString(@(name));
     result->onGetString([text UTF8String]);
 }
 
