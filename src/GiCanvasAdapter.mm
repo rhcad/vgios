@@ -280,11 +280,12 @@ NSString *GiLocalizedString(NSString *name)
     NSString *language = [[[NSUserDefaults standardUserDefaults]
                            objectForKey:@"AppleLanguages"] objectAtIndex:0];
     
-    for (int i = 1; i < 5 && [str isEqualToString:name]; i++) {
+    for (int i = 0; i < 5 && [str isEqualToString:name]; i++) {
         NSString *path = [[NSBundle mainBundle] pathForResource:names[i] ofType:@"bundle"];
         NSBundle *bundle = [NSBundle bundleWithPath:path];
         NSBundle *languageBundle = [NSBundle bundleWithPath:[bundle pathForResource:language ofType:@"lproj"]];
         str = NSLocalizedStringFromTableInBundle(name, nil, languageBundle, nil);
+        str = str ? str : name;
     }
     
     return [str isEqualToString:name] ? NSLocalizedString(name, nil) : str;
