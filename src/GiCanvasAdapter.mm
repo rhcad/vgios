@@ -275,12 +275,18 @@ bool GiCanvasAdapter::drawBitmap(const char* name, float xc, float yc,
 
 NSString *GiLocalizedString(NSString *name)
 {
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"TouchVG" ofType:@"bundle"];
-    NSBundle *bundle = [NSBundle bundleWithPath:path];
+    NSString *str = name;
+    NSString *names[] = { @"TouchVG", @"vg1", @"vg2", @"vg3", @"vg4" };
     NSString *language = [[[NSUserDefaults standardUserDefaults]
                            objectForKey:@"AppleLanguages"] objectAtIndex:0];
-    NSBundle *languageBundle = [NSBundle bundleWithPath:[bundle pathForResource:language ofType:@"lproj"]];
-    NSString *str = NSLocalizedStringFromTableInBundle(name, nil, languageBundle, nil);
+    
+    for (int i = 1; i < 5 && [str isEqualToString:name]; i++) {
+        NSString *path = [[NSBundle mainBundle] pathForResource:names[i] ofType:@"bundle"];
+        NSBundle *bundle = [NSBundle bundleWithPath:path];
+        NSBundle *languageBundle = [NSBundle bundleWithPath:[bundle pathForResource:language ofType:@"lproj"]];
+        str = NSLocalizedStringFromTableInBundle(name, nil, languageBundle, nil);
+    }
+    
     return [str isEqualToString:name] ? NSLocalizedString(name, nil) : str;
 }
 
