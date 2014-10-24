@@ -259,7 +259,7 @@ bool GiCanvasAdapter::drawHandle(float x, float y, int type, float angle)
 bool GiCanvasAdapter::drawBitmap(const char* name, float xc, float yc,
                                  float w, float h, float angle)
 {
-    UIImage *image = (name && _cache ? [_cache loadImage:[NSString stringWithUTF8String:name]]
+    UIImage *image = (name && _cache ? [_cache loadImage:@(name)]
                       : [UIImage imageNamed:@"app57.png"]);
     if (image) {
         CGImageRef img = [image CGImage];
@@ -275,12 +275,19 @@ bool GiCanvasAdapter::drawBitmap(const char* name, float xc, float yc,
 
 NSString *GiLocalizedString(NSString *name)
 {
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"TouchVG" ofType:@"bundle"];
-    NSBundle *bundle = [NSBundle bundleWithPath:path];
+    NSString *str = name;
+    NSString *names[] = { @"TouchVG", @"vg1", @"vg2", @"vg3", @"vg4" };
     NSString *language = [[[NSUserDefaults standardUserDefaults]
                            objectForKey:@"AppleLanguages"] objectAtIndex:0];
-    NSBundle *languageBundle = [NSBundle bundleWithPath:[bundle pathForResource:language ofType:@"lproj"]];
-    NSString *str = NSLocalizedStringFromTableInBundle(name, nil, languageBundle, nil);
+    
+    for (int i = 0; i < 5 && [str isEqualToString:name]; i++) {
+        NSString *path = [[NSBundle mainBundle] pathForResource:names[i] ofType:@"bundle"];
+        NSBundle *bundle = [NSBundle bundleWithPath:path];
+        NSBundle *languageBundle = [NSBundle bundleWithPath:[bundle pathForResource:language ofType:@"lproj"]];
+        str = NSLocalizedStringFromTableInBundle(name, nil, languageBundle, nil);
+        str = str ? str : name;
+    }
+    
     return [str isEqualToString:name] ? NSLocalizedString(name, nil) : str;
 }
 
@@ -291,7 +298,7 @@ float GiCanvasAdapter::drawTextAt(const char* text, float x, float y, float h, i
     NSString *str;
     
     if (*text == '@') {
-        str = GiLocalizedString([NSString stringWithUTF8String:text+1]);
+        str = GiLocalizedString(@(text+1));
     } else {
         str = [[NSString alloc] initWithUTF8String:text];
     }

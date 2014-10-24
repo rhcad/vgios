@@ -194,7 +194,5 @@ typedef void (^GiStringBlock)(NSString *s);
 struct GiStringCallback : MgStringCallback {
     GiStringBlock c;
     GiStringCallback(GiStringBlock c) : c(c) {}
-    void onGetString(const char* text) {
-        c([NSString stringWithUTF8String:text]);
-    }
+    void onGetString(const char* text) { c(@(text)); }
 };
