@@ -318,7 +318,7 @@ static GiViewHelper *_sharedInstance = nil;
     return [_view coreView]->getShapeCount();
 }
 
-- (int)getUnlockedShapeCount {
+- (int)unlockedShapeCount {
     return [_view coreView]->getUnlockedShapeCount();
 }
 
