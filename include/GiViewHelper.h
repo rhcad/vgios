@@ -60,7 +60,7 @@ struct MgShapeFactory;
 @property(nonatomic, readonly) int shapeCount;      //!< 图形总数
 @property(nonatomic, readonly) int selectedCount;   //!< 选中的图形个数
 @property(nonatomic, readonly) int selectedType;    //!< 选中的图形的类型, MgShapeType
-@property(nonatomic, readonly) int selectedShapeID; //!< 当前选中的图形的ID，选中多个时只取第一个
+@property(nonatomic)           int selectedShapeID; //!< 当前选中的图形的ID，选中多个时只取第一个
 @property(nonatomic, readonly) int selectedHandle;  //!< 当前线性图形中当前控制点序号
 @property(nonatomic, readonly) long changeCount;    //!< 图形改变次数，可用于检查是否需要保存
 @property(nonatomic, readonly) long drawCount;      //!< 显示次数

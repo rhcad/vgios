@@ -334,6 +334,10 @@ static GiViewHelper *_sharedInstance = nil;
     return [_view coreView]->getSelectedShapeID();
 }
 
+- (void)setSelectedShapeID:(int)sid {
+    self.command = [NSString stringWithFormat:@"select{'id':%d}", sid];
+}
+
 - (int)selectedHandle {
     return [_view coreView]->getSelectedHandle();
 }

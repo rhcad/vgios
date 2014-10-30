@@ -20,6 +20,7 @@
 - (void)onFirstRegen:(id)view;          //!< 第一次后台渲染结束的通知
 - (void)onDynDrawEnded:(id)view;        //!< 动态绘图完成的通知
 - (void)onShapesRecorded:(NSDictionary *)info;  //!< 录制的通知
+- (void)onShapeWillDelete:(id)num;      //!< 图形将删除的通知, [NSNumber intValue]
 - (void)onShapeDeleted:(id)num;         //!< 图形已删除的通知, [NSNumber intValue]
 - (BOOL)onShapeDblClick:(id)view;       //!< 图形双击编辑的通知
 - (BOOL)onShapeClicked:(NSDictionary *)info;    //!< 图形点击的通知

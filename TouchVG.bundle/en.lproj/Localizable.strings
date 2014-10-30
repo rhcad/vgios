@@ -8,7 +8,7 @@
 "invalid_gridcell"  = "The grid cell is too small or too large";
 "undo_ok"           = "Undo successfully";
 "redo_ok"           = "Redo successfully";
-"nodept"            = "Vertext";
+"nodept"            = "Vertex";
 "centerpt"          = "Center";
 "midpt"             = "Midpoint";
 "quadpt"            = "Quadrantal points";
@@ -18,7 +18,7 @@
 
 "settings"          = "Settings";
 "snap_enabled"      = "Enable to snap";
-"snap_vertext"      = "Snap to vertext";
+"snap_vertex"       = "Snap to vertex";
 "snap_center"       = "Snap to center";
 "snap_midpoint"     = "Snap to midpoint";
 "snap_quadrant"     = "Snap to quadrantal points";
