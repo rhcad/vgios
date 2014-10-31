@@ -492,6 +492,11 @@ static GiViewHelper *_sharedInstance = nil;
                 MgShape* newsp = dests->addShape(*sp);
                 if (newsp) {
                     newsp->shape()->setFlag(kMgHideContent, false);
+                    if (newsp->context().getLineAlpha() > 0 && newsp->context().getLineAlpha() < 20) {
+                        GiContext ctx(newsp->context());
+                        ctx.setLineAlpha(20);
+                        newsp->setContext(ctx, GiContext::kLineAlpha);
+                    }
                 }
             }
         }
