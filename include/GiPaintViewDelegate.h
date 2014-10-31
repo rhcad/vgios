@@ -7,7 +7,7 @@
 //! 绘图消息的观察者协议
 /*! 也可以在 GiPaintView 派生类直接实现这些通知函数。
     \ingroup GROUP_IOS
-    \see GiPaintView
+    \see GiPaintView, GiViewHelper
  */
 @protocol GiPaintViewDelegate <NSObject>
 @optional

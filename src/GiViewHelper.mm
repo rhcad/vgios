@@ -76,6 +76,7 @@ struct GiOptionCallback : public MgOptionCallback {
 @synthesize changeCount, drawCount, displayExtent, boundingBox, selectedHandle;
 @synthesize command, lineWidth, strokeWidth, lineColor, lineAlpha;
 @synthesize lineStyle, fillColor, fillAlpha, options, zoomEnabled, viewBox;
+@synthesize currentPoint, currentModelPoint;
 
 static GiViewHelper *_sharedInstance = nil;
 
@@ -377,6 +378,16 @@ static GiViewHelper *_sharedInstance = nil;
     return CGRectMake(box.get(0), box.get(1), w, h);
 }
 
+- (CGPoint)currentPoint {
+    Point2d pt([self cmdView]->motion()->point);
+    return CGPointMake(pt.x, pt.y);
+}
+
+- (CGPoint)currentModelPoint {
+    Point2d pt([self cmdView]->motion()->pointM);
+    return CGPointMake(pt.x, pt.y);
+}
+
 - (CGRect)getShapeBox:(int)sid {
     mgvector<float> box(4);
     [_view coreView]->getBoundingBox(box, sid);
@@ -465,6 +476,30 @@ static GiViewHelper *_sharedInstance = nil;
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
+    return image;
+}
+
+- (UIImage *)snapshotWithShapes:(NSArray *)ids size:(CGSize)size {
+    GiViewHelper *hlp = [[GiViewHelper alloc]init];
+    GiPaintView *tmpview = [hlp createDummyView:size];
+    MgShapes *srcs = self.cmdView->shapes();
+    MgShapes *dests = hlp.cmdView->shapes();
+    
+    @synchronized([_view locker]) {
+        for (NSNumber *sid in ids) {
+            const MgShape *sp = srcs->findShape([sid intValue]);
+            if (sp) {
+                MgShape* newsp = dests->addShape(*sp);
+                if (newsp) {
+                    newsp->shape()->setFlag(kMgHideContent, false);
+                }
+            }
+        }
+    }
+    [hlp zoomToExtent];
+    
+    UIImage *image = [hlp snapshot];
+    [tmpview removeFromSuperview];
     return image;
 }
 

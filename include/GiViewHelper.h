@@ -14,6 +14,7 @@ struct MgShapeFactory;
 /*! \ingroup GROUP_IOS
     \note sharedInstance 单实例对象用于在函数内临时使用。用作类的成员变量则应使用 init 或 initWithView 方法。
     可使用本类创建绘图视图，或者使用 GiPaintViewXIB 类在XIB和StoryBoard中创建绘图视图。
+    \see GiPaintView, GiPaintViewXIB
  */
 @interface GiViewHelper : NSObject
 
@@ -67,6 +68,8 @@ struct MgShapeFactory;
 @property(nonatomic, readonly) CGRect viewBox;      //!< 当前视图区域的模型坐标范围，模型坐标
 @property(nonatomic, readonly) CGRect displayExtent; //!< 所有图形的显示范围，视图坐标
 @property(nonatomic, readonly) CGRect boundingBox;  //!< 选择包络框，视图坐标
+@property(nonatomic, readonly) CGPoint currentPoint;        //!< 当前触摸位置，视图坐标
+@property(nonatomic, readonly) CGPoint currentModelPoint;   //!< 当前触摸位置的模型坐标
 @property(nonatomic, assign) NSString *content;     //!< 图形的JSON内容
 @property(nonatomic) BOOL zoomEnabled;              //!< 是否允许放缩显示
 
@@ -79,7 +82,8 @@ struct MgShapeFactory;
 
 - (UIImage *)snapshot;                      //!< 得到静态图形的快照，自动释放
 - (UIImage *)extentSnapshot:(CGFloat)space; //!< 得到当前显示的静态图形快照，自动去掉周围空白
-- (BOOL)exportExtentAsPNG:(NSString *)filename space:(CGFloat)space; //!< 保存当前显示的静态图形快照
+- (UIImage *)snapshotWithShapes:(NSArray *)ids size:(CGSize)size;     //!< 在矩形框内绘制指定ID的图形
+- (BOOL)exportExtentAsPNG:(NSString *)filename space:(CGFloat)space;    //!< 保存当前显示的静态图形快照
 - (BOOL)exportPNG:(NSString *)filename;     //!< 保存静态图形的快照到PNG文件，自动改后缀名为.png
 - (BOOL)exportSVG:(NSString *)filename;     //!< 导出静态图形到SVG文件，自动改后缀名为.svg
 - (int)importSVGPath:(int)sid d:(NSString *)d;  //!< 用SVG路径的d坐标序列创建或设置图形形状
