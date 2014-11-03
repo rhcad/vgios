@@ -76,6 +76,7 @@ struct GiOptionCallback : public MgOptionCallback {
 @synthesize changeCount, drawCount, displayExtent, boundingBox, selectedHandle;
 @synthesize command, lineWidth, strokeWidth, lineColor, lineAlpha;
 @synthesize lineStyle, fillColor, fillAlpha, options, zoomEnabled, viewBox;
+@synthesize currentPoint, currentModelPoint;
 
 static GiViewHelper *_sharedInstance = nil;
 
@@ -334,6 +335,10 @@ static GiViewHelper *_sharedInstance = nil;
     return [_view coreView]->getSelectedShapeID();
 }
 
+- (void)setSelectedShapeID:(int)sid {
+    self.command = [NSString stringWithFormat:@"select{'id':%d}", sid];
+}
+
 - (int)selectedHandle {
     return [_view coreView]->getSelectedHandle();
 }
@@ -371,6 +376,16 @@ static GiViewHelper *_sharedInstance = nil;
     float w = box.get(2) - box.get(0);
     float h = box.get(3) - box.get(1);
     return CGRectMake(box.get(0), box.get(1), w, h);
+}
+
+- (CGPoint)currentPoint {
+    Point2d pt([self cmdView]->motion()->point);
+    return CGPointMake(pt.x, pt.y);
+}
+
+- (CGPoint)currentModelPoint {
+    Point2d pt([self cmdView]->motion()->pointM);
+    return CGPointMake(pt.x, pt.y);
 }
 
 - (CGRect)getShapeBox:(int)sid {
@@ -461,6 +476,35 @@ static GiViewHelper *_sharedInstance = nil;
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
+    return image;
+}
+
+- (UIImage *)snapshotWithShapes:(NSArray *)ids size:(CGSize)size {
+    GiViewHelper *hlp = [[GiViewHelper alloc]init];
+    GiPaintView *tmpview = [hlp createDummyView:size];
+    MgShapes *srcs = self.cmdView->shapes();
+    MgShapes *dests = hlp.cmdView->shapes();
+    
+    @synchronized([_view locker]) {
+        for (NSNumber *sid in ids) {
+            const MgShape *sp = srcs->findShape([sid intValue]);
+            if (sp) {
+                MgShape* newsp = dests->addShape(*sp);
+                if (newsp) {
+                    newsp->shape()->setFlag(kMgHideContent, false);
+                    if (newsp->context().getLineAlpha() > 0 && newsp->context().getLineAlpha() < 20) {
+                        GiContext ctx(newsp->context());
+                        ctx.setLineAlpha(20);
+                        newsp->setContext(ctx, GiContext::kLineAlpha);
+                    }
+                }
+            }
+        }
+    }
+    [hlp zoomToExtent];
+    
+    UIImage *image = [hlp snapshot];
+    [tmpview removeFromSuperview];
     return image;
 }
 

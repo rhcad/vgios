@@ -7,7 +7,7 @@
 //! 绘图消息的观察者协议
 /*! 也可以在 GiPaintView 派生类直接实现这些通知函数。
     \ingroup GROUP_IOS
-    \see GiPaintView
+    \see GiPaintView, GiViewHelper
  */
 @protocol GiPaintViewDelegate <NSObject>
 @optional
@@ -20,6 +20,7 @@
 - (void)onFirstRegen:(id)view;          //!< 第一次后台渲染结束的通知
 - (void)onDynDrawEnded:(id)view;        //!< 动态绘图完成的通知
 - (void)onShapesRecorded:(NSDictionary *)info;  //!< 录制的通知
+- (void)onShapeWillDelete:(id)num;      //!< 图形将删除的通知, [NSNumber intValue]
 - (void)onShapeDeleted:(id)num;         //!< 图形已删除的通知, [NSNumber intValue]
 - (BOOL)onShapeDblClick:(id)view;       //!< 图形双击编辑的通知
 - (BOOL)onShapeClicked:(NSDictionary *)info;    //!< 图形点击的通知

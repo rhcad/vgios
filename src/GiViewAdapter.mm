@@ -677,6 +677,20 @@ void GiViewAdapter::dynamicChanged() {
     }
 }
 
+void GiViewAdapter::shapeWillDelete(int sid)
+{
+    NSNumber *obj = @(sid);
+    
+    for (size_t i = 0; i < delegates.size() && respondsTo.didShapeWillDelete; i++) {
+        if ([delegates[i] respondsToSelector:@selector(onShapeWillDelete:)]) {
+            [delegates[i] onShapeWillDelete:obj];
+        }
+    }
+    if ([_view respondsToSelector:@selector(onShapeWillDelete:)]) {
+        [_view performSelector:@selector(onShapeWillDelete:) withObject:obj];
+    }
+}
+
 void GiViewAdapter::shapeDeleted(int sid)
 {
     NSNumber *obj = @(sid);
