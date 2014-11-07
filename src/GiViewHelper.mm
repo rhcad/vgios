@@ -836,9 +836,9 @@ static GiViewHelper *_sharedInstance = nil;
             }
             else if ([name isEqualToString:@"showMagnifier"]) {
                 if ([num boolValue])
-                _view.flags |= GIViewFlagsMagnifier;
+                    _view.flags |= GIViewFlagsMagnifier;
                 else
-                _view.flags &= ~GIViewFlagsMagnifier;
+                    _view.flags &= ~GIViewFlagsMagnifier;
             }
             else if (strstr(object_getClassName(num), "Boolean")) {
                 cv->setOptionBool([name UTF8String], [num boolValue]);

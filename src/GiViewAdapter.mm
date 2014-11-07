@@ -802,8 +802,9 @@ void GiViewAdapter::showMessage(const char* text)
     } else {
         str = @(text);
     }
-    
-    [_messageHelper showMessage:str inView:getDynView(true)];
+    if (str) {
+        [_messageHelper showMessage:str inView:getDynView(true)];
+    }
 }
 
 void GiViewAdapter::getLocalizedString(const char* name, MgStringCallback* result)
