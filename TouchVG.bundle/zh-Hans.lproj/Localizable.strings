@@ -15,6 +15,7 @@
 "crosspt"           = "交点";
 "nearpt"            = "线上点";
 "perppt"            = "垂足";
+"tanpt"             = "切点";
 
 "settings"          = "设置";
 "snap_enabled"      = "允许吸附";
@@ -24,6 +25,7 @@
 "snap_quadrant"     = "吸附到象限点";
 "snap_perp"         = "吸附到垂线";
 "snap_cross"        = "吸附到交点";
+"snap_tangent"      = "吸附到切点";
 "snap_edge"         = "吸附到边";
 "snap_pt_tol"       = "点吸附距离";
 "snap_edge_tol"     = "边吸附距离";

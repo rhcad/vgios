@@ -11,10 +11,11 @@
 "nodept"            = "Vertex";
 "centerpt"          = "Center";
 "midpt"             = "Midpoint";
-"quadpt"            = "Quadrantal points";
+"quadpt"            = "Quadrantal point";
 "crosspt"           = "Intersection";
 "nearpt"            = "Point on edge";
-"perppt"            = "Perpendicular to lines";
+"perppt"            = "Perpendicular to line";
+"tanpt"             = "Tangent point";
 
 "settings"          = "Settings";
 "snap_enabled"      = "Enable to snap";
@@ -24,6 +25,7 @@
 "snap_quadrant"     = "Snap to quadrantal points";
 "snap_perp"         = "Snap to perpendicular point";
 "snap_cross"        = "Snap to intersection";
+"snap_tangent"      = "Snap to tangent points";
 "snap_edge"         = "Snap to edge";
 "snap_pt_tol"       = "Snap tolerance to points";
 "snap_edge_tol"     = "Snap tolerance to edges";

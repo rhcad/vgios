@@ -228,7 +228,7 @@ bool GiCanvasAdapter::drawHandle(float x, float y, int type, float angle)
             NSString *names[] = { @"vgdot1.png", @"vgdot2.png", @"vgdot3.png",
                 @"vg_lock.png", @"vg_unlock.png", @"vg_back.png", @"vg_endedit.png",
                 @"vgnode.png", @"vgcen.png", @"vgmid.png", @"vgquad.png",
-                @"vgcross.png", @"vgnear.png"
+                @"vgtangent.png", @"vgcross.png", @"vgnear.png"
             };
             name = [@"TouchVG.bundle" stringByAppendingPathComponent:names[type]];
         } else {
