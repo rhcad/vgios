@@ -677,6 +677,20 @@ void GiViewAdapter::dynamicChanged() {
     }
 }
 
+void GiViewAdapter::shapeWillDelete(int sid)
+{
+    NSNumber *obj = @(sid);
+    
+    for (size_t i = 0; i < delegates.size() && respondsTo.didShapeWillDelete; i++) {
+        if ([delegates[i] respondsToSelector:@selector(onShapeWillDelete:)]) {
+            [delegates[i] onShapeWillDelete:obj];
+        }
+    }
+    if ([_view respondsToSelector:@selector(onShapeWillDelete:)]) {
+        [_view performSelector:@selector(onShapeWillDelete:) withObject:obj];
+    }
+}
+
 void GiViewAdapter::shapeDeleted(int sid)
 {
     NSNumber *obj = @(sid);
@@ -788,8 +802,9 @@ void GiViewAdapter::showMessage(const char* text)
     } else {
         str = @(text);
     }
-    
-    [_messageHelper showMessage:str inView:getDynView(true)];
+    if (str) {
+        [_messageHelper showMessage:str inView:getDynView(true)];
+    }
 }
 
 void GiViewAdapter::getLocalizedString(const char* name, MgStringCallback* result)

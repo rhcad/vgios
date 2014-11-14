@@ -222,14 +222,14 @@ bool GiCanvasAdapter::clipPath()
 bool GiCanvasAdapter::drawHandle(float x, float y, int type, float angle)
 {
     if (type >= 0) {
+        static NSString *names[] = { @"vgdot1.png", @"vgdot2.png", @"vgdot3.png",
+            @"vg_lock.png", @"vg_unlock.png", @"vg_back.png", @"vg_endedit.png",
+            @"vgnode.png", @"vgcen.png", @"vgmid.png", @"vgquad.png",
+            @"vgtangent.png", @"vgcross.png", @"vgnear.png", @"vgpivot.png"
+        };
         NSString *name;
         
-        if (type < 13) {
-            NSString *names[] = { @"vgdot1.png", @"vgdot2.png", @"vgdot3.png",
-                @"vg_lock.png", @"vg_unlock.png", @"vg_back.png", @"vg_endedit.png",
-                @"vgnode.png", @"vgcen.png", @"vgmid.png", @"vgquad.png",
-                @"vgcross.png", @"vgnear.png"
-            };
+        if (type < sizeof(names)/sizeof(names[0])) {
             name = [@"TouchVG.bundle" stringByAppendingPathComponent:names[type]];
         } else {
             name = [NSString stringWithFormat:@"vgdot%d.png", type];
