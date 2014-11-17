@@ -91,7 +91,7 @@ struct MgShapeFactory;
 - (NSString *)exportSVGPath:(int)sid;       //!< 输出SVG路径的d坐标序列
 
 - (BOOL)zoomToExtent;                       //!< 放缩显示全部内容
-- (BOOL)zoomToExtent:(float)margin;         //!< 全部内容放缩显示到视图内缩后的区域
+- (BOOL)zoomToExtent:(CGFloat)margin;       //!< 全部内容放缩显示到视图内缩后的区域
 - (BOOL)zoomToModel:(CGRect)rect;           //!< 放缩显示指定范围到视图区域
 - (BOOL)zoomPan:(CGPoint)offPixel;          //!< 图形向右上平移显示，点单位
 
