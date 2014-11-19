@@ -167,15 +167,16 @@
             _gs = coreView->acquireGraphics(_adapter);
         }
     }
-    if (canvas.beginPaint(ctx)) {
+    if (_docs && canvas.beginPaint(ctx)) {
         CGContextClearRect(ctx, _adapter->mainView().bounds);
         coreView->drawAll(*_docs, _gs, &canvas);
         canvas.endPaint();
     }
-    
-    GiCoreView::releaseDocs(*_docs);
-    delete _docs;
-    _docs = NULL;
+    if (_docs) {
+        GiCoreView::releaseDocs(*_docs);
+        delete _docs;
+        _docs = NULL;
+    }
     coreView->releaseGraphics(_gs);
     _gs = 0;
     if (_drawing > 0)

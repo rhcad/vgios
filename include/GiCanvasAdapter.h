@@ -53,12 +53,13 @@ public:
     bool clipPath();
     bool drawHandle(float x, float y, int type, float angle);
     bool drawBitmap(const char* name, float xc, float yc, float w, float h, float angle);
-    float drawTextAt(const char* text, float x, float y, float h, int align);
+    float drawTextAt(const char* text, float x, float y, float h, int align, float angle);
     
 private:
     CGContextRef    _ctx;
     bool            _fill;
-    GiImageCache      *_cache;
+    int             _fillARGB;
+    GiImageCache    *_cache;
     CGGradientRef   _gradient0;
     CGGradientRef   _gradient;
 };
