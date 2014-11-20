@@ -320,7 +320,8 @@ float GiCanvasAdapter::drawTextAt(const char* text, float x, float y, float h, i
             CGContextConcatCTM(_ctx, af);
             x = y = 0;
         }
-        x -= (align == 2) ? actsize.width : ((align == 1) ? actsize.width / 2 : 0);
+        y -= (align & kAlignBottom) ? h : (align & kAlignVCenter) ? h / 2 : 0.f;
+        x -= (align & kAlignRight) ? actsize.width : ((align & kAlignCenter) ? actsize.width / 2 : 0.f);
         drawAtPoint6(str, CGPointMake(x, y), attrs);                        // 显示文字
         
         if (fabsf(angle) > 1e-3f) {
