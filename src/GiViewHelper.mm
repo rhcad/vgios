@@ -7,7 +7,7 @@
 #import "GiImageCache.h"
 #include "mgview.h"
 
-#define IOSLIBVERSION     25
+#define IOSLIBVERSION     26
 
 extern NSString* EXTIMAGENAMES[];
 
@@ -578,7 +578,7 @@ static GiViewHelper *_sharedInstance = nil;
     return [_view coreView]->zoomToExtent();
 }
 
-- (BOOL)zoomToExtent:(float)margin {
+- (BOOL)zoomToExtent:(CGFloat)margin {
     return [_view coreView]->zoomToExtent(margin);
 }
 

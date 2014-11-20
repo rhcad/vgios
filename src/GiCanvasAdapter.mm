@@ -34,6 +34,7 @@ bool GiCanvasAdapter::beginPaint(CGContextRef context, bool fast)
     _ctx = context;
     _fill = false;
     _gradient = NULL;
+    _fillARGB = 0;
     
     CGContextSetShouldAntialias(_ctx, true);       // 两者都为true才反走样
     CGContextSetAllowsAntialiasing(_ctx, true);
@@ -66,8 +67,9 @@ float GiCanvasAdapter::colorPart(int argb, int byteOrder)
 void GiCanvasAdapter::setPen(int argb, float width, int style, float phase, float)
 {
     if (argb != 0) {
-        CGContextSetRGBStrokeColor(_ctx, colorPart(argb, 2), colorPart(argb, 1),
-                                   colorPart(argb, 0), colorPart(argb, 3));
+        CGFloat r = colorPart(argb, 2), g = colorPart(argb, 1);
+        CGFloat b = colorPart(argb, 0), a = colorPart(argb, 3);
+        CGContextSetRGBStrokeColor(_ctx, r, g, b, a);
     }
     if (width > 0) {
         CGContextSetLineWidth(_ctx, width);
@@ -94,8 +96,7 @@ void GiCanvasAdapter::setPen(int argb, float width, int style, float phase, floa
         else if (linecap & kLineCapSquare)
             CGContextSetLineCap(_ctx, kCGLineCapSquare);
         else {
-            CGContextSetLineCap(_ctx, (style > 0 && style < 5)
-                                ? kCGLineCapButt : kCGLineCapRound);
+            CGContextSetLineCap(_ctx, (style > 0 && style < 5) ? kCGLineCapButt : kCGLineCapRound);
         }
     }
 }
@@ -103,10 +104,11 @@ void GiCanvasAdapter::setPen(int argb, float width, int style, float phase, floa
 void GiCanvasAdapter::setBrush(int argb, int style)
 {
     if (0 == style) {
-        float alpha = colorPart(argb, 3);
+        CGFloat alpha = colorPart(argb, 3);
+        CGFloat r = colorPart(argb, 2), g = colorPart(argb, 1), b = colorPart(argb, 0);
         _fill = alpha > 1e-2f;
-        CGContextSetRGBFillColor(_ctx, colorPart(argb, 2), colorPart(argb, 1),
-                                 colorPart(argb, 0), alpha);
+        CGContextSetRGBFillColor(_ctx, r, g, b, alpha);
+        _fillARGB = argb;
     }
 }
 
@@ -221,7 +223,7 @@ bool GiCanvasAdapter::clipPath()
 
 bool GiCanvasAdapter::drawHandle(float x, float y, int type, float angle)
 {
-    if (type >= 0) {
+    if (type >= 0) {    // GiHandleTypes
         static NSString *names[] = { @"vgdot1.png", @"vgdot2.png", @"vgdot3.png",
             @"vg_lock.png", @"vg_unlock.png", @"vg_back.png", @"vg_endedit.png",
             @"vgnode.png", @"vgcen.png", @"vgmid.png", @"vgquad.png",
@@ -291,32 +293,41 @@ NSString *GiLocalizedString(NSString *name)
     return [str isEqualToString:name] ? NSLocalizedString(name, nil) : str;
 }
 
-float GiCanvasAdapter::drawTextAt(const char* text, float x, float y, float h, int align)
+float GiCanvasAdapter::drawTextAt(const char* text, float x, float y, float h, int align, float angle)
 {
-    UIGraphicsPushContext(_ctx);        // 设置为当前上下文，供UIKit显示使用
+    UIGraphicsPushContext(_ctx);            // 设置为当前上下文，供UIKit显示使用
     
-    NSString *str;
+    NSString *str = (*text == '@') ? GiLocalizedString(@(text+1)) : @(text);
     
-    if (*text == '@') {
-        str = GiLocalizedString(@(text+1));
-    } else {
-        str = [[NSString alloc] initWithUTF8String:text];
-    }
-    
-    // 实际字体大小 = 目标高度 h * 临时字体大小 h / 临时字体行高 actsize.height
-    UIFont *font = [UIFont systemFontOfSize:h]; // 以像素点高度作为字体大小得到临时字体
-    CGSize actsize = boundingRectWithSize6(str, CGSizeMake(1e4f, h),    // 限制单行高度
+    // 实际字体大小(磅) / 目标字体行高 h = 临时字体大小(磅) h / 临时字体行高 actsize.height
+    UIFont *font = [UIFont systemFontOfSize:h];                             // 以磅单位作为字体大小得到临时字体
+    CGSize actsize = boundingRectWithSize6(str, CGSizeMake(1e4f, h),        // 限制单行高度
                                            NSStringDrawingTruncatesLastVisibleLine,
-                                           @{NSFontAttributeName:font}, // 使用临时字体计算文字显示宽高
+                                           @{NSFontAttributeName:font},     // 使用临时字体计算文字显示宽高
                                            nil).size;
     font = [UIFont systemFontOfSize: h * h / actsize.height];
-    actsize = sizeWithAttributes6(str, @{NSFontAttributeName:font});    // 文字实际显示的宽高
     
-    x -= (align == 2) ? actsize.width : ((align == 1) ? actsize.width / 2 : 0);
-    drawAtPoint6(str, CGPointMake(x, y), @{NSFontAttributeName:font});  // 显示文字
-    if (*text != '@')
-        [str RELEASEOBJ];
+    UIColor *color = [UIColor colorWithRed:colorPart(_fillARGB, 2) green:colorPart(_fillARGB, 1)
+                                      blue:colorPart(_fillARGB, 0) alpha:colorPart(_fillARGB, 3)];
+    NSDictionary *attrs = @{NSFontAttributeName:font, NSForegroundColorAttributeName:color};
+    actsize = sizeWithAttributes6(str, attrs);                              // 文字实际显示的宽高
     
+    if (_fill) {
+        CGAffineTransform af;
+        
+        if (fabsf(angle) > 1e-3f) {
+            af = CGAffineTransformRotate(CGAffineTransformMakeTranslation(x, y), -angle);
+            CGContextConcatCTM(_ctx, af);
+            x = y = 0;
+        }
+        y -= (align & kAlignBottom) ? h : (align & kAlignVCenter) ? h / 2 : 0.f;
+        x -= (align & kAlignRight) ? actsize.width : ((align & kAlignCenter) ? actsize.width / 2 : 0.f);
+        drawAtPoint6(str, CGPointMake(x, y), attrs);                        // 显示文字
+        
+        if (fabsf(angle) > 1e-3f) {
+            CGContextConcatCTM(_ctx, CGAffineTransformInvert(af));
+        }
+    }
     UIGraphicsPopContext();
     
     return actsize.width;
