@@ -313,7 +313,7 @@ float GiCanvasAdapter::drawTextAt(const char* text, float x, float y, float h, i
     actsize = sizeWithAttributes6(str, attrs);                              // 文字实际显示的宽高
     
     if (_fill) {
-        CGAffineTransform af;
+        CGAffineTransform af = CGAffineTransformIdentity;
         
         if (fabsf(angle) > 1e-3f) {
             af = CGAffineTransformRotate(CGAffineTransformMakeTranslation(x, y), -angle);
