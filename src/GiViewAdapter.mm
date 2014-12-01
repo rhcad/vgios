@@ -707,14 +707,18 @@ void GiViewAdapter::shapeDeleted(int sid)
 
 bool GiViewAdapter::shapeDblClick(int type, int sid)
 {
+    NSDictionary *info = @{ @"id" : @(sid),
+                            @"type" : @(type),
+                            @"view" : mainView() };
+    
     for (size_t i = 0; i < delegates.size() && respondsTo.didShapeDblClick; i++) {
         if ([delegates[i] respondsToSelector:@selector(onShapeDblClick:)]
-            && [delegates[i] onShapeDblClick:_view]) {
+            && [delegates[i] onShapeDblClick:info]) {
             return true;
         }
     }
     if ([_view respondsToSelector:@selector(onShapeDblClick:)]
-        && [_view performSelector:@selector(onShapeDblClick:) withObject:_view]) {
+        && [_view performSelector:@selector(onShapeDblClick:) withObject:info]) {
         return true;
     }
     return false;

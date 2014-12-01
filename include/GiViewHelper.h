@@ -79,7 +79,8 @@ struct MgShapeFactory;
 - (BOOL)saveToFile:(NSString *)vgfile;      //!< 保存图形到JSON文件，自动改后缀名为.vg
 - (void)clearShapes;                        //!< 清除所有图形，含锁定的图形
 - (void)eraseView;                          //!< 清除当前视图区域内的未锁定的图形
-- (int)unlockedShapeCount;                  //!< 返回未锁定的图形的个数
+- (int)unlockedShapeCount;                  //!< 返回未锁定的可见图形的个数
+- (int)visibleShapeCount;                   //!< 返回可见图形的个数
 
 - (UIImage *)snapshot;                      //!< 得到静态图形的快照，自动释放
 - (UIImage *)extentSnapshot:(CGFloat)space; //!< 得到当前显示的静态图形快照，自动去掉周围空白
