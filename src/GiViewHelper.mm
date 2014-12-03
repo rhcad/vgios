@@ -7,7 +7,7 @@
 #import "GiImageCache.h"
 #include "mgview.h"
 
-#define IOSLIBVERSION     26
+#define IOSLIBVERSION     27
 
 extern NSString* EXTIMAGENAMES[];
 
@@ -63,6 +63,9 @@ struct GiOptionCallback : public MgOptionCallback {
     }
     virtual void onGetOptionFloat(const char* name, float value) {
         rootDict[@(name)] = @(value);
+    }
+    virtual void onGetOptionString(const char* name, const char* text) {
+        rootDict[@(name)] = @(text);
     }
 };
 
@@ -836,6 +839,9 @@ static GiViewHelper *_sharedInstance = nil;
         for (NSString *name in dict.allKeys) {
             num = dict[name];
             
+            if ([num isKindOfClass:[NSString class]]) {
+                cv->setOptionString([name UTF8String], [dict[name] UTF8String]);
+            }
             if (![num isKindOfClass:[NSNumber class]]) {
                 continue;
             }
