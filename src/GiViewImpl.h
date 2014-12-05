@@ -139,8 +139,8 @@ public:
     virtual void dynamicChanged();
     virtual void shapeWillDelete(int sid);
     virtual void shapeDeleted(int sid);
-    virtual bool shapeDblClick(int type, int sid);
-    virtual bool shapeClicked(int sid, int tag, float x, float y);
+    virtual bool shapeDblClick(int type, int sid, int tag);
+    virtual bool shapeClicked(int type, int sid, int tag, float x, float y);
     virtual void showMessage(const char* text);
     virtual void getLocalizedString(const char* name, MgStringCallback* result);
     

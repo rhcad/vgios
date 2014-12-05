@@ -705,10 +705,11 @@ void GiViewAdapter::shapeDeleted(int sid)
     }
 }
 
-bool GiViewAdapter::shapeDblClick(int type, int sid)
+bool GiViewAdapter::shapeDblClick(int type, int sid, int tag)
 {
     NSDictionary *info = @{ @"id" : @(sid),
                             @"type" : @(type),
+                            @"tag" : @(tag),
                             @"view" : mainView() };
     
     for (size_t i = 0; i < delegates.size() && respondsTo.didShapeDblClick; i++) {
@@ -724,11 +725,12 @@ bool GiViewAdapter::shapeDblClick(int type, int sid)
     return false;
 }
 
-bool GiViewAdapter::shapeClicked(int sid, int tag, float x, float y)
+bool GiViewAdapter::shapeClicked(int type, int sid, int tag, float x, float y)
 {
     if (respondsTo.didShapeClicked || [_view respondsToSelector:@selector(onShapeClicked:)]) {
         NSDictionary *info = @{ @"id" : @(sid),
                                 @"tag" : @(tag),
+                                @"type" : @(type),
                                 @"point" : [NSValue valueWithCGPoint:CGPointMake(x, y)],
                                 @"view" : mainView() };
         
