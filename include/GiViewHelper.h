@@ -65,7 +65,9 @@ struct MgShapeFactory;
 @property(nonatomic, readonly) int selectedHandle;  //!< 当前线性图形中当前控制点序号
 @property(nonatomic, readonly) long changeCount;    //!< 图形改变次数，可用于检查是否需要保存
 @property(nonatomic, readonly) long drawCount;      //!< 显示次数
-@property(nonatomic, readonly) CGRect viewBox;      //!< 当前视图区域的模型坐标范围，模型坐标
+@property(nonatomic)           CGRect viewBox;      //!< 当前视图区域的模型坐标范围，模型坐标
+@property(nonatomic)           CGFloat viewScale;   //!< 显示比例
+@property(nonatomic)           CGPoint viewCenter;  //!< 视图中心的世界坐标，毫米单位
 @property(nonatomic, readonly) CGRect modelBox;     //!< 文档的模型坐标范围
 @property(nonatomic, readonly) CGRect displayExtent; //!< 所有图形的显示范围，视图坐标
 @property(nonatomic, readonly) CGRect boundingBox;  //!< 选择包络框，视图坐标

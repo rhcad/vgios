@@ -7,7 +7,7 @@
 #import "GiImageCache.h"
 #include "mgview.h"
 
-#define IOSLIBVERSION     27
+#define IOSLIBVERSION     28
 
 extern NSString* EXTIMAGENAMES[];
 
@@ -30,6 +30,7 @@ GiColor CGColorToGiColor(CGColorRef color) {
                    (int)lroundf(CGColorGetAlpha(color) * 255.f));
 }
 
+//! 遍历图像块用的回调类
 struct GiImageFinderD : public MgFindImageCallback {
     GiImageCache    *cache;
     NSMutableArray  *arr;
@@ -79,7 +80,7 @@ struct GiOptionCallback : public MgOptionCallback {
 @synthesize changeCount, drawCount, displayExtent, boundingBox, selectedHandle;
 @synthesize command, lineWidth, strokeWidth, lineColor, lineAlpha;
 @synthesize lineStyle, fillColor, fillAlpha, options, zoomEnabled, viewBox, modelBox;
-@synthesize currentPoint, currentModelPoint;
+@synthesize currentPoint, currentModelPoint, viewScale, viewCenter;
 
 static GiViewHelper *_sharedInstance = nil;
 
@@ -358,6 +359,27 @@ static GiViewHelper *_sharedInstance = nil;
     return [_view coreView]->getDrawCount();
 }
 
+- (CGFloat)viewScale {
+    return [self cmdView]->xform()->getViewScale();
+}
+
+- (void)setViewScale:(CGFloat)value {
+    if ([self cmdView]->xform()->zoomScale(value)) {
+        [self cmdView]->regenAll(false);
+    }
+}
+
+- (CGPoint)viewCenter {
+    Point2d pt([self cmdView]->xform()->getCenterW());
+    return CGPointMake(pt.x, pt.y);
+}
+
+- (void)setViewCenter:(CGPoint)value {
+    if ([self cmdView]->xform()->zoomTo(Point2d(value.x, value.y))) {
+        [self cmdView]->regenAll(false);
+    }
+}
+
 - (CGRect)viewBox {
     mgvector<float> box(4);
     [_view coreView]->getViewModelBox(box);
@@ -365,6 +387,10 @@ static GiViewHelper *_sharedInstance = nil;
     float w = box.get(2) - box.get(0);
     float h = box.get(3) - box.get(1);
     return CGRectMake(box.get(0), box.get(1), w, h);
+}
+
+- (void)setViewBox:(CGRect)box {
+    [self zoomToModel:box];
 }
 
 - (CGRect)modelBox {
@@ -888,6 +914,7 @@ static GiViewHelper *_sharedInstance = nil;
 
 #pragma mark - GiMessageHelper
 
+//! The UILabel subclass for show message text.
 @interface WDLabel : UILabel
 @end
 

@@ -161,6 +161,7 @@ int GiViewAdapter::getAppendID(int index, long& playh) const {
     return index * 2 < APPENDSIZE ? (int)_appendIDs[2 * index] : 0;
 }
 
+//! 遍历图像对象的回调类
 struct ImageFinder : public MgFindImageCallback {
     NSString *srcPath;
     NSString *destPath;
@@ -181,6 +182,7 @@ struct ImageFinder : public MgFindImageCallback {
     }
 };
 
+//! 录制图形用的文件名回调类
 struct RecordShapesCallback : MgStringCallback {
     GiViewAdapter* adapter;
     
