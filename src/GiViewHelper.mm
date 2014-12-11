@@ -78,7 +78,7 @@ struct GiOptionCallback : public MgOptionCallback {
 
 @synthesize shapeCount, selectedCount, selectedType, selectedShapeID, content;
 @synthesize changeCount, drawCount, displayExtent, boundingBox, selectedHandle;
-@synthesize command, lineWidth, strokeWidth, lineColor, lineAlpha;
+@synthesize command, lineWidth, strokeWidth, lineColor, lineAlpha, startArrowHead, endArrowHead;
 @synthesize lineStyle, fillColor, fillAlpha, options, zoomEnabled, viewBox, modelBox;
 @synthesize currentPoint, currentModelPoint, viewScale, viewCenter;
 
@@ -234,6 +234,24 @@ static GiViewHelper *_sharedInstance = nil;
 - (void)setLineStyle:(GILineStyle)value {
     [_view coreView]->getContext(true).setLineStyle(value);
     [_view coreView]->setContext(GiContext::kLineStyle);
+}
+
+- (GIArrowHead)startArrowHead {
+    return (GIArrowHead)[_view coreView]->getContext(false).getStartArrayHead();
+}
+
+- (GIArrowHead)endArrowHead {
+    return (GIArrowHead)[_view coreView]->getContext(false).getEndArrayHead();
+}
+
+- (void)setStartArrowHead:(GIArrowHead)value {
+    [_view coreView]->getContext(true).setStartArrayHead(value);
+    [_view coreView]->setContext(GiContext::kLineArrayHead);
+}
+
+- (void)setEndArrowHead:(GIArrowHead)value {
+    [_view coreView]->getContext(true).setEndArrayHead(value);
+    [_view coreView]->setContext(GiContext::kLineArrayHead);
 }
 
 - (UIColor *)GiColorToUIColor:(GiColor)c {

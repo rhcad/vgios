@@ -49,6 +49,8 @@ struct MgShapeFactory;
 @property (nonatomic)         CGFloat   lineAlpha;  //!< 线条透明度, 0-1
 @property (nonatomic, assign) UIColor   *fillColor; //!< 填充颜色，忽略透明度，clearColor或nil表示不填充
 @property (nonatomic)         CGFloat   fillAlpha;  //!< 填充透明度, 0-1
+@property (nonatomic)       GIArrowHead startArrowHead; //!< 起端箭头
+@property (nonatomic)       GIArrowHead endArrowHead;   //!< 末端箭头
 @property (nonatomic, assign) NSDictionary *options;    //!< 绘图命令选项
 
 - (void)setOption:(id)value forKey:(NSString *)key; //!< 设置绘图命令选项
