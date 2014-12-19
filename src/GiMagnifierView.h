@@ -4,6 +4,7 @@
 #import <UIKit/UIKit.h>
 #include "ARCMacro.h"
 
+//! 放大镜图形视图类
 @interface GiMagnifierView : UIView {
     CGFloat _topMargin;
 }

@@ -7,6 +7,7 @@
 #include "ARCMacro.h"
 #include "mgview.h"
 
+//! GiPaintViewXIB的内部数据
 @interface GiPaintViewXIB () {
     GiViewHelper    *hlp;
 }

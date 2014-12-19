@@ -82,6 +82,7 @@ public:
         unsigned int didSelectionChanged:1;
         unsigned int didContentChanged:1;
         unsigned int didDynamicChanged:1;
+        unsigned int didZoomChanged:1;
         unsigned int didDynDrawEnded:1;
         unsigned int didShapesRecorded:1;
         unsigned int didShapeWillDelete:1;
@@ -137,6 +138,7 @@ public:
     virtual void selectionChanged();
     virtual void contentChanged();
     virtual void dynamicChanged();
+    virtual void zoomChanged();
     virtual void shapeWillDelete(int sid);
     virtual void shapeDeleted(int sid);
     virtual bool shapeDblClick(int type, int sid, int tag);

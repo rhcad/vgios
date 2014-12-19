@@ -161,6 +161,7 @@ int GiViewAdapter::getAppendID(int index, long& playh) const {
     return index * 2 < APPENDSIZE ? (int)_appendIDs[2 * index] : 0;
 }
 
+//! 遍历图像对象的回调类
 struct ImageFinder : public MgFindImageCallback {
     NSString *srcPath;
     NSString *destPath;
@@ -181,6 +182,7 @@ struct ImageFinder : public MgFindImageCallback {
     }
 };
 
+//! 录制图形用的文件名回调类
 struct RecordShapesCallback : MgStringCallback {
     GiViewAdapter* adapter;
     
@@ -302,8 +304,10 @@ int GiViewAdapter::regenLocked(bool changed, int sid, long playh, bool loading, 
             doc1 = _core->acquireFrontDoc();
             shapes1 = _core->acquireDynamicShapes();
         }
-    } else if (changed || _regenCount == 0) {
-        _core->submitBackDoc(this, changed);
+    } else {
+        if (changed || _regenCount == 0) {
+            _core->submitBackDoc(this, changed);
+        }
         _core->submitDynamicShapes(this);
         
         if (changed) {
@@ -672,6 +676,22 @@ void GiViewAdapter::dynamicChanged() {
             }
             if ([_view respondsToSelector:@selector(onDynamicChanged:)]) {
                 [_view performSelector:@selector(onDynamicChanged:) withObject:_view];
+            }
+        });
+    }
+}
+
+void GiViewAdapter::zoomChanged()
+{
+    if (respondsTo.didZoomChanged || [_view respondsToSelector:@selector(onZoomChanged:)]) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 50 * NSEC_PER_MSEC), dispatch_get_main_queue(), ^{
+            for (size_t i = 0; i < delegates.size() && respondsTo.didZoomChanged; i++) {
+                if ([delegates[i] respondsToSelector:@selector(onZoomChanged:)]) {
+                    [delegates[i] onZoomChanged:_view];
+                }
+            }
+            if ([_view respondsToSelector:@selector(onZoomChanged:)]) {
+                [_view performSelector:@selector(onZoomChanged:) withObject:_view];
             }
         });
     }
