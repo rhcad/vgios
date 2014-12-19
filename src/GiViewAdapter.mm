@@ -681,6 +681,22 @@ void GiViewAdapter::dynamicChanged() {
     }
 }
 
+void GiViewAdapter::zoomChanged()
+{
+    if (respondsTo.didZoomChanged || [_view respondsToSelector:@selector(onZoomChanged:)]) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 50 * NSEC_PER_MSEC), dispatch_get_main_queue(), ^{
+            for (size_t i = 0; i < delegates.size() && respondsTo.didZoomChanged; i++) {
+                if ([delegates[i] respondsToSelector:@selector(onZoomChanged:)]) {
+                    [delegates[i] onZoomChanged:_view];
+                }
+            }
+            if ([_view respondsToSelector:@selector(onZoomChanged:)]) {
+                [_view performSelector:@selector(onZoomChanged:) withObject:_view];
+            }
+        });
+    }
+}
+
 void GiViewAdapter::shapeWillDelete(int sid)
 {
     NSNumber *obj = @(sid);

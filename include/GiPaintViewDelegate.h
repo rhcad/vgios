@@ -17,6 +17,7 @@
 - (void)onContentChanged:(id)view;      //!< 图形数据改变的通知
 - (void)onDynamicChanged:(id)view;      //!< 图形动态改变的通知
 - (void)onResizeFrame:(id)view;         //!< 视图大小改变(setFrame:)的通知
+- (void)onZoomChanged:(id)view;         //!< 视图放缩的通知
 - (void)onFirstRegen:(id)view;          //!< 第一次后台渲染结束的通知
 - (void)onDynDrawEnded:(id)view;        //!< 动态绘图完成的通知
 - (void)onShapesRecorded:(NSDictionary *)info;  //!< 录制的通知
