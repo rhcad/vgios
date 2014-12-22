@@ -546,16 +546,20 @@ static GiViewHelper *_sharedInstance = nil;
     MgShapes *dests = hlp.cmdView->shapes();
     
     @synchronized([_view locker]) {
-        for (NSNumber *sid in ids) {
-            const MgShape *sp = srcs->findShape([sid intValue]);
-            if (sp) {
-                MgShape* newsp = dests->addShape(*sp);
-                if (newsp) {
-                    newsp->shape()->setFlag(kMgHideContent, false);
-                    if (newsp->context().getLineAlpha() > 0 && newsp->context().getLineAlpha() < 20) {
-                        GiContext ctx(newsp->context());
-                        ctx.setLineAlpha(20);
-                        newsp->setContext(ctx, GiContext::kLineAlpha);
+        if ([ids count] == 0) {
+            dests->copyShapes(srcs, false);
+        } else {
+            for (NSNumber *sid in ids) {
+                const MgShape *sp = srcs->findShape([sid intValue]);
+                if (sp) {
+                    MgShape* newsp = dests->addShape(*sp);
+                    if (newsp) {
+                        newsp->shape()->setFlag(kMgHideContent, false);
+                        if (newsp->context().getLineAlpha() > 0 && newsp->context().getLineAlpha() < 20) {
+                            GiContext ctx(newsp->context());
+                            ctx.setLineAlpha(20);
+                            newsp->setContext(ctx, GiContext::kLineAlpha);
+                        }
                     }
                 }
             }

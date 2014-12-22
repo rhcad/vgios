@@ -88,7 +88,7 @@ struct MgShapeFactory;
 
 - (UIImage *)snapshot;                      //!< 得到静态图形的快照，自动释放
 - (UIImage *)extentSnapshot:(CGFloat)space; //!< 得到当前显示的静态图形快照，自动去掉周围空白
-- (UIImage *)snapshotWithShapes:(NSArray *)ids size:(CGSize)size;     //!< 在矩形框内绘制指定ID的图形
+- (UIImage *)snapshotWithShapes:(NSArray *)ids size:(CGSize)size;       //!< 在矩形框内绘制指定ID的图形，ids为空则取所有图形
 - (BOOL)exportExtentAsPNG:(NSString *)filename space:(CGFloat)space;    //!< 保存当前显示的静态图形快照
 - (BOOL)exportPNG:(NSString *)filename;     //!< 保存静态图形的快照到PNG文件，自动改后缀名为.png
 - (BOOL)exportSVG:(NSString *)filename;     //!< 导出静态图形到SVG文件，自动改后缀名为.svg
