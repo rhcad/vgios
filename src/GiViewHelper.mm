@@ -7,7 +7,7 @@
 #import "GiImageCache.h"
 #include "mgview.h"
 
-#define IOSLIBVERSION     28
+#define IOSLIBVERSION     29
 
 extern NSString* EXTIMAGENAMES[];
 
@@ -76,7 +76,7 @@ struct GiOptionCallback : public MgOptionCallback {
 
 @implementation GiViewHelper
 
-@synthesize shapeCount, selectedCount, selectedType, selectedShapeID, content;
+@synthesize shapeCount, selectedCount, selectedType, selectedShapeID, selectedIds, content;
 @synthesize changeCount, drawCount, displayExtent, boundingBox, selectedHandle;
 @synthesize command, lineWidth, strokeWidth, lineColor, lineAlpha, startArrowHead, endArrowHead;
 @synthesize lineStyle, fillColor, fillAlpha, options, zoomEnabled, viewBox, modelBox;
@@ -363,6 +363,30 @@ static GiViewHelper *_sharedInstance = nil;
 
 - (void)setSelectedShapeID:(int)sid {
     self.command = [NSString stringWithFormat:@"select{'id':%d}", sid];
+}
+
+- (NSArray *)selectedIds {
+    mgvector<int> ids;
+    [_view coreView]->getSelectedShapeIDs(ids);
+    
+    if (ids.count() == 0 || ids.get(0) == 0)
+        return nil;
+    
+    NSMutableArray *arr = [NSMutableArray array];
+    
+    for (int i = 0; i < ids.count(); i++) {
+        [arr addObject:@(ids.get(i))];
+    }
+    return arr;
+}
+
+- (void)setSelectedIds:(NSArray *)arr {
+    mgvector<int> ids((int)[arr count]);
+    
+    for (int i = 0; i < ids.count(); i++) {
+        ids.set(i, [[arr objectAtIndex:i] intValue]);
+    }
+    [_view coreView]->setSelectedShapeIDs(ids);
 }
 
 - (int)selectedHandle {
