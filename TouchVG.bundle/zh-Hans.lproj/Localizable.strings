@@ -28,6 +28,7 @@
 "snap_cross"        = "吸附到交点";
 "snap_tangent"      = "吸附到切点";
 "snap_edge"         = "吸附到边";
+"snap_extend"       = "吸附到延长线上";
 "snap_pt_tol"       = "点吸附距离";
 "snap_edge_tol"     = "边吸附距离";
 "snap_toltip"       = "1~100 mm";
