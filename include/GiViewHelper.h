@@ -115,6 +115,7 @@ struct MgShapeFactory;
 - (BOOL)canRedo;                            //!< 能否重做
 - (void)undo;                               //!< 撤销
 - (void)redo;                               //!< 重做
+- (void)combineRegen:(dispatch_block_t)block;   //!< 在块中批量操作，最后才重新生成
 
 - (BOOL)isRecording;                        //!< 是否正在录屏
 - (BOOL)startRecord:(NSString *)path;       //!< 开始录屏，在视图初始化或onFirstRegen中调用

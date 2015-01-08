@@ -7,7 +7,7 @@
 #import "GiImageCache.h"
 #include "mgview.h"
 
-#define IOSLIBVERSION     29
+#define IOSLIBVERSION     30
 
 extern NSString* EXTIMAGENAMES[];
 
@@ -884,6 +884,11 @@ static GiViewHelper *_sharedInstance = nil;
 
 - (long)getRecordTicks {
     return [_view coreView]->getRecordTick(false, getTickCount());
+}
+
+- (void)combineRegen:(dispatch_block_t)block {
+    MgRegenLocker locker([self cmdView]);
+    block();
 }
 
 - (void)addDelegate:(id<GiPaintViewDelegate>)d {
