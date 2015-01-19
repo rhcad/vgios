@@ -4,7 +4,7 @@
 # Type './build.sh clean' to remove object files.
 
 if [ ! -f ../vgcore/ios/build.sh ] ; then
-    git clone https://github.com/touchvg/vgcore ../vgcore
+    git clone https://github.com/rhcad/vgcore ../vgcore
 fi
 if [ ! -f ../SVGKit/SVGKit.podspec ] ; then
     git clone https://github.com/SVGKit/SVGKit ../SVGKit
