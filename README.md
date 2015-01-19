@@ -22,8 +22,6 @@ This is an open source [LGPL 2.1](LICENSE.md) licensed project. It uses the foll
 Contributors and sponsors are welcome. You may translate, commit issues or pull requests on this Github site.
 To contribute, please follow the branching model outlined here: [A successful Git branching model](http://nvie.com/posts/a-successful-git-branching-model/).
 
-Welcome to the Chinese QQ group `192093613` to discuss and share.
-
 ## Contributors
 
 - [Zhang Yungui](https://github.com/rhcad)
