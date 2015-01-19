@@ -1,9 +1,9 @@
 # TouchVG for iOS
 
-This is a lightweight 2D vector drawing framework using [TouchVGCore](https://github.com/touchvg/vgcore) for iOS.
+This is a lightweight 2D vector drawing framework using [vgcore](https://github.com/rhcad/vgcore) for iOS.
 It uses the CoreGraphics and UIKit frameworks to render shapes and handle gestures.
 
-Features described in [Online document](http://touchvg.github.io). Please visit [TouchVG Demo](https://github.com/touchvg/vgios-demo) to see more examples.
+Features described in [Online document](http://touchvg.github.io). Please visit demo projects ([vgios-demo](https://github.com/rhcad/vgios-demo), [vgios_examples](https://github.com/rhcad/vgios_examples) and [iOSColorPad](https://github.com/rhcad/iOSColorPad) to see more examples.
 
 ![arch](http://touchvg.github.io/images/arch.svg)
 
@@ -13,7 +13,7 @@ Features described in [Online document](http://touchvg.github.io). Please visit 
 
 This is an open source [LGPL 2.1](LICENSE.md) licensed project. It uses the following open source projects:
 
-- [TouchVGCore](https://github.com/touchvg/vgcore) (LGPL): Cross-platform vector drawing libraries using C++.
+- [vgcore](https://github.com/rhcad/vgcore) (LGPL): Cross-platform vector drawing libraries using C++.
 - [SVGKit](https://github.com/SVGKit/SVGKit) (MIT): Display and interact with SVG Images with CoreAnimation on iOS.
 - [iOS-Universal-Library-Template](https://github.com/michaeltyson/iOS-Universal-Library-Template): Use it to create static library project.
 
@@ -21,8 +21,6 @@ This is an open source [LGPL 2.1](LICENSE.md) licensed project. It uses the foll
 
 Contributors and sponsors are welcome. You may translate, commit issues or pull requests on this Github site.
 To contribute, please follow the branching model outlined here: [A successful Git branching model](http://nvie.com/posts/a-successful-git-branching-model/).
-
-Welcome to the Chinese QQ group `192093613` to discuss and share.
 
 ## Contributors
 
@@ -85,12 +83,12 @@ Then type `pod install` or `pod update --no-repo-update`. Need to copy `podspec/
 
 # Add more shapes and commands
 
-- You can use [newproj.py](https://github.com/touchvg/DemoCmds/blob/master/newproj.py) to create library project containing your own shapes and commands. So the TouchVG and TouchVGCore libraries does not require changes.
+- You can use [newproj.py](https://github.com/rhcad/DemoCmds/blob/master/newproj.py) to create library project containing your own shapes and commands. So the TouchVG and TouchVGCore libraries does not require changes.
 
-  - Checkout and enter [DemoCmds](https://github.com/touchvg/DemoCmds) directory, then type `python newproj.py YourCmds`:
+  - Checkout and enter [DemoCmds](https://github.com/rhcad/DemoCmds) directory, then type `python newproj.py YourCmds`:
 
      ```shell
-     git clone https://github.com/touchvg/DemoCmds.git
+     git clone https://github.com/rhcad/DemoCmds.git
      cd DemoCmds
      python newproj.py MyCmds
      ```

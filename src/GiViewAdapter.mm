@@ -229,7 +229,7 @@ bool GiViewAdapter::startRecord(NSString *path, bool forUndo)
 
 void GiViewAdapter::undo() {
     if (_queues[0]) {
-        _core->setCommand(_core->getCommand());
+        _core->setCommand(NULL);
         dispatch_async(_queues[0], ^{
             @synchronized(locker()) {
                 _core->undo(this);
@@ -240,7 +240,7 @@ void GiViewAdapter::undo() {
 
 void GiViewAdapter::redo() {
     if (_queues[0]) {
-        _core->setCommand(_core->getCommand());
+        _core->setCommand(NULL);
         dispatch_async(_queues[0], ^{
             @synchronized(locker()) {
                 _core->redo(this);
