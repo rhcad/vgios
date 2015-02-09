@@ -7,7 +7,7 @@
 #import "GiImageCache.h"
 #include "mgview.h"
 
-#define IOSLIBVERSION     30
+#define IOSLIBVERSION     31
 
 extern NSString* EXTIMAGENAMES[];
 
@@ -475,6 +475,15 @@ static GiViewHelper *_sharedInstance = nil;
 - (CGRect)getShapeBox:(int)sid {
     mgvector<float> box(4);
     [_view coreView]->getBoundingBox(box, sid);
+    
+    float w = box.get(2) - box.get(0);
+    float h = box.get(3) - box.get(1);
+    return CGRectMake(box.get(0), box.get(1), w, h);
+}
+
+- (CGRect)getModelBox:(int)sid {
+    mgvector<float> box(4);
+    [_view coreView]->getModelBox(box, sid);
     
     float w = box.get(2) - box.get(0);
     float h = box.get(3) - box.get(1);
