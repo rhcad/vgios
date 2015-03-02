@@ -223,7 +223,7 @@ static GiViewHelper *_sharedInstance = nil;
 }
 
 - (void)setStrokeWidth:(CGFloat)value {
-    [_view coreView]->getContext(true).setLineWidth(-fabsf(value), true);
+    [_view coreView]->getContext(true).setLineWidth(-fabsf((float)value), true);
     [_view coreView]->setContext(GiContext::kLineWidth);
 }
 

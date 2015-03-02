@@ -277,6 +277,10 @@ bool GiCanvasAdapter::drawBitmap(const char* name, float xc, float yc,
 
 NSString *GiLocalizedString(NSString *name)
 {
+    if ([name length] == 0) {
+        return name;
+    }
+    
     NSString *str = name;
     NSString *names[] = { @"TouchVG", @"vg1", @"vg2", @"vg3", @"vg4" };
     NSString *language = [[[NSUserDefaults standardUserDefaults]
