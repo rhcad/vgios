@@ -1,7 +1,11 @@
 # TouchVG for iOS
 
-This is a lightweight 2D vector drawing framework using [vgcore](https://github.com/rhcad/vgcore) for iOS.
+A lightweight 2D vector drawing framework using [vgcore](https://github.com/rhcad/vgcore) for iOS.
 It uses the CoreGraphics and UIKit frameworks to render shapes and handle gestures.
+
+[![Version](http://img.shields.io/cocoapods/v/TouchVG.svg)](http://cocoadocs.org/docsets/TouchVG/)
+[![Platform](http://img.shields.io/cocoapods/p/TouchVG.svg)](http://cocoadocs.org/docsets/TouchVG/)
+[![License](http://img.shields.io/cocoapods/l/TouchVG.svg)](LICENSE.md)
 
 Features described in [Online document](http://touchvg.github.io). Please visit demo projects ([vgios-demo](https://github.com/rhcad/vgios-demo), [vgios_examples](https://github.com/rhcad/vgios_examples) and [iOSColorPad](https://github.com/rhcad/iOSColorPad) to see more examples.
 
