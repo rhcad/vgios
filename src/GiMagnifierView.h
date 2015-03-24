@@ -1,5 +1,6 @@
-//  GiMagnifierView.h
-//
+// GiMagnifierView.h
+// Copyright (c) 2012-2015, https://github.com/rhcad/vgios, BSD License
+
 
 #import <UIKit/UIKit.h>
 #include "ARCMacro.h"

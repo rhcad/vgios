@@ -1,6 +1,6 @@
 //! \file GiPaintViewXIB.mm
 //! \brief 实现可在XIB中使用的绘图视图类 GiPaintViewXIB
-// Copyright (c) 2012-2014, https://github.com/rhcad/touchvg
+// Copyright (c) 2012-2015, https://github.com/rhcad/vgios, BSD License
 
 #import "GiViewHelper.h"
 #import "GiPaintViewXIB.h"

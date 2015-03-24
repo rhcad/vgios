@@ -75,6 +75,7 @@
 
 /* Begin PBXFileReference section */
 		0206512E196BB0B5003AD648 /* GiViewEnums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GiViewEnums.h; sourceTree = "<group>"; };
+		0246A2B51AC12337001F8C30 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		025F58C9195D250E00302988 /* ARCMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARCMacro.h; sourceTree = "<group>"; };
 		025F58CA195D250E00302988 /* GiCanvasAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GiCanvasAdapter.h; sourceTree = "<group>"; };
 		025F58CB195D250E00302988 /* GiPaintView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GiPaintView.h; sourceTree = "<group>"; };
@@ -166,6 +167,7 @@
 		AE2A3A3C178FC511000194AE = {
 			isa = PBXGroup;
 			children = (
+				0246A2B51AC12337001F8C30 /* README.md */,
 				AE2A3A4E178FC511000194AE /* TouchVG */,
 				AE2A3A4B178FC511000194AE /* Frameworks */,
 				AE2A3A4A178FC511000194AE /* Products */,

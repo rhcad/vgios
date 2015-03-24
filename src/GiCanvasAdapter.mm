@@ -1,6 +1,6 @@
 //! \file GiCanvasAdapter.mm
 //! \brief 实现画布适配器类 GiCanvasAdapter
-// Copyright (c) 2012-2013, https://github.com/rhcad/touchvg
+// Copyright (c) 2012-2015, https://github.com/rhcad/vgios, BSD License
 
 #import "GiImageCache.h"
 #include "GiCanvasAdapter.h"
