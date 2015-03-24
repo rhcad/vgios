@@ -1,6 +1,6 @@
 //! \file GiViewImpl.h
 //! \brief 定义iOS绘图视图类的内部实现接口
-// Copyright (c) 2012-2014, https://github.com/rhcad/touchvg
+// Copyright (c) 2012-2015, https://github.com/rhcad/vgios, BSD License
 
 #import "GiPaintView.h"
 #import "GiViewEnums.h"

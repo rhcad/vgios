@@ -1,6 +1,6 @@
 //! \file GiViewHelper.h
 //! \brief 定义iOS绘图视图辅助类 GiViewHelper
-// Copyright (c) 2012-2014, https://github.com/rhcad/touchvg
+// Copyright (c) 2012-2015, https://github.com/rhcad/vgios, BSD License
 
 #import <UIKit/UIKit.h>
 #import "GiViewEnums.h"

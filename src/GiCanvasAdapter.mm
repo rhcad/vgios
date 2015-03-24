@@ -1,6 +1,6 @@
 //! \file GiCanvasAdapter.mm
 //! \brief 实现画布适配器类 GiCanvasAdapter
-// Copyright (c) 2012-2013, https://github.com/rhcad/touchvg
+// Copyright (c) 2012-2015, https://github.com/rhcad/vgios, BSD License
 
 #import "GiImageCache.h"
 #include "GiCanvasAdapter.h"
@@ -277,6 +277,10 @@ bool GiCanvasAdapter::drawBitmap(const char* name, float xc, float yc,
 
 NSString *GiLocalizedString(NSString *name)
 {
+    if ([name length] == 0) {
+        return name;
+    }
+    
     NSString *str = name;
     NSString *names[] = { @"TouchVG", @"vg1", @"vg2", @"vg3", @"vg4" };
     NSString *language = [[[NSUserDefaults standardUserDefaults]

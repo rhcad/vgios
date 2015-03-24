@@ -1,6 +1,6 @@
 //! \file GiPaintView.mm
 //! \brief 实现iOS绘图视图类 GiPaintView
-// Copyright (c) 2012-2014, https://github.com/rhcad/touchvg
+// Copyright (c) 2012-2015, https://github.com/rhcad/vgios, BSD License
 
 #import "GiViewImpl.h"
 #import "GiImageCache.h"

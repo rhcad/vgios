@@ -1,13 +1,13 @@
 //! \file GiViewHelper.mm
 //! \brief 实现iOS绘图视图辅助类 GiViewHelper
-// Copyright (c) 2012-2014, https://github.com/rhcad/touchvg
+// Copyright (c) 2012-2015, https://github.com/rhcad/vgios, BSD License
 
 #import "GiViewHelper.h"
 #import "GiViewImpl.h"
 #import "GiImageCache.h"
 #include "mgview.h"
 
-#define IOSLIBVERSION     31
+#define IOSLIBVERSION     32
 
 extern NSString* EXTIMAGENAMES[];
 
@@ -223,7 +223,7 @@ static GiViewHelper *_sharedInstance = nil;
 }
 
 - (void)setStrokeWidth:(CGFloat)value {
-    [_view coreView]->getContext(true).setLineWidth(-fabsf(value), true);
+    [_view coreView]->getContext(true).setLineWidth(-fabsf((float)value), true);
     [_view coreView]->setContext(GiContext::kLineWidth);
 }
 

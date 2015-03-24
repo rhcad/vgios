@@ -1,6 +1,6 @@
 //! \file GiCanvasAdapter.h
 //! \brief 定义画布适配器类 GiCanvasAdapter
-// Copyright (c) 2012-2013, https://github.com/rhcad/touchvg
+// Copyright (c) 2012-2015, https://github.com/rhcad/vgios, BSD License
 
 #ifndef TOUCHVG_IOS_CANVASADAPTER_H
 #define TOUCHVG_IOS_CANVASADAPTER_H

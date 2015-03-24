@@ -1,7 +1,11 @@
 # TouchVG for iOS
 
-This is a lightweight 2D vector drawing framework using [vgcore](https://github.com/rhcad/vgcore) for iOS.
+A lightweight 2D vector drawing framework using [vgcore](https://github.com/rhcad/vgcore) for iOS.
 It uses the CoreGraphics and UIKit frameworks to render shapes and handle gestures.
+
+[![Version](http://img.shields.io/cocoapods/v/TouchVG.svg)](http://cocoadocs.org/docsets/TouchVG/)
+[![Platform](http://img.shields.io/cocoapods/p/TouchVG.svg)](http://cocoadocs.org/docsets/TouchVG/)
+[![License](http://img.shields.io/cocoapods/l/TouchVG.svg)](LICENSE)
 
 Features described in [Online document](http://touchvg.github.io). Please visit demo projects ([vgios-demo](https://github.com/rhcad/vgios-demo), [vgios_examples](https://github.com/rhcad/vgios_examples) and [iOSColorPad](https://github.com/rhcad/iOSColorPad) to see more examples.
 
@@ -11,9 +15,9 @@ Features described in [Online document](http://touchvg.github.io). Please visit 
 
 ## License
 
-This is an open source [LGPL 2.1](LICENSE.md) licensed project. It uses the following open source projects:
+This is an open source [BSD licensed](LICENSE) project. It uses the following open source projects:
 
-- [vgcore](https://github.com/rhcad/vgcore) (LGPL): Cross-platform vector drawing libraries using C++.
+- [vgcore](https://github.com/rhcad/vgcore) (BSD): Cross-platform vector drawing libraries using C++.
 - [SVGKit](https://github.com/SVGKit/SVGKit) (MIT): Display and interact with SVG Images with CoreAnimation on iOS.
 - [iOS-Universal-Library-Template](https://github.com/michaeltyson/iOS-Universal-Library-Template): Use it to create static library project.
 
@@ -38,7 +42,7 @@ Type `pod install` or `pod update --no-repo-update`, then open `TouchVG.xcworksp
 
   - Remove `libPods-TouchVG-TouchVG-SVG.a` and `libPods-TouchVG.a` from `Link Binary With Libraries`.
   - `libTouchVG.a` does not support SVG display.
-  - `libTouchVG-SVG.a` can display SVG shapes using [SVGKit](https://github.com/SVGKit/SVGK
+  - `libTouchVG-SVG.a` can display SVG shapes using [SVGKit](https://github.com/SVGKit/SVGK).
 
 ## Compile TouchVG without CocoaPods
 

@@ -1,6 +1,6 @@
 //! \file GiViewEnums.h
 //! \brief 定义iOS绘图视图的枚举值
-// Copyright (c) 2012-2014, https://github.com/rhcad/vgios
+// Copyright (c) 2012-2015, https://github.com/rhcad/vgios, BSD License
 
 #ifndef __TOUCHVG_VIEWENUMS_H
 #define __TOUCHVG_VIEWENUMS_H
