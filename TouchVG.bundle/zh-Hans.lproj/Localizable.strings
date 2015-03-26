@@ -38,6 +38,7 @@
 "show_magnifier"        = "显示放大镜";
 "start_must_vertex"     = "起点必须吸到顶点";
 "rotate_handle_enabled" = "允许绕顶点旋转";
+"move_handle_enabled"   = "允许移动顶点";
 "move_shape_enabled"    = "允许移动图形";
 "boxsel_enabled"        = "允许框选";
 

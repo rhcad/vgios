@@ -38,6 +38,7 @@
 "show_magnifier"    = "Show magnifier";
 "start_must_vertex"     = "Draw from a vertex";
 "rotate_handle_enabled" = "Allow rotate around the vertex";
+"move_handle_enabled"   = "Allow move vertexes";
 "move_shape_enabled"    = "Allow move shapes";
 "boxsel_enabled"        = "Allow the frame selection";
 
