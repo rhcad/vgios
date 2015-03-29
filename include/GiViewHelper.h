@@ -72,12 +72,12 @@ struct MgShapeFactory;
 @property(nonatomic)           CGFloat viewScale;   //!< 显示比例
 @property(nonatomic)           CGPoint viewCenter;  //!< 视图中心的世界坐标，毫米单位
 @property(nonatomic, readonly) CGRect modelBox;     //!< 文档的模型坐标范围
-@property(nonatomic, readonly) CGRect displayExtent; //!< 所有图形的显示范围，视图坐标
-@property(nonatomic, readonly) CGRect boundingBox;  //!< 选择包络框，视图坐标
+@property(nonatomic, readonly) CGRect displayExtent;        //!< 所有图形的显示范围，视图坐标
+@property(nonatomic, readonly) CGRect boundingBox;          //!< 选择包络框，视图坐标
 @property(nonatomic, readonly) CGPoint currentPoint;        //!< 当前触摸位置，视图坐标
 @property(nonatomic, readonly) CGPoint currentModelPoint;   //!< 当前触摸位置的模型坐标
-@property(nonatomic, assign) NSString *content;     //!< 图形的JSON内容
-@property(nonatomic) BOOL zoomEnabled;              //!< 是否允许放缩显示
+@property(nonatomic, assign) NSString *content;             //!< 图形的JSON内容
+@property(nonatomic) BOOL       zoomEnabled;                //!< 是否允许放缩显示
 
 - (BOOL)loadFromFile:(NSString *)vgfile readOnly:(BOOL)r;   //!< 从JSON文件中只读加载图形，自动改后缀名为.vg
 - (BOOL)loadFromFile:(NSString *)vgfile;    //!< 从JSON文件中加载图形，自动改后缀名为.vg
@@ -107,7 +107,8 @@ struct MgShapeFactory;
 - (CGRect)displayRectToModel:(CGRect)rect;  //!< 视图坐标转为模型坐标
 - (CGRect)getShapeBox:(int)sid;             //!< 得到指定ID的图形的包络框显示坐标
 - (CGRect)getModelBox:(int)sid;             //!< 得到指定ID的图形的模型坐标范围
-- (void)showMessage:(NSString *)text;       //!< 显示消息文字
+- (CGPoint)getHandlePoint:(int)sid index:(int)i;    //!< 得到指定序号的控制点的模型坐标，失败返回NAN坐标
+- (void)showMessage:(NSString *)text;           //!< 显示消息文字
 + (NSString *)localizedString:(NSString *)name; //!< 本地化文字
 
 - (BOOL)startUndoRecord:(NSString *)path;   //!< 开始Undo录制，在视图初始化或onFirstRegen中调用
