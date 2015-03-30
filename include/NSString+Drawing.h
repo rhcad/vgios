@@ -14,6 +14,8 @@ void drawInRect6(NSString *str, CGRect rect, NSDictionary *attrs);
 CGRect boundingRectWithSize6(NSString *str, CGSize size, NSStringDrawingOptions options,
                              NSDictionary *attrs, NSStringDrawingContext *context);
 
+NSString *giRoundString(CGFloat num);
+
 #ifdef __cplusplus
 }
 #endif
