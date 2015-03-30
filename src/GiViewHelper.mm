@@ -490,6 +490,12 @@ static GiViewHelper *_sharedInstance = nil;
     return CGRectMake(box.get(0), box.get(1), w, h);
 }
 
+- (CGPoint)getHandlePoint:(int)sid index:(int)i {
+    mgvector<float> xy(2);
+    return ([_view coreView]->getHandlePoint(xy, sid, i)
+            ? CGPointMake(xy.get(0), xy.get(1)) : CGPointMake(NAN, NAN));
+}
+
 + (NSString *)addExtension:(NSString *)filename :(NSString *)ext {
     if (filename && ![filename hasSuffix:ext] && ![filename hasSuffix:@".json"]) {
         filename = [[filename stringByDeletingPathExtension]
@@ -697,7 +703,7 @@ static GiViewHelper *_sharedInstance = nil;
     [_view viewAdapter]->showMessage([text UTF8String]);
 }
 
-- (NSString *)localizedString:(NSString *)name {
++ (NSString *)localizedString:(NSString *)name {
     return GiLocalizedString(name);
 }
 

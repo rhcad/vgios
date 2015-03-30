@@ -67,3 +67,11 @@ CGRect boundingRectWithSize6(NSString *str, CGSize size, NSStringDrawingOptions 
     return CGRectMake(0, 0, size.width, size.height);
 #endif
 }
+
+NSString *giRoundString(CGFloat num) {
+    NSString *str = [NSString stringWithFormat:@"%.5f", num];
+    int i = (int)str.length;
+    
+    while (--i > 0 && [str characterAtIndex:i] == '0') ;
+    return [str substringToIndex:[str characterAtIndex:i] == '.' ? i : i+1];
+}

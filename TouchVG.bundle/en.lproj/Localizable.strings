@@ -38,8 +38,12 @@
 "show_magnifier"    = "Show magnifier";
 "start_must_vertex"     = "Draw from a vertex";
 "rotate_handle_enabled" = "Allow rotate around the vertex";
+"move_handle_enabled"   = "Allow move vertexes";
 "move_shape_enabled"    = "Allow move shapes";
 "boxsel_enabled"        = "Allow the frame selection";
+"degree_decimal"        = "Decimal digits of degree";
+"dist_decimal"          = "Decimal digits of length";
+"snap_round_cell"       = "Decimal digits of coordinate";
 
 "select"            = "Select";
 "erase"             = "Erase";
