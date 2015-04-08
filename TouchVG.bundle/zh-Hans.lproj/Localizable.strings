@@ -13,6 +13,7 @@
 "midpt"             = "中点";
 "quadpt"            = "象限点";
 "crosspt"           = "交点";
+"parallelpt"        = "平行";
 "nearpt"            = "线上点";
 "perppt"            = "垂足";
 "tanpt"             = "切点";

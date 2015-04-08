@@ -10,31 +10,7 @@ if [ ! -f ../SVGKit/SVGKit.podspec ] ; then
     git clone https://github.com/SVGKit/SVGKit ../SVGKit
 fi
 
-iphoneos71=`xcodebuild -showsdks | grep -i iphoneos7.1`
-iphoneos70=`xcodebuild -showsdks | grep -i iphoneos7.0`
-iphoneos61=`xcodebuild -showsdks | grep -i iphoneos6.1`
-iphoneos51=`xcodebuild -showsdks | grep -i iphoneos5.1`
-iphoneos43=`xcodebuild -showsdks | grep -i iphoneos4.3`
-
-if [ -n "$iphoneos71" ]; then
-    xcodebuild -project TouchVG.xcodeproj $1 $2 -sdk iphoneos7.1 -configuration Release -alltargets
-else
-if [ -n "$iphoneos70" ]; then
-    xcodebuild -project TouchVG.xcodeproj $1 $2 -sdk iphoneos7.0 -configuration Release -alltargets
-else
-if [ -n "$iphoneos61" ]; then
-    xcodebuild -project TouchVG.xcodeproj $1 $2 -sdk iphoneos6.1 -configuration Release -alltargets
-else
-if [ -n "$iphoneos51" ]; then
-    xcodebuild -project TouchVG.xcodeproj $1 $2 -sdk iphoneos5.1 -configuration Release
-else
-if [ -n "$iphoneos43" ]; then
-    xcodebuild -project TouchVG.xcodeproj $1 $2 -sdk iphoneos4.3 -configuration Release
-fi
-fi
-fi
-fi
-fi
+xcodebuild -project TouchVG.xcodeproj $1 $2 -configuration Release -alltargets
 
 mkdir -p output/TouchVG
 cp -R TouchVG/build/Release-universal/*.a output

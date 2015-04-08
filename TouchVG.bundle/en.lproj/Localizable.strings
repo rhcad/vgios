@@ -13,6 +13,7 @@
 "midpt"             = "Midpoint";
 "quadpt"            = "Quadrantal point";
 "crosspt"           = "Intersection";
+"parallelpt"        = "Parallel";
 "nearpt"            = "Point on edge";
 "perppt"            = "Perpendicular to line";
 "tanpt"             = "Tangent point";
