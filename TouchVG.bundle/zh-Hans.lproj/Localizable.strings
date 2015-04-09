@@ -26,6 +26,7 @@
 "snap_midpoint"     = "吸附到中点";
 "snap_quadrant"     = "吸附到象限点";
 "snap_perp"         = "吸附到垂线";
+"snap_parallel"     = "吸附到平行线";
 "snap_cross"        = "吸附到交点";
 "snap_tangent"      = "吸附到切点";
 "snap_edge"         = "吸附到边";
