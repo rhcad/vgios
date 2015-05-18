@@ -547,6 +547,13 @@ static GiViewHelper *_sharedInstance = nil;
     }
 }
 
+- (void)clearShapes:(BOOL)showMessage {
+    @synchronized([_view locker]) {
+        [_view coreView]->loadShapes(NULL);
+        [_view.imageCache clearCachedData];
+    }
+}
+
 - (void)eraseView {
     @synchronized([_view locker]) {
         [_view coreView]->setCommand("erasewnd");
