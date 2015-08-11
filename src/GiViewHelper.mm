@@ -7,7 +7,7 @@
 #import "GiImageCache.h"
 #include "mgview.h"
 
-#define IOSLIBVERSION     32
+#define IOSLIBVERSION     33
 
 extern NSString* EXTIMAGENAMES[];
 
@@ -543,6 +543,13 @@ static GiViewHelper *_sharedInstance = nil;
 - (void)clearShapes {
     @synchronized([_view locker]) {
         [_view coreView]->clear();
+        [_view.imageCache clearCachedData];
+    }
+}
+
+- (void)clearShapes:(BOOL)showMessage {
+    @synchronized([_view locker]) {
+        [_view coreView]->loadShapes(NULL);
         [_view.imageCache clearCachedData];
     }
 }
