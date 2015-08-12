@@ -5,8 +5,8 @@
 #import "GiViewHelper+Layer.h"
 #import "GiPaintView.h"
 #include "GiShapeAdapter.h"
-#include <gicoreview.h>
-#include <mgshape.h>
+#include "gicoreview.h"
+#include "mgshape.h"
 
 @implementation GiViewHelper(Layer)
 
@@ -80,6 +80,19 @@
     coreView->releaseGraphics(hgs);
     
     return shapeCallback.layer();
+}
+
+- (NSArray *)exportPathsForShape:(long)handle {
+    NSMutableArray *paths = [NSMutableArray array];
+    CALayer *layer = [self exportLayersForShape:handle];
+    
+    for (CAShapeLayer *shapeLayer in layer.sublayers) {
+        UIBezierPath *path = [UIBezierPath bezierPathWithCGPath:shapeLayer.path];
+        path.lineWidth = shapeLayer.lineWidth;
+        [paths addObject:path];
+    }
+    
+    return paths;
 }
 
 @end

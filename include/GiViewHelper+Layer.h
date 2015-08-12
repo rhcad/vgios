@@ -18,4 +18,7 @@
 //! 将指定句柄(MgShape)的图形转换到二级层，第二级为多个CAShapeLayer
 - (CALayer *)exportLayersForShape:(long)handle;
 
+//! 得到指定句柄(MgShape)的图形的所有路径对象(UIBezierPath)
+- (NSArray *)exportPathsForShape:(long)handle;
+
 @end
