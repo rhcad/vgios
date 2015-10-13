@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.summary     = "A lightweight 2D vector drawing framework for iOS."
   s.homepage    = "https://github.com/rhcad/vgios"
   s.screenshots = "http://touchvg.github.io/images/iphone1.png"
-  s.license     = { :type => "LGPL", :file => "LICENSE.md" }
+  s.license     = { :type => "BSD", :file => "LICENSE" }
   s.author      = { "Zhang Yungui" => "rhcad@hotmail.com" }
   s.social_media_url    = "http://weibo.com/rhcad"
 
