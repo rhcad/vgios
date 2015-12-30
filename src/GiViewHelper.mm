@@ -7,7 +7,7 @@
 #import "GiImageCache.h"
 #include "mgview.h"
 
-#define IOSLIBVERSION     33
+#define IOSLIBVERSION     34
 
 extern NSString* EXTIMAGENAMES[];
 
