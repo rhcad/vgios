@@ -292,8 +292,10 @@ NSString *GiLocalizedString(NSString *name)
         NSBundle *languageBundle = [NSBundle bundleWithPath:[bundle pathForResource:language ofType:@"lproj"]];
         if (!languageBundle) {  // for iOS 9
             NSRange range = [language rangeOfString:@"-" options:NSBackwardsSearch];
-            language = [language substringToIndex:range.location];
-            languageBundle = [NSBundle bundleWithPath:[bundle pathForResource:language ofType:@"lproj"]];
+            if (range.length > 0) {
+                language = [language substringToIndex:range.location];
+                languageBundle = [NSBundle bundleWithPath:[bundle pathForResource:language ofType:@"lproj"]];
+            }
         }
         str = NSLocalizedStringFromTableInBundle(name, nil, languageBundle, nil);
         str = str ? str : name;
