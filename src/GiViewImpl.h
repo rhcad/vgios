@@ -45,7 +45,6 @@ class GiViewAdapter;
 //! 提示文字辅助类
 @interface GiMessageHelper : NSObject {
     WDLabel     *_label;
-    NSTimer     *_timer;
 }
 
 - (void)showMessage:(NSString *)message inView:(UIView *)view;

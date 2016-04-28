@@ -1025,10 +1025,6 @@ static GiViewHelper *_sharedInstance = nil;
 }
 
 - (void)removeLabel {
-    if (_timer) {
-        [_timer invalidate];
-        _timer = nil;
-    }
     if (_label) {
         [_label removeFromSuperview];
         _label = nil;
@@ -1068,14 +1064,9 @@ static GiViewHelper *_sharedInstance = nil;
     }
     
     // start message dismissal timer
-    if (_timer) {
-        [_timer invalidate];
-        _timer = nil;
-    }
-    
-    _timer = [NSTimer scheduledTimerWithTimeInterval:0.7 target:self
-                                            selector:@selector(hideMessage)
-                                            userInfo:nil repeats:NO];
+    [NSTimer scheduledTimerWithTimeInterval:0.7 target:self
+                                   selector:@selector(hideMessage)
+                                   userInfo:nil repeats:NO];
 }
 
 @end
