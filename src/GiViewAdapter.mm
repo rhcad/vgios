@@ -1,6 +1,6 @@
 //! \file GiViewAdapter.mm
 //! \brief 实现iOS绘图视图适配器 GiViewAdapter
-// Copyright (c) 2012-2015, https://github.com/rhcad/vgios, BSD License
+// Copyright (c) 2012-2016, https://github.com/rhcad/vgios, BSD License
 
 #import "GiViewImpl.h"
 #import "GiImageCache.h"

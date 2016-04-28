@@ -1,13 +1,13 @@
 //! \file GiViewHelper.mm
 //! \brief 实现iOS绘图视图辅助类 GiViewHelper
-// Copyright (c) 2012-2015, https://github.com/rhcad/vgios, BSD License
+// Copyright (c) 2012-2016, https://github.com/rhcad/vgios, BSD License
 
 #import "GiViewHelper.h"
 #import "GiViewImpl.h"
 #import "GiImageCache.h"
 #include "mgview.h"
 
-#define IOSLIBVERSION     34
+#define IOSLIBVERSION     35
 
 extern NSString* EXTIMAGENAMES[];
 
