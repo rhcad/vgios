@@ -25,7 +25,7 @@ class GiViewAdapter;
 @end
 
 //! 在层上显示图形的渲染类
-@interface GiLayerRender : NSObject {
+@interface GiLayerRender : NSObject<CALayerDelegate> {
     CALayer         *_layer;
     GiViewAdapter   *_adapter;
     __block long    _drawing;
